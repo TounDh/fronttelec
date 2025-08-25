@@ -4,6 +4,7 @@ import { ServicesComponent } from './../services/services.component';
 import { ContactComponent } from './../contact/contact.component';
 import { NotfoundComponent } from './../notfound/notfound.component';
 import { HomeComponent } from './../home/home.component';
+import { AuthComponent } from '../auth/auth.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Default route (replace with your home component if needed)
@@ -11,5 +12,6 @@ export const routes: Routes = [
   { path: 'service', component: ServicesComponent },
   { path: 'contact', component: ContactComponent },
   { path: '404', component: NotfoundComponent },
+  { path: 'login', component: AuthComponent },
   { path: '**', redirectTo: '/404' }
 ];

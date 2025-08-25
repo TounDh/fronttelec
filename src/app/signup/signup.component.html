@@ -1,0 +1,28 @@
+<form>
+  <div class="row g-3">
+    <div class="col-12">
+      <div class="form-floating">
+        <input type="text" class="form-control" id="name" placeholder="Your Name">
+        <label for="name">Full Name</label>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="form-floating">
+        <input type="email" class="form-control" id="email" placeholder="Your Email">
+        <label for="email">Email Address</label>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="form-floating">
+        <input type="password" class="form-control" id="password" placeholder="Password">
+        <label for="password">Password</label>
+      </div>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary w-100 py-3" type="submit">Sign Up</button>
+    </div>
+    <div class="col-12 text-center mt-3">
+      <button class="btn btn-link text-primary" (click)="switchToSignIn()">Already have an account? Sign In</button>
+    </div>
+  </div>
+</form>
