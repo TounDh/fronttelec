@@ -1,14 +1,24 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './../header/header.component';
 import { FooterComponent } from './../footer/footer.component';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, CommonModule],
-  templateUrl: './../app.component.html',
-  styleUrls: ['./../app.component.css']
+  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
+  template: `
+    <div class="container-xxl bg-white p-0">
+      
+
+      <app-header></app-header>
+      <router-outlet></router-outlet>
+      <app-footer></app-footer>
+    </div>
+  `,
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {}
+export class AppComponent {
+  title = 'angul_telecom';
+}
