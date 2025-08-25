@@ -1,0 +1,13 @@
+<h2>Telecom Users</h2>
+<ul>
+  <li *ngFor="let user of users">
+    {{ user.name }} ({{ user.phone }}) - {{ user.email }}
+    <button (click)="editUser(user)">Edit</button>
+  </li>
+</ul>
+<h3>{{ editMode ? 'Edit User' : 'Add User' }}</h3>
+<input [(ngModel)]="selectedUser.name" placeholder="Name">
+<input [(ngModel)]="selectedUser.phone" placeholder="Phone">
+<input [(ngModel)]="selectedUser.email" placeholder="Email">
+<button (click)="saveUser()">{{ editMode ? 'Save' : 'Add' }}</button>
+<button *ngIf="editMode" (click)="cancelEdit()">Cancel</button>
