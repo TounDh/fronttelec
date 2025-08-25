@@ -27,16 +27,17 @@
         <div class="auth-container wow fadeInUp" data-wow-delay="0.3s">
           <div class="auth-slides">
             <div class="auth-slide" [ngClass]="{'active': showSignIn}">
-              <app-signin (toggleToSignUp)="toggleForm()"></app-signin>
+              <app-signin></app-signin>
             </div>
             <div class="auth-slide" [ngClass]="{'active': !showSignIn}">
-              <app-signup (toggleToSignIn)="toggleForm()"></app-signup>
+              <app-signup></app-signup>
             </div>
           </div>
           <div class="text-center mt-3">
-            <button class="btn btn-primary" (click)="toggleForm()">
+            
+            <a routerLink="login?" class="btn btn-primary" >
               {{ showSignIn ? 'Need an account? Sign Up' : 'Already have an account? Sign In' }}
-            </button>
+            </a>
           </div>
         </div>
       </div>

@@ -11,9 +11,10 @@ import { SignupComponent } from '../signup/signup.component';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent {
-  showSignIn = true; // Toggle state to show SignIn or SignUp
+  showSignIn = true;
 
   toggleForm() {
+    console.log('Toggling form, new state:', !this.showSignIn); // Debug log
     this.showSignIn = !this.showSignIn;
   }
 }
