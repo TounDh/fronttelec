@@ -15242,6 +15242,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
 }
 
 .content-wrapper {
+  background-color: #f8f4fc;
   display: flex;
   align-items: stretch;
   flex: 1 1 auto;
