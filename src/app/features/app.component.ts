@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './../header/header.component';
 import { FooterComponent } from './../footer/footer.component';
@@ -10,15 +10,19 @@ import { FooterComponent } from './../footer/footer.component';
   imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
   template: `
     <div class="container-xxl bg-white p-0">
-      
-
-      <app-header></app-header>
+      <app-header *ngIf="!isDashboardRoute"></app-header>
       <router-outlet></router-outlet>
-      <app-footer></app-footer>
+      <app-footer *ngIf="!isDashboardRoute"></app-footer>
     </div>
   `,
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'angul_telecom';
+
+  constructor(private router: Router) {}
+
+  get isDashboardRoute(): boolean {
+    return this.router.url.startsWith('/dash');
+  }
 }
