@@ -6,7 +6,7 @@
         <hr class="bg-white mx-auto mt-0" style="width: 90px;">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-center">
-            <li class="breadcrumb-item"><a class="text-white" routerLink="/">Home</a></li>
+            <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
             <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
             <li class="breadcrumb-item text-white active" aria-current="page">My Account</li>
           </ol>
@@ -16,215 +16,147 @@
   </div>
 </div>
 
-<section class="tg-my-account-wrapp tg-section">
-  <div class="container">
-    <div class="tg-account">
-      <!-- Account Banner Start -->
-      <div class="account-banner">
-        <div class="inner-banner">
-          <div class="row align-items-center">
-            <div class="col-md-8 detail">
-              <div class="inner">
-                <h1 class="page-title text-white">My Account</h1>
-                <h3 class="user-name text-light">Hello Yash!</h3>
-                <p class="description text-muted">Aspernatur magni in repellat repellendus itaque consequuntur alias necessitatibus.</p>
-              </div>
-            </div>
-            <div class="col-md-4 profile text-center">
-              <div class="profile-image">
-                <img src="https://res.cloudinary.com/templategalaxy/image/upload/v1631257421/codepen-my-account/images/profile_pdpo9w.png" alt="Yash" class="img-fluid rounded-circle shadow-sm">
-              </div>
-            </div>
-          </div>
-          <!-- Navbar Start -->
-          <div class="nav-area mt-4">
-            <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
-              <li class="nav-item">
-                <a class="nav-link active" id="dashboard-link" data-bs-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="true">
-                  <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="my-order" data-bs-toggle="tab" href="#my-orders" role="tab" aria-controls="my-orders" aria-selected="false">
-                  <i class="fas fa-file-invoice"></i> <span>Orders</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="my-address" data-bs-toggle="tab" href="#address" role="tab" aria-controls="address" aria-selected="false">
-                  <i class="fas fa-map-marker-alt"></i> <span>Address</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="account-detail" data-bs-toggle="tab" href="#account-details" role="tab" aria-controls="account-details" aria-selected="false">
-                  <i class="fas fa-user-alt"></i> <span>Account Details</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="logout" data-bs-toggle="tab" href="#logout" role="tab" aria-controls="logout" aria-selected="false">
-                  <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
-                </a>
-              </li>
+<div class="container-xxl py-5">
+  <div class="container px-lg-5">
+    <div class="section-title position-relative text-center mb-5 pb-2 wow fadeInUp" data-wow-delay="0.1s">
+      <h6 class="position-relative d-inline text-primary ps-4">My account</h6>
+      <img src="assets/img/usr.png" alt="Project Image" class="img-fluid mx-auto d-block mt-3 mb-3" style="max-width: 100px;">
+      <h2 class="mt-2">Manage your account</h2>
+    </div>
+    <div class="row mt-n2 wow fadeInUp" data-wow-delay="0.1s">
+      <div class="col-12 text-center">
+        <ul class="list-inline mb-5" id="portfolio-flters">
+          <li class="btn px-3 pe-4" [class.active]="activeSection === 'details'" (click)="setActiveSection('details')">Details</li>
+          <li class="btn px-3 pe-4" [class.active]="activeSection === 'address'" (click)="setActiveSection('address')">Address</li>
+          <li class="btn px-3 pe-4" [class.active]="activeSection === 'subscriptions'" (click)="setActiveSection('subscriptions')">Subscriptions</li>
+          <li class="btn px-3 pe-4" [class.active]="activeSection === 'payment'" (click)="setActiveSection('payment')">Payment History</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row g-4 portfolio-container">
+      <!-- Details Section -->
+      <div class="col-12 portfolio-item" *ngIf="activeSection === 'details'" data-wow-delay="0.1s">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title">User Personal Details</h4>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Name:</strong> Yash Patel</li>
+              <li class="list-group-item"><strong>Surname:</strong> Sharma</li>
+              <li class="list-group-item"><strong>Email:</strong> yashexample.com</li>
+              <li class="list-group-item"><strong>Telephone:</strong> +1-555-123-4567</li>
+              <li class="list-group-item"><strong>Date of Birth:</strong> 01/15/1995</li>
             </ul>
           </div>
-          <!-- Navbar End -->
         </div>
       </div>
-      <!-- Banner End -->
 
-      <!-- Tabs Content Start -->
-      <div class="tabs tg-tabs-content-wrapp">
-        <div class="inner">
-          <div class="container">
-            <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-link">
-                <div class="my-account-dashboard">
-                  <div class="inner">
-                    <div class="row">
-                      <div class="col-md-4 mb-4">
-                        <div class="card h-100 shadow-sm border-0">
-                          <div class="card-body text-center">
-                            <a><img src="https://res.cloudinary.com/templategalaxy/image/upload/v1631257421/codepen-my-account/images/orders_n2aopq.png" alt="Orders" class="img-fluid mb-3"></a>
-                            <h2 class="card-title">Your Orders</h2>
-                            <p class="card-text text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-4 mb-4">
-                        <div class="card h-100 shadow-sm border-0">
-                          <div class="card-body text-center">
-                            <a><img src="https://res.cloudinary.com/templategalaxy/image/upload/v1631257421/codepen-my-account/images/notebook_psrhv5.png" alt="Addresses" class="img-fluid mb-3"></a>
-                            <h2 class="card-title">Your Addresses</h2>
-                            <p class="card-text text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-4 mb-4">
-                        <div class="card h-100 shadow-sm border-0">
-                          <div class="card-body text-center">
-                            <a><img src="https://res.cloudinary.com/templategalaxy/image/upload/v1631257421/codepen-my-account/images/login_aq9v9z.png" alt="Account Details" class="img-fluid mb-3"></a>
-                            <h2 class="card-title">Account Details</h2>
-                            <p class="card-text text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+      <!-- Address Section -->
+      <div class="col-12 portfolio-item" *ngIf="activeSection === 'address'" data-wow-delay="0.2s">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title">User Address</h4>
+            <div class="row">
+              <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><strong>Street:</strong> 123 Main St</li>
+                  <li class="list-group-item"><strong>Governorate:</strong> New York</li>
+                  <li class="list-group-item"><strong>City:</strong> New York City</li>
+                  <li class="list-group-item"><strong>Zip Code:</strong> 10001</li>
+                  <li class="list-group-item"><strong>Country:</strong> USA</li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <div class="map-container">
+                  <!-- Placeholder for Map (e.g., Google Maps or Leaflet) -->
+                  <div id="map" style="height: 300px; background: #e9ecef; border-radius: 5px;"></div>
                 </div>
               </div>
-              <div class="tab-pane fade" id="my-orders" role="tabpanel" aria-labelledby="my-order">
-                <div class="table-responsive">
-                  <table class="table table-striped table-bordered">
-                    <thead class="bg-primary text-white">
-                      <tr>
-                        <th>Order</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Total</th>
-                        <th class="action">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>#8083</td>
-                        <td>Sep 9, 2021</td>
-                        <td><span class="badge bg-success">Completed</span></td>
-                        <td>$350</td>
-                        <td class="action"><a href="#" class="btn btn-outline-primary btn-sm">View Order</a></td>
-                      </tr>
-                      <tr>
-                        <td>#8283</td>
-                        <td>Sep 8, 2021</td>
-                        <td><span class="badge bg-warning text-dark">Pending</span></td>
-                        <td>$190</td>
-                        <td class="action"><a href="#" class="btn btn-outline-primary btn-sm">View Order</a></td>
-                      </tr>
-                      <tr>
-                        <td>#8483</td>
-                        <td>Sep 7, 2021</td>
-                        <td><span class="badge bg-success">Completed</span></td>
-                        <td>$399</td>
-                        <td class="action"><a href="#" class="btn btn-outline-primary btn-sm">View Order</a></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="my-address">
-                <div class="address-form">
-                  <div class="inner">
-                    <form class="tg-form needs-validation" novalidate>
-                      <div class="form-group">
-                        <label for="inputAddress">Address</label>
-                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="inputAddress2">Address 2</label>
-                        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-                      </div>
-                      <div class="form-row">
-                        <div class="form-group col-md-6">
-                          <label for="inputCity">City</label>
-                          <input type="text" class="form-control" id="inputCity" required>
-                        </div>
-                        <div class="form-group col-md-4">
-                          <label for="inputState">State</label>
-                          <select id="inputState" class="form-control" required>
-                            <option selected>Choose...</option>
-                            <option>...</option>
-                          </select>
-                        </div>
-                        <div class="form-group col-md-2">
-                          <label for="inputZip">Zip</label>
-                          <input type="text" class="form-control" id="inputZip" required>
-                        </div>
-                      </div>
-                      <button type="submit" class="btn btn-primary">Update</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <div class="tab-pane fade" id="account-details" role="tabpanel" aria-labelledby="account-detail">
-                <div class="account-detail-form">
-                  <div class="inner">
-                    <form class="tg-form needs-validation" novalidate>
-                      <div class="form-row">
-                        <div class="form-group col-md-6">
-                          <label for="inputfname">First Name</label>
-                          <input type="text" class="form-control" id="inputfname" placeholder="First Name" required>
-                        </div>
-                        <div class="form-group col-md-6">
-                          <label for="inputlname">Last Name</label>
-                          <input type="text" class="form-control" id="inputlname" placeholder="Last Name" required>
-                        </div>
-                        <div class="form-group col-md-12">
-                          <label for="inputdname">Display Name</label>
-                          <input type="text" class="form-control" id="inputdname" placeholder="Display Name" required>
-                        </div>
-                        <div class="form-group col-md-12">
-                          <label for="inputEmail4">Email</label>
-                          <input type="email" class="form-control" id="inputEmail4" placeholder="Email" required>
-                        </div>
-                        <div class="form-group col-md-12">
-                          <label for="inputdob">Birthdate</label>
-                          <input type="text" class="form-control" id="inputdob" placeholder="MM/DD/YYYY" required>
-                        </div>
-                      </div>
-                      <button type="submit" class="btn btn-primary">Update</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <div class="tab-pane fade" id="logout" role="tabpanel" aria-labelledby="logout">
-                <div class="logout-message text-center">
-                  <h4>Are you sure you want to log out?</h4>
-                  <button class="btn btn-danger mt-3">Log Out</button>
-                  <a href="#dashboard" class="btn btn-secondary mt-3 ms-2" data-bs-toggle="tab">Cancel</a>
-                </div>
-              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subscriptions Section -->
+      <div class="col-12 portfolio-item" *ngIf="activeSection === 'subscriptions'" data-wow-delay="0.3s">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title">Subscriptions</h4>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead class="bg-primary text-white">
+                  <tr>
+                    <th>Service</th>
+                    <th>Status</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Internet Plan 100Mbps</td>
+                    <td><span class="badge bg-success">Active</span></td>
+                    <td>Aug 01, 2025</td>
+                    <td>Jul 31, 2026</td>
+                  </tr>
+                  <tr>
+                    <td>TV Package Premium</td>
+                    <td><span class="badge bg-warning text-dark">Pending</span></td>
+                    <td>Aug 26, 2025</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td>Mobile Plan Unlimited</td>
+                    <td><span class="badge bg-success">Active</span></td>
+                    <td>Jul 15, 2025</td>
+                    <td>Jul 14, 2026</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment History Section -->
+      <div class="col-12 portfolio-item" *ngIf="activeSection === 'payment'" data-wow-delay="0.4s">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title">Payment History</h4>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead class="bg-primary text-white">
+                  <tr>
+                    <th>Month</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Date Paid</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>July 2025</td>
+                    <td>$99.99</td>
+                    <td><span class="badge bg-success">Paid</span></td>
+                    <td>Jul 05, 2025</td>
+                  </tr>
+                  <tr>
+                    <td>June 2025</td>
+                    <td>$89.99</td>
+                    <td><span class="badge bg-success">Paid</span></td>
+                    <td>Jun 03, 2025</td>
+                  </tr>
+                  <tr>
+                    <td>May 2025</td>
+                    <td>$94.99</td>
+                    <td><span class="badge bg-success">Paid</span></td>
+                    <td>May 02, 2025</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</section>
+</div>

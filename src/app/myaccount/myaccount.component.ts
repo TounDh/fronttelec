@@ -10,5 +10,9 @@ import { RouterModule } from '@angular/router';
   styleUrl: './myaccount.component.css'
 })
 export class MyaccountComponent {
+activeSection: string = 'details'; // Default to 'details' section
 
+  setActiveSection(section: string) {
+    this.activeSection = section;
+  }
 }
