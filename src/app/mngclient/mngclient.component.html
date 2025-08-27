@@ -212,17 +212,6 @@
         </div>
       </nav>
       <!-- / Navbar -->
-
-
-
-
-
-
-
-
-
-
-
       <!-- Content wrapper -->
       <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
@@ -235,7 +224,7 @@
                   <span class="input-group-text"><i class="bx bx-search"></i></span>
                   <input type="text" class="form-control" placeholder="Search clients by name, address, or status..." aria-label="Search clients" />
                 </div>
-                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addClientModal" style="width: 145px;"><i class="bx bx-box me-1"></i>Archive</button>
+                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#archiveClientModal" style="width: 145px;"><i class="bx bx-box me-1"></i>Archive</button>
               </div>
             </div>
             <div class="card-body">
@@ -266,11 +255,11 @@
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bxs-user-detail me-1"></i>  User Details</a>
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bxs-user-detail me-1"></i> User Details</a>
                             <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
                             <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
                             <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-in me-1"></i>  Archivate</a>
+                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-in me-1"></i> Archive</a>
                           </div>
                         </div>
                       </td>
@@ -288,99 +277,11 @@
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bx-detail me-1"></i> View Details</a>
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bxs-user-detail me-1"></i> User Details</a>
                             <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
                             <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
                             <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bx-trash me-1"></i> Deactivate</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><strong>Fatima Zohra</strong></td>
-                      <td>fatima.zohraemail.com</td>
-                      <td>45 Avenue Habib Bourguiba, Sfax</td>
-                      <td>+216 74 890 123</td>
-                      <td>VDSL (Active)</td>
-                      <td><span class="badge bg-label-success">Active</span></td>
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bx-detail me-1"></i> View Details</a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
-                            <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bx-trash me-1"></i> Deactivate</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><strong>Fatima Zohra</strong></td>
-                      <td>fatima.zohraemail.com</td>
-                      <td>45 Avenue Habib Bourguiba, Sfax</td>
-                      <td>+216 74 890 123</td>
-                      <td>VDSL (Active)</td>
-                      <td><span class="badge bg-label-success">Active</span></td>
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bx-detail me-1"></i> View Details</a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
-                            <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bx-trash me-1"></i> Deactivate</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><strong>Fatima Zohra</strong></td>
-                      <td>fatima.zohraemail.com</td>
-                      <td>45 Avenue Habib Bourguiba, Sfax</td>
-                      <td>+216 74 890 123</td>
-                      <td>VDSL (Active)</td>
-                      <td><span class="badge bg-label-success">Active</span></td>
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bx-detail me-1"></i> View Details</a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
-                            <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bx-trash me-1"></i> Deactivate</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><strong>Fatima Zohra</strong></td>
-                      <td>fatima.zohraemail.com</td>
-                      <td>45 Avenue Habib Bourguiba, Sfax</td>
-                      <td>+216 74 890 123</td>
-                      <td>VDSL (Active)</td>
-                      <td><span class="badge bg-label-success">Active</span></td>
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bx-detail me-1"></i> View Details</a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
-                            <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bx-trash me-1"></i> Deactivate</a>
+                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-in me-1"></i> Archive</a>
                           </div>
                         </div>
                       </td>
@@ -391,18 +292,84 @@
                       <td>78 Rue de Sousse, Sousse</td>
                       <td>+216 73 456 789</td>
                       <td>5G Box (Pending)</td>
-                      <td><span class="badge bg-label-warning">Inactive</span></td>
+                      <td><span class="badge bg-label-success">Active</span></td>
                       <td>
                         <div class="dropdown">
                           <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bx-detail me-1"></i> View Details</a>
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bxs-user-detail me-1"></i> User Details</a>
                             <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
                             <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
                             <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bx-trash me-1"></i> Deactivate</a>
+                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-in me-1"></i> Archive</a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Sana Karray</strong></td>
+                      <td>sana.karrayemail.com</td>
+                      <td>12 Rue de Monastir, Monastir</td>
+                      <td>+216 73 123 456</td>
+                      <td>Fibre Optic (Active)</td>
+                      <td><span class="badge bg-label-success">Active</span></td>
+                      <td>
+                        <div class="dropdown">
+                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bxs-user-detail me-1"></i> User Details</a>
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                            <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
+                            <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
+                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-in me-1"></i> Archive</a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Khaled Mhiri</strong></td>
+                      <td>khaled.mhiriemail.com</td>
+                      <td>56 Avenue de la Liberte, Ariana</td>
+                      <td>+216 70 987 654</td>
+                      <td>ADSL (Active)</td>
+                      <td><span class="badge bg-label-success">Active</span></td>
+                      <td>
+                        <div class="dropdown">
+                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bxs-user-detail me-1"></i> User Details</a>
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                            <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
+                            <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
+                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-in me-1"></i> Archive</a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Leila Saidi</strong></td>
+                      <td>leila.saidiemail.com</td>
+                      <td>89 Rue de Bizerte, Bizerte</td>
+                      <td>+216 72 345 678</td>
+                      <td>VDSL (Pending)</td>
+                      <td><span class="badge bg-label-success">Active</span></td>
+                      <td>
+                        <div class="dropdown">
+                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bxs-user-detail me-1"></i> User Details</a>
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                            <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
+                            <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
+                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-in me-1"></i> Archive</a>
                           </div>
                         </div>
                       </td>
@@ -412,48 +379,7 @@
               </div>
             </div>
           </div>
-          <!-- Add Client Modal -->
-          <div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="addClientModalLabel">Add New Client</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <div class="mb-3">
-                      <label for="clientName" class="form-label">Name</label>
-                      <input type="text" class="form-control" id="clientName" placeholder="e.g., Ahmed Ben Salah" />
-                    </div>
-                    <div class="mb-3">
-                      <label for="clientEmail" class="form-label">Email</label>
-                      <input type="email" class="form-control" id="clientEmail" placeholder="e.g., ahmed.bensalahemail.com" />
-                    </div>
-                    <div class="mb-3">
-                      <label for="clientAddress" class="form-label">Address</label>
-                      <input type="text" class="form-control" id="clientAddress" placeholder="e.g., 123 Rue de Tunis, Tunis" />
-                    </div>
-                    <div class="mb-3">
-                      <label for="clientPhone" class="form-label">Phone</label>
-                      <input type="text" class="form-control" id="clientPhone" placeholder="e.g., +216 71 234 567" />
-                    </div>
-                    <div class="mb-3">
-                      <label for="clientStatus" class="form-label">Status</label>
-                      <select class="form-select" id="clientStatus">
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
-                      </select>
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" >Save Client</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          
           <!-- Edit Client Modal -->
           <div class="modal fade" id="editClientModal" tabindex="-1" aria-labelledby="editClientModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -546,6 +472,72 @@
                     <ul id="viewClientPayments">
                       <li>Payment #1234 (29.99 TND, Paid, 2024-02-01)</li>
                     </ul>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Archive Client Modal -->
+          <div class="modal fade" id="archiveClientModal" tabindex="-1" aria-labelledby="archiveClientModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="max-width: 1100px;">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="archiveClientModalLabel">Archived Clients</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="table-responsive text-nowrap">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Address</th>
+                          <th>Phone</th>
+                          <th>Subscription History</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody class="table-border-bottom-0">
+                        <tr>
+                          <td><strong>Ali Ben Youssef</strong></td>
+                          <td>ali.benyoussefemail.com</td>
+                          <td>34 Rue de Kairouan, Kairouan</td>
+                          <td>+216 77 654 321</td>
+                          <td>ADSL (Ended)</td>
+                          <td>
+                            <div class="dropdown">
+                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                              </button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-out me-1"></i> Restore</a>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td><strong>Sarra Jlassi</strong></td>
+                          <td>sarra.jlassiemail.com</td>
+                          <td>67 Avenue de Carthage, Tunis</td>
+                          <td>+216 71 987 654</td>
+                          <td>Fibre Optic (Ended)</td>
+                          <td>
+                            <div class="dropdown">
+                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                              </button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-out me-1"></i> Restore</a>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
                 <div class="modal-footer">
