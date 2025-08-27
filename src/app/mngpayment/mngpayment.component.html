@@ -86,28 +86,28 @@
             </li>
             <li class="menu-item">
               <a routerLink="/dash/services" class="menu-link ">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <i class="menu-icon tf-icons bx bx-globe"></i>
                 <div data-i18n="Basic">Services</div>
               </a>
             </li>
             
             <li class="menu-item ">
               <a routerLink="/dash/clients" class="menu-link ">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <i class="menu-icon tf-icons bx bx-user-circle"></i>
                 <div data-i18n="Basic">Clients</div>
               </a>
             </li>
 
             <li class="menu-item ">
               <a routerLink="/dash/applications" class="menu-link ">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <i class="menu-icon tf-icons bx bx-windows"></i>
                 <div data-i18n="Basic">Applications</div>
               </a>
             </li>
             
             <li class="menu-item active">
               <a routerLink="/dash/payments" class="menu-link ">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <i class="menu-icon tf-icons bx bx-credit-card"></i>
                 <div data-i18n="Basic">Payments</div>
               </a>
             </li>
@@ -254,9 +254,202 @@
             <div class="container-xxl flex-grow-1 container-p-y">
               <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Manage /</span> Payments</h4>
 
+              
+
+
+
+
+
+
+
+              <div class="card">
+  <div class="card-header d-flex align-items-center justify-content-between">
+    <h5 class="card-title m-0 me-2">Payments</h5>
+    <div class="d-flex align-items-center">
+      <div class="input-group me-2">
+        <span class="input-group-text"><i class="bx bx-search"></i></span>
+        <input type="text" class="form-control" placeholder="Search by client name..." aria-label="Search payments" />
+      </div>
+      <div class="input-group me-2">
+        <select class="form-select" aria-label="Filter by status">
+          <option value="">All Statuses</option>
+          <option value="Paid">Paid</option>
+          <option value="Pending">Pending</option>
+          <option value="Unpaid">Unpaid</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <input type="date" class="form-control" placeholder="Filter by payment date" aria-label="Filter by date" />
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive text-nowrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Client Name</th>
+            <th>Service</th>
+            <th>Amount</th>
+            <th>Payment Status</th>
+            <th>Payment Date</th>
+            <th>Installation Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          <tr>
+            <td><strong>Ahmed Ben Salah</strong></td>
+            <td>ADSL</td>
+            <td>$50.00</td>
+            <td><span class="badge bg-label-success custom-badge">Paid</span></td>
+            <td>2024-01-15</td>
+            <td><span class="badge bg-label-primary custom-badge">Completed</span></td>
+            <td>
+              <div class="dropdown">
+                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                  <i class="bx bx-dots-vertical-rounded"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewPaymentModal"><i class="bx bxs-detail me-1"></i> View Details</a>
+                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive-in me-1"></i> Archive</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Fatima Zohra</strong></td>
+            <td>VDSL</td>
+            <td>$75.00</td>
+            <td><span class="badge bg-label-warning custom-badge">Pending</span></td>
+            <td>-</td>
+            <td><span class="badge bg-label-warning custom-badge">Not Scheduled</span></td>
+            <td>
+              <div class="dropdown">
+                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                  <i class="bx bx-dots-vertical-rounded"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewPaymentModal"><i class="bx bxs-detail me-1"></i> View Details</a>
+                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive-in me-1"></i> Archive</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Mohamed Amine</strong></td>
+            <td>5G Box</td>
+            <td>$100.00</td>
+            <td><span class="badge bg-label-danger custom-badge">Unpaid</span></td>
+            <td>-</td>
+            <td><span class="badge bg-label-warning custom-badge">Not Scheduled</span></td>
+            <td>
+              <div class="dropdown">
+                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                  <i class="bx bx-dots-vertical-rounded"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewPaymentModal"><i class="bx bxs-detail me-1"></i> View Details</a>
+                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive-in me-1"></i> Archive</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Sara Jlassi</strong></td>
+            <td>Fiber</td>
+            <td>$120.00</td>
+            <td><span class="badge bg-label-success custom-badge">Paid</span></td>
+            <td>2024-02-10</td>
+            <td><span class="badge bg-label-warning custom-badge">Not Scheduled</span></td>
+            <td>
+              <div class="dropdown">
+                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                  <i class="bx bx-dots-vertical-rounded"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewPaymentModal"><i class="bx bxs-detail me-1"></i> View Details</a>
+                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive-in me-1"></i> Archive</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- View Payment Details Modal -->
+<div class="modal fade" id="viewPaymentModal" tabindex="-1" aria-labelledby="viewPaymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-custom-style">
+    <div class="modal-content">
+      <div class="modal-header bg-gradient-primary text-white">
+        <h5 class="modal-title gradient-text" id="viewPaymentModalLabel"><i class="bx bx-receipt me-2"></i>Invoice Details</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4 bg-light-gradient">
+        <div class="card shadow-lg border-primary">
+          <div class="card-header bg-gradient-light border-bottom">
+            <h6 class="fw-bold mb-0"><i class="bx bx-credit-card me-2 text-primary"></i>Payment Information</h6>
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <h6 class="fw-semibold">Client Name</h6>
+              <p id="viewClientName" class="text-muted">Ahmed Ben Salah</p>
+            </div>
+            <div class="mb-3">
+              <h6 class="fw-semibold">Service</h6>
+              <p id="viewService" class="text-muted">ADSL</p>
+            </div>
+            <div class="mb-3">
+              <h6 class="fw-semibold">Amount</h6>
+              <p id="viewAmount" class="text-muted">$50.00</p>
+            </div>
+            <div class="mb-3">
+              <h6 class="fw-semibold">Payment Status</h6>
+              <p id="viewPaymentStatus" class="badge bg-label-success custom-badge">Paid</p>
+            </div>
+            <div class="mb-3">
+              <h6 class="fw-semibold">Payment Date</h6>
+              <p id="viewPaymentDate" class="text-muted">2024-01-15</p>
+            </div>
+            <div class="mb-3">
+              <h6 class="fw-semibold">Installation Status</h6>
+              <p id="viewInstallationStatus" class="badge bg-label-primary custom-badge">Completed</p>
+            </div>
+            <div class="mb-0">
+              <h6 class="fw-semibold">Installation Details</h6>
+              <ul class="list-unstyled">
+                <li class="mb-2"><i class="bx bx-calendar me-2 text-primary"></i>Installation Date: 2024-01-20</li>
+                <li class="mb-0"><i class="bx bx-user me-2 text-primary"></i>Technician: Ali Ben Youssef</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary custom-btn" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary custom-btn"><i class="bx bx-download me-1"></i>Generate Receipt</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
             </div>
             </div>
             <!-- / Content -->
+
+
+
 
             <!-- Footer -->
             <footer class="content-footer footer bg-footer-theme">

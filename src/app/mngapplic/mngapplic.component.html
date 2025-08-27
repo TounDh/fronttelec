@@ -86,28 +86,28 @@
             </li>
             <li class="menu-item">
               <a routerLink="/dash/services" class="menu-link ">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <i class="menu-icon tf-icons bx bx-globe"></i>
                 <div data-i18n="Basic">Services</div>
               </a>
             </li>
             
             <li class="menu-item ">
               <a routerLink="/dash/clients" class="menu-link ">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <i class="menu-icon tf-icons bx bx-user-circle"></i>
                 <div data-i18n="Basic">Clients</div>
               </a>
             </li>
 
             <li class="menu-item active">
               <a routerLink="/dash/applications" class="menu-link ">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <i class="menu-icon tf-icons bx bx-windows"></i>
                 <div data-i18n="Basic">Applications</div>
               </a>
             </li>
             
             <li class="menu-item">
               <a routerLink="/dash/payments" class="menu-link ">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <i class="menu-icon tf-icons bx bx-credit-card"></i>
                 <div data-i18n="Basic">Payments</div>
               </a>
             </li>
@@ -263,6 +263,10 @@
 
 
 
+             
+              
+
+
               <div class="card">
   <div class="card-header d-flex align-items-center justify-content-between">
     <h5 class="card-title m-0 me-2">Requests</h5>
@@ -313,8 +317,6 @@
                 </button>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewRequestModal"><i class="bx bxs-detail me-1"></i> View Details</a>
-                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#acceptRequestModal"><i class="bx bx-check me-1"></i> Accept</a>
-                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#rejectRequestModal"><i class="bx bx-x me-1"></i> Reject</a>
                   <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editNotesModal"><i class="bx bx-edit-alt me-1"></i> Edit Notes</a>
                 </div>
               </div>
@@ -334,8 +336,6 @@
                 </button>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewRequestModal"><i class="bx bxs-detail me-1"></i> View Details</a>
-                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#acceptRequestModal"><i class="bx bx-check me-1"></i> Accept</a>
-                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#rejectRequestModal"><i class="bx bx-x me-1"></i> Reject</a>
                   <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editNotesModal"><i class="bx bx-edit-alt me-1"></i> Edit Notes</a>
                 </div>
               </div>
@@ -355,8 +355,6 @@
                 </button>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewRequestModal"><i class="bx bxs-detail me-1"></i> View Details</a>
-                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#acceptRequestModal"><i class="bx bx-check me-1"></i> Accept</a>
-                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#rejectRequestModal"><i class="bx bx-x me-1"></i> Reject</a>
                   <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editNotesModal"><i class="bx bx-edit-alt me-1"></i> Edit Notes</a>
                 </div>
               </div>
@@ -369,120 +367,138 @@
 </div>
 <!-- View Request Details Modal -->
 <div class="modal fade" id="viewRequestModal" tabindex="-1" aria-labelledby="viewRequestModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="viewRequestModalLabel">Request Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-header bg-gradient-primary text-white">
+        <h5 class="modal-title" id="viewRequestModalLabel"><i class="bx bxs-detail me-2"></i>Request Details</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <h6>User Name</h6>
-          <p id="viewUserName">Ahmed Ben Salah</p>
-        </div>
-        <div class="mb-3">
-          <h6>Address</h6>
-          <p id="viewAddress">123 Rue de Tunis, Tunis</p>
-        </div>
-        <div class="mb-3">
-          <h6>Service Requested</h6>
-          <p id="viewService">ADSL</p>
-        </div>
-        <div class="mb-3">
-          <h6>Date Submitted</h6>
-          <p id="viewSubmissionDate">2024-01-10</p>
-        </div>
-        <div class="mb-3">
-          <h6>Status</h6>
-          <p id="viewStatus">Accepted</p>
-        </div>
-        <div class="mb-3">
-          <h6>Map (Service Availability)</h6>
-          <div id="mapPlaceholder" style="height: 200px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center;">
-            <p class="text-muted">Google Maps API Placeholder (e.g., 123 Rue de Tunis, Tunis)</p>
+      <div class="modal-body p-4">
+        <!-- Tabs -->
+        <ul class="nav nav-tabs mb-4" id="requestTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="user-tab" data-bs-toggle="tab" data-bs-target="#user-pane" type="button" role="tab" aria-controls="user-pane" aria-selected="true">
+              <i class="bx bx-user me-1"></i>User Info
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="analysis-tab" data-bs-toggle="tab" data-bs-target="#analysis-pane" type="button" role="tab" aria-controls="analysis-pane" aria-selected="false">
+              <i class="bx bx-check-circle me-1"></i>Analysis
+            </button>
+          </li>            
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history-pane" type="button" role="tab" aria-controls="history-pane" aria-selected="false">
+              <i class="bx bx-history me-1"></i>History
+            </button>
+          </li>
+        </ul>
+        <div class="tab-content" id="requestTabContent">
+          <!-- User Info Tab -->
+          <div class="tab-pane fade show active" id="user-pane" role="tabpanel" aria-labelledby="user-tab">
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                  <div class="card-header bg-light border-bottom">
+                    <h6 class="fw-semibold mb-0"><i class="bx bx-user me-2"></i>User Information</h6>
+                  </div>
+                  <div class="card-body">
+                    <br>
+                    <div class="mb-3">
+                      <h6 class="fw-semibold">User Name</h6>
+                      <p id="viewUserName" class="text-muted">Ahmed Ben Salah</p>
+                    </div>
+                    <div class="mb-3">
+                      <h6 class="fw-semibold">Address</h6>
+                      <p id="viewAddress" class="text-muted">123 Rue de Tunis, Tunis</p>
+                    </div>
+                    <div class="mb-3">
+                      <h6 class="fw-semibold">Service Requested</h6>
+                      <p id="viewService" class="text-muted">ADSL</p>
+                    </div>
+                    <div class="mb-3">
+                      <h6 class="fw-semibold">Date Submitted</h6>
+                      <p id="viewSubmissionDate" class="text-muted">2024-01-10</p>
+                    </div>
+                    <div class="mb-0">
+                      <h6 class="fw-semibold">Status</h6>
+                      <p id="viewStatus" class="badge bg-label-success">Accepted</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                  <div class="card-header bg-light border-bottom">
+                    <h6 class="fw-semibold mb-0"><i class="bx bx-map me-2"></i>Service Availability Map</h6>
+                  </div>
+                  <div class="card-body">
+                    <br>
+                    <div id="mapPlaceholder" style="height: 300px; border: 2px solid; border-image: linear-gradient(to right, #696cff, #28a745) 1; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center;">
+                      <p class="text-muted">Google Maps API Placeholder (e.g., 123 Rue de Tunis, Tunis)</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Analysis Tab -->
+          <div class="tab-pane fade" id="analysis-pane" role="tabpanel" aria-labelledby="analysis-tab">
+            <div class="card shadow-sm">
+              <div class="card-header bg-light border-bottom">
+                <h6 class="fw-semibold mb-0"><i class="bx bx-check-circle me-2"></i>Analysis</h6>
+              </div>
+              <div class="card-body">
+                <div class="list-group list-group-flush">
+                  <!-- User Eligibility -->
+                  <div class="list-group-item">
+                  <br>
+                    <h6 class="fw-semibold mb-3"><i class="bx bx-user-check me-2"></i>User Eligibility</h6>
+                    <ul class="list-unstyled">
+                      <li class="mb-2"><i class="bx bx-money me-2 text-primary"></i>Credit Score: 750 <span class="badge bg-success ms-2">Sufficient</span></li>
+                      <li class="mb-0"><i class="bx bx-chevron-right me-2"></i>Existing Subscriptions: None</li>
+                    </ul>
+                  </div>
+                  <!-- Technical Feasibility -->
+                  <div class="list-group-item">
+                    <br>
+                    <h6 class="fw-semibold mb-3"><i class="bx bx-wrench me-2"></i>Technical Feasibility</h6>
+                    <ul class="list-unstyled">
+                      <li class="mb-2"><i class="bx bx-wifi me-2 text-primary"></i>Infrastructure: <span class="badge bg-success ms-2">Available</span></li>
+                      <li class="mb-0"><i class="bx bx-map-pin me-2 text-primary"></i>Distance to Node: 500m <span class="badge bg-success ms-2">Within Range</span></li>
+                    </ul>
+                  </div>
+                  <!-- Analysis Notes -->
+                  <div class="list-group-item">
+                    <br>
+                    <h6 class="fw-semibold mb-3"><i class="bx bx-note me-2"></i>Analysis Notes</h6>
+                    <p id="viewNotes" class="text-muted">Infrastructure available, credit score sufficient</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- History Tab -->
+          <div class="tab-pane fade" id="history-pane" role="tabpanel" aria-labelledby="history-tab">
+            <div class="card shadow-sm">
+              <div class="card-header bg-light border-bottom">
+                <h6 class="fw-semibold mb-0"><i class="bx bx-history me-2"></i>Request History</h6>
+              </div>
+              <div class="card-body">
+                <br>
+                <ul id="viewHistory" class="list-unstyled">
+                  <li class="mb-2"><i class="bx bx-chevron-right me-2"></i>Submitted: 2024-01-10</li>
+                  <li class="mb-0"><i class="bx bx-chevron-right me-2"></i>Accepted: 2024-01-12</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="mb-3">
-          <h6>User Eligibility</h6>
-          <ul id="viewEligibility">
-            <li>Credit Score: 750 (Sufficient)</li>
-            <li>Existing Subscriptions: None</li>
-          </ul>
-        </div>
-        <div class="mb-3">
-          <h6>Technical Feasibility</h6>
-          <ul id="viewFeasibility">
-            <li>Infrastructure: ADSL available in area</li>
-            <li>Distance to Node: 500m (within range)</li>
-          </ul>
-        </div>
-        <div class="mb-3">
-          <h6>Analysis Notes</h6>
-          <p id="viewNotes">Infrastructure available, credit score sufficient</p>
-        </div>
-        <div class="mb-3">
-          <h6>Request History</h6>
-          <ul id="viewHistory">
-            <li>Submitted: 2024-01-10</li>
-            <li>Accepted: 2024-01-12</li>
-          </ul>
-        </div>
+        <!-- Decision Toggle -->
+        
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Accept Request Modal -->
-<div class="modal fade" id="acceptRequestModal" tabindex="-1" aria-labelledby="acceptRequestModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="acceptRequestModalLabel">Accept Request</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="installationDate" class="form-label">Installation Date</label>
-            <input type="date" class="form-control" id="installationDate" />
-          </div>
-          <div class="mb-3">
-            <label for="technician" class="form-label">Technician</label>
-            <select class="form-select" id="technician">
-              <option value="Ali Ben Youssef">Ali Ben Youssef</option>
-              <option value="Sara Jlassi">Sara Jlassi</option>
-            </select>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Accept Request</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Reject Request Modal -->
-<div class="modal fade" id="rejectRequestModal" tabindex="-1" aria-labelledby="rejectRequestModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="rejectRequestModalLabel">Reject Request</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="rejectReason" class="form-label">Reason for Rejection</label>
-            <textarea class="form-control" id="rejectReason" rows="4" placeholder="e.g., Infrastructure not available"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Reject Request</button>
+        <button type="button" class="btn btn-primary"><i class="bx bx-check me-1"></i>Accept Request</button>
+        <button type="button" class="btn btn-danger"><i class="bx bx-x me-1"></i>Reject Request</button>
       </div>
     </div>
   </div>
@@ -491,9 +507,9 @@
 <div class="modal fade" id="editNotesModal" tabindex="-1" aria-labelledby="editNotesModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editNotesModalLabel">Edit Analysis Notes</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-header bg-gradient-primary text-white">
+        <h5 class="modal-title" id="editNotesModalLabel"><i class="bx bx-edit-alt me-2"></i>Edit Analysis Notes</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form>
@@ -510,6 +526,14 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
 
 
 
