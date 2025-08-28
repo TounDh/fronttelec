@@ -45,3 +45,194 @@
 .layout-page{
   background-color: #f8f4fc !important;
 }
+/* Modal-specific styles */
+/* Modal-specific styles */
+#addServiceModal .modal-content {
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border: none;
+  background-color: #f9fafb;
+}
+
+#addServiceModal .modal-header {
+  background-color: #e8f0fe;
+  border-bottom: none;
+  padding: 1.5rem 2rem;
+  border-radius: 1rem 1rem 0 0;
+}
+
+#addServiceModal .modal-title {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 1.25rem;
+}
+
+#addServiceModal .btn-close {
+  background-size: 1.2rem;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+#addServiceModal .btn-close:hover {
+  opacity: 1;
+}
+
+#addServiceModal .modal-body {
+  padding: 2rem;
+}
+
+#addServiceModal .form-label {
+  font-weight: 500;
+  color: #4a5568;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+#addServiceModal .form-control {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#addServiceModal .form-control:focus {
+  border-color: #7f9cf5;
+  box-shadow: 0 0 0 3px rgba(127, 156, 245, 0.2);
+  outline: none;
+}
+
+#addServiceModal textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+}
+
+#addServiceModal .btn-outline-primary {
+  border-color: #a3bffa;
+  color: #5a67d8;
+  font-weight: 500;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+#addServiceModal .btn-outline-primary:hover {
+  background-color: #a3bffa;
+  color: #fff;
+  border-color: #a3bffa;
+}
+
+#addServiceModal .input-group-text {
+  background-color: #edf2f7;
+  color: #4a5568;
+  border: 1px solid #e2e8f0;
+  border-right: none;
+  border-radius: 0.5rem 0 0 0.5rem;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+#addServiceModal .input-group .form-control {
+  border-left: none;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+#addServiceModal .offer-field-set {
+  background: linear-gradient(135deg, #e6fffa 0%, #f0f4ff 100%);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #bee3f8;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#addServiceModal .offer-field-set:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#addServiceModal .offer-field-set::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background-color: #63b3ed;
+  transition: width 0.3s ease;
+}
+
+#addServiceModal .offer-field-set:hover::before {
+  width: 8px;
+}
+
+#addServiceModal .offer-field-set .input-group {
+  margin-bottom: 0.75rem;
+  position: relative;
+}
+
+#addServiceModal .offer-field-set .input-group-text {
+  background: #ffffff;
+  color: #2b6cb0;
+  font-weight: 500;
+  border: 1px solid #bee3f8;
+  border-right: none;
+  border-radius: 0.5rem 0 0 0.5rem;
+  padding: 0.75rem 1rem;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+#addServiceModal .offer-field-set .form-control {
+  background-color: #ffffff;
+  border: 1px solid #bee3f8;
+  border-left: none;
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  color: #2d3748;
+}
+
+#addServiceModal .offer-field-set .form-control:focus {
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+#addServiceModal .offer-field-set .input-group:nth-child(1) .input-group-text {
+  background-color: #fefcbf;
+  color: #744210;
+}
+
+#addServiceModal .offer-field-set .input-group:nth-child(2) .input-group-text {
+  background-color: #c6f6d5;
+  color: #276749;
+}
+
+#addServiceModal .offer-field-set .input-group:nth-child(3) .input-group-text {
+  background-color: #fed7e2;
+  color: #742a2a;
+}
+
+#addServiceModal .modal-footer {
+  border-top: none;
+  padding: 1.5rem 2rem;
+  background-color: #f9fafb;
+  border-radius: 0 0 1rem 1rem;
+}
+
+#addServiceModal .btn-primary {
+  background-color: #a8adda;
+  border-color: #5a67d8;
+  font-weight: 500;
+  padding: 0.75rem 1.75rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#addServiceModal .btn-primary:hover {
+  background-color: #4c51bf;
+  border-color: #e2e3f8;
+  transform: translateY(-2px);
+}

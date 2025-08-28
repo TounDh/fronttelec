@@ -12,7 +12,8 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, RouterModule],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './mngservice.component.html',
-  styleUrls: ['./mngservice.component.css',
+  styleUrls: [
+    './mngservice.component.css',
     '../../assets/sneat/vendor/css/core.css',
     '../../assets/sneat/vendor/css/theme-default.css',
     '../../assets/sneat/css/demo.css',
@@ -21,8 +22,9 @@ import { RouterModule } from '@angular/router';
     '../../assets/sneat/vendor/libs/apex-charts/apex-charts.css'
   ]
 })
-export class MngserviceComponent  implements AfterViewInit, OnDestroy {
+export class MngserviceComponent implements AfterViewInit, OnDestroy {
   private scriptElements: HTMLScriptElement[] = [];
+  private offerCount: number = 0; // To track the number of offer field sets
 
   constructor(
     private renderer: Renderer2,
@@ -84,12 +86,83 @@ export class MngserviceComponent  implements AfterViewInit, OnDestroy {
     };
     const growthChart = new ApexCharts(document.querySelector('#growthChart'), growthChartOptions);
     growthChart.render();
-
-    // Add other chart initializations from src/assets/sneat/js/dashboards-analytics.js
   }
 
   ngOnDestroy() {
     // Remove scripts to prevent conflicts
     this.scriptElements.forEach(element => this.renderer.removeChild(this.document.body, element));
+  }
+
+  addOfferFields() {
+    this.offerCount++;
+    const container = this.document.getElementById('offerFieldsContainer');
+
+    // Create a div to hold the offer fields
+    const offerDiv = this.renderer.createElement('div');
+    this.renderer.addClass(offerDiv, 'offer-field-set');
+    this.renderer.addClass(offerDiv, 'mb-3');
+
+    // Price field
+    const priceDiv = this.renderer.createElement('div');
+    this.renderer.addClass(priceDiv, 'input-group');
+    this.renderer.addClass(priceDiv, 'mb-2');
+
+    const priceLabel = this.renderer.createElement('span');
+    this.renderer.addClass(priceLabel, 'input-group-text');
+    this.renderer.setProperty(priceLabel, 'innerText', 'Price (TND)');
+
+    const priceInput = this.renderer.createElement('input');
+    this.renderer.setAttribute(priceInput, 'type', 'number');
+    this.renderer.setAttribute(priceInput, 'step', '0.01');
+    this.renderer.addClass(priceInput, 'form-control');
+    this.renderer.setAttribute(priceInput, 'placeholder', 'e.g., 29.99');
+    this.renderer.setAttribute(priceInput, 'id', `offerPrice_${this.offerCount}`);
+
+    this.renderer.appendChild(priceDiv, priceLabel);
+    this.renderer.appendChild(priceDiv, priceInput);
+
+    // Speed field
+    const speedDiv = this.renderer.createElement('div');
+    this.renderer.addClass(speedDiv, 'input-group');
+    this.renderer.addClass(speedDiv, 'mb-2');
+
+    const speedLabel = this.renderer.createElement('span');
+    this.renderer.addClass(speedLabel, 'input-group-text');
+    this.renderer.setProperty(speedLabel, 'innerText', 'Speed (Mbps)');
+
+    const speedInput = this.renderer.createElement('input');
+    this.renderer.setAttribute(speedInput, 'type', 'text');
+    this.renderer.addClass(speedInput, 'form-control');
+    this.renderer.setAttribute(speedInput, 'placeholder', 'e.g., 10–20');
+    this.renderer.setAttribute(speedInput, 'id', `offerSpeed_${this.offerCount}`);
+
+    this.renderer.appendChild(speedDiv, speedLabel);
+    this.renderer.appendChild(speedDiv, speedInput);
+
+    // Commitment field
+    const commitmentDiv = this.renderer.createElement('div');
+    this.renderer.addClass(commitmentDiv, 'input-group');
+    this.renderer.addClass(commitmentDiv, 'mb-2');
+
+    const commitmentLabel = this.renderer.createElement('span');
+    this.renderer.addClass(commitmentLabel, 'input-group-text');
+    this.renderer.setProperty(commitmentLabel, 'innerText', 'Commitment (Months)');
+
+    const commitmentInput = this.renderer.createElement('input');
+    this.renderer.setAttribute(commitmentInput, 'type', 'number');
+    this.renderer.addClass(commitmentInput, 'form-control');
+    this.renderer.setAttribute(commitmentInput, 'placeholder', 'e.g., 12');
+    this.renderer.setAttribute(commitmentInput, 'id', `offerCommitment_${this.offerCount}`);
+
+    this.renderer.appendChild(commitmentDiv, commitmentLabel);
+    this.renderer.appendChild(commitmentDiv, commitmentInput);
+
+    // Append all fields to the offer div
+    this.renderer.appendChild(offerDiv, priceDiv);
+    this.renderer.appendChild(offerDiv, speedDiv);
+    this.renderer.appendChild(offerDiv, commitmentDiv);
+
+    // Append the offer div to the container
+    this.renderer.appendChild(container, offerDiv);
   }
 }

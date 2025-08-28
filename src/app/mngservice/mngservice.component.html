@@ -376,206 +376,41 @@
             </div>
           </div>
           <!-- Add Service Modal -->
-          <div class="modal fade" id="addServiceModal" tabindex="-1" aria-labelledby="addServiceModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="addServiceModalLabel">Add New Service</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <div class="mb-3">
-                      <label for="serviceName" class="form-label">Service Name</label>
-                      <input type="text" class="form-control" id="serviceName" placeholder="e.g., ADSL" />
-                    </div>
-                    <div class="mb-3">
-                      <label for="serviceDescription" class="form-label">Description</label>
-                      <textarea class="form-control" id="serviceDescription" rows="3" placeholder="e.g., High-speed internet via copper lines"></textarea>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Offers</label>
-                      <div class="offer-group">
-                        <h6 class="offer-title">Offer 1</h6>
-                        <div class="mb-2">
-                          <label for="offer1Price" class="form-label small">Price (TND)</label>
-                          <input type="number" class="form-control" id="offer1Price" placeholder="e.g., 29.99" step="0.01" />
-                        </div>
-                        <div class="mb-2">
-                          <label for="offer1Speed" class="form-label small">Speed</label>
-                          <input type="text" class="form-control" id="offer1Speed" placeholder="e.g., 10–20 Mbps" />
-                        </div>
-                        <div class="mb-2">
-                          <label for="offer1Commitment" class="form-label small">Commitment</label>
-                          <select class="form-select" id="offer1Commitment">
-                            <option value="12 Months">12 Months</option>
-                            <option value="24 Months">24 Months</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="offer-group">
-                        <h6 class="offer-title">Offer 2</h6>
-                        <div class="mb-2">
-                          <label for="offer2Price" class="form-label small">Price (TND)</label>
-                          <input type="number" class="form-control" id="offer2Price" placeholder="e.g., 24.99" step="0.01" />
-                        </div>
-                        <div class="mb-2">
-                          <label for="offer2Speed" class="form-label small">Speed</label>
-                          <input type="text" class="form-control" id="offer2Speed" placeholder="e.g., 10–20 Mbps" />
-                        </div>
-                        <div class="mb-2">
-                          <label for="offer2Commitment" class="form-label small">Commitment</label>
-                          <select class="form-select" id="offer2Commitment">
-                            <option value="12 Months">12 Months</option>
-                            <option value="24 Months">24 Months</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="mb-3">
-                      <label for="serviceAreas" class="form-label">Availability Areas</label>
-                      <input type="text" class="form-control" id="serviceAreas" placeholder="e.g., Tunis, Sfax, Sousse" />
-                    </div>
-                    <div class="mb-3">
-                      <label for="serviceStatus" class="form-label">Status</label>
-                      <select class="form-select" id="serviceStatus">
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
-                      </select>
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save Service</button>
-                </div>
-              </div>
-            </div>
+<div class="modal fade" id="addServiceModal" tabindex="-1" aria-labelledby="addServiceModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addServiceModalLabel">Add New Service</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="serviceName" class="form-label">Service Name</label>
+            <input type="text" class="form-control" id="serviceName" placeholder="e.g., ADSL" />
           </div>
+          <div class="mb-3">
+            <label for="serviceDescription" class="form-label">Description</label>
+            <textarea class="form-control" id="serviceDescription" rows="3" placeholder="e.g., High-speed internet via copper lines"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Offers</label>
+            <div id="offerFieldsContainer">
+              <!-- Dynamically added offer fields will appear here -->
+            </div>
+            <button type="button" class="btn btn-outline-info mb-2" (click)="addOfferFields()">Add Offer</button>
+            
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save Service</button>
+      </div>
+    </div>
+  </div>
+</div>
           <!-- Edit Service Modal -->
-          <div class="modal fade" id="editServiceModal" tabindex="-1" aria-labelledby="editServiceModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="editServiceModalLabel">Edit Service</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <div class="mb-3">
-                      <label for="editServiceName" class="form-label">Service Name</label>
-                      <input type="text" class="form-control" id="editServiceName" placeholder="e.g., ADSL" />
-                    </div>
-                    <div class="mb-3">
-                      <label for="editServiceDescription" class="form-label">Description</label>
-                      <textarea class="form-control" id="editServiceDescription" rows="3" placeholder="e.g., High-speed internet via copper lines"></textarea>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Offers</label>
-                      <p class="form-text small text-muted">Fill additional offer fields (Offer 3, Offer 4) if needed.</p>
-                      <div class="offer-group">
-                        <h6 class="offer-title">Offer 1</h6>
-                        <div class="mb-2">
-                          <label for="editOffer1Price" class="form-label small">Price (TND)</label>
-                          <input type="number" class="form-control" id="editOffer1Price" placeholder="e.g., 29.99" step="0.01" />
-                        </div>
-                        <div class="mb-2">
-                          <label for="editOffer1Speed" class="form-label small">Speed</label>
-                          <input type="text" class="form-control" id="editOffer1Speed" placeholder="e.g., 10–20 Mbps" />
-                        </div>
-                        <div class="mb-2">
-                          <label for="editOffer1Commitment" class="form-label small">Commitment</label>
-                          <select class="form-select" id="editOffer1Commitment">
-                            <option value="12 Months">12 Months</option>
-                            <option value="18 Months">18 Months</option>
-                            <option value="24 Months">24 Months</option>
-                            <option value="36 Months">36 Months</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="offer-group">
-                        <h6 class="offer-title">Offer 2</h6>
-                        <div class="mb-2">
-                          <label for="editOffer2Price" class="form-label small">Price (TND)</label>
-                          <input type="number" class="form-control" id="editOffer2Price" placeholder="e.g., 24.99" step="0.01" />
-                        </div>
-                        <div class="mb-2">
-                          <label for="editOffer2Speed" class="form-label small">Speed</label>
-                          <input type="text" class="form-control" id="editOffer2Speed" placeholder="e.g., 10–20 Mbps" />
-                        </div>
-                        <div class="mb-2">
-                          <label for="editOffer2Commitment" class="form-label small">Commitment</label>
-                          <select class="form-select" id="editOffer2Commitment">
-                            <option value="12 Months">12 Months</option>
-                            <option value="18 Months">18 Months</option>
-                            <option value="24 Months">24 Months</option>
-                            <option value="36 Months">36 Months</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="offer-group">
-                        <h6 class="offer-title">Offer 3</h6>
-                        <div class="mb-2">
-                          <label for="editOffer3Price" class="form-label small">Price (TND)</label>
-                          <input type="number" class="form-control" id="editOffer3Price" placeholder="e.g., 27.99" step="0.01" />
-                        </div>
-                        <div class="mb-2">
-                          <label for="editOffer3Speed" class="form-label small">Speed</label>
-                          <input type="text" class="form-control" id="editOffer3Speed" placeholder="e.g., 15 Mbps" />
-                        </div>
-                        <div class="mb-2">
-                          <label for="editOffer3Commitment" class="form-label small">Commitment</label>
-                          <select class="form-select" id="editOffer3Commitment">
-                            <option value="12 Months">12 Months</option>
-                            <option value="18 Months">18 Months</option>
-                            <option value="24 Months">24 Months</option>
-                            <option value="36 Months">36 Months</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="offer-group">
-                        <h6 class="offer-title">Offer 4</h6>
-                        <div class="mb-2">
-                          <label for="editOffer4Price" class="form-label small">Price (TND)</label>
-                          <input type="number" class="form-control" id="editOffer4Price" placeholder="e.g., 44.99" step="0.01" />
-                        </div>
-                        <div class="mb-2">
-                          <label for="editOffer4Speed" class="form-label small">Speed</label>
-                          <input type="text" class="form-control" id="editOffer4Speed" placeholder="e.g., 50 Mbps" />
-                        </div>
-                        <div class="mb-2">
-                          <label for="editOffer4Commitment" class="form-label small">Commitment</label>
-                          <select class="form-select" id="editOffer4Commitment">
-                            <option value="12 Months">12 Months</option>
-                            <option value="18 Months">18 Months</option>
-                            <option value="24 Months">24 Months</option>
-                            <option value="36 Months">36 Months</option>
-                          </select>
-                        </div>
-                      </div>
-                      <button type="button" class="btn btn-add-offer mt-2">Add Offer</button>
-                    </div>
-                    <div class="mb-3">
-                      <label for="editServiceAreas" class="form-label">Availability Areas</label>
-                      <input type="text" class="form-control" id="editServiceAreas" placeholder="e.g., Tunis, Sfax, Sousse" />
-                    </div>
-                    <div class="mb-3">
-                      <label for="editServiceStatus" class="form-label">Status</label>
-                      <select class="form-select" id="editServiceStatus">
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
-                      </select>
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Update Service</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        
         <!-- / Content -->
         <!-- Footer -->
         <footer class="content-footer footer bg-footer-theme">
