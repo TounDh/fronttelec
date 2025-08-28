@@ -1,0 +1,54 @@
+/* Sneat-specific custom color scheme */
+:host {
+  --bs-primary: #2124B1;
+  --bs-secondary: #4777F5;
+  --bs-light: #F7FAFF;
+  --bs-dark: #1D1D27;
+}
+
+.bg-menu-theme {
+  background-color: var(--bs-dark) !important;
+  color: var(--bs-light);
+}
+
+.menu-link {
+  color: var(--bs-light);
+}
+
+.menu-link:hover {
+  color: var(--bs-primary);
+}
+
+.card-title.text-primary {
+  color: var(--bs-primary) !important;
+}
+
+.btn-outline-primary {
+  border-color: var(--bs-primary);
+  color: var(--bs-primary);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--bs-primary);
+  color: var(--bs-light);
+}
+
+.badge.bg-label-primary {
+  background-color: var(--bs-primary) !important;
+  color: var(--bs-light);
+}
+
+.card {
+  border-color: var(--bs-secondary);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.layout-page{
+  background-color: #f8f4fc !important;
+}
+
+
+
+
+
+

@@ -12,6 +12,7 @@ import { MngclientComponent } from '../mngclient/mngclient.component';
 import { MngserviceComponent } from '../mngservice/mngservice.component';
 import { MngpaymentComponent } from '../mngpayment/mngpayment.component';
 import { MngapplicComponent } from '../mngapplic/mngapplic.component';
+import { mnginstallaComponent } from '../mnginstalla/mnginstalla.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Default route (replace with your home component if needed)
@@ -27,5 +28,6 @@ export const routes: Routes = [
   { path: 'dash/services', component: MngserviceComponent },
   { path: 'dash/payments', component: MngpaymentComponent },
   { path: 'dash/applications', component: MngapplicComponent },
+  { path: 'dash/installations', component: mnginstallaComponent },
   { path: '**', redirectTo: '/404' }
 ];

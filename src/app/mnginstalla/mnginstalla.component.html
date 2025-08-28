@@ -72,7 +72,7 @@
 
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
-           <li class="menu-item ">
+            <li class="menu-item ">
               <a routerLink="/dash" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
@@ -98,7 +98,7 @@
               </a>
             </li>
 
-            <li class="menu-item active">
+            <li class="menu-item">
               <a routerLink="/dash/applications" class="menu-link ">
                 <i class="menu-icon tf-icons bx bx-windows"></i>
                 <div data-i18n="Basic">Applications</div>
@@ -111,13 +111,12 @@
                 <div data-i18n="Basic">Payments</div>
               </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item active">
               <a routerLink="/dash/installations" class="menu-link ">
                 <i class="menu-icon tf-icons bx bx-wrench"></i>
                 <div data-i18n="Basic">Installations</div>
               </a>
             </li>
-            
             
             <!-- Misc -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Help</span></li>
@@ -254,11 +253,11 @@
           <!-- / Navbar -->
 
           <!-- Content wrapper -->
-            <div class="content-wrapper">
+          <div class="content-wrapper">
             
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Manage /</span> Applications</h4>
-              <!--grok my friend add content here-->
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Manage /</span> Installations</h4>
+                <!-- add static code here my friend grok keep the rest untouched and  -->
 
 
 
@@ -266,14 +265,9 @@
 
 
 
-
-             
-              
-
-
-              <div class="card">
+                <div class="card">
   <div class="card-header d-flex align-items-center justify-content-between">
-    <h5 class="card-title m-0 me-2">Applications</h5>
+    <h5 class="card-title m-0 me-2">Installations</h5>
     <div class="d-flex align-items-center">
       <div class="input-group me-2" style="width:  200px;">
         <span class="input-group-text"><i class="bx bx-search"></i></span>
@@ -295,222 +289,131 @@
     </div>
   </div>
   <div class="card-body">
-    <div class="table-responsive text-nowrap">
-      <table class="table">
-        <thead>
+    <!-- Unscheduled Paid Applications Section -->
+    <h6 class="fw-bold mb-3"><i class="bx bx-wrench me-2 text-primary"></i>Unscheduled Paid Applications</h6>
+    <div class="table-responsive text-nowrap mb-4">
+      <table class="table table-bordered">
+        <thead class="bg-light-gradient">
           <tr>
-            <th>User Name</th>
-            <th>Address</th>
-            <th>Service Requested</th>
-            <th>Date Submitted</th>
-            <th>Status</th>
-            <th>Analysis Notes</th>
+            <th>Request ID</th>
+            <th>Client Address</th>
+            <th>Service</th>
+            <th>Paid Amount</th>
+            <th>Payment Date</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
           <tr>
-            <td><strong>Ahmed Ben Salah</strong></td>
+            <td><strong>REQ-2024-004</strong></td>
+            <td>56 Avenue de Carthage, Tunis</td>
+            <td>Fiber Optic</td>
+            <td>120 TND</td>
+            <td>2024-03-15</td>
+            <td>
+              <button type="button" class="btn btn-warning custom-btn" data-bs-toggle="modal" data-bs-target="#scheduleInstallationModal"><i class="bx bx-calendar-event me-1"></i>Schedule</button>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>REQ-2024-005</strong></td>
+            <td>12 Rue de Monastir, Sfax</td>
+            <td>4G Box</td>
+            <td>80 TND</td>
+            <td>2024-03-18</td>
+            <td>
+              <button type="button" class="btn btn-warning custom-btn" data-bs-toggle="modal" data-bs-target="#scheduleInstallationModal"><i class="bx bx-calendar-event me-1"></i>Schedule</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Divider -->
+    <br>
+    <hr class="my-3 border-primary">
+    
+    <!-- All Installations Section -->
+    <h6 class="fw-bold mb-3"><i class="bx bx-wrench me-2 text-primary"></i>All Installations</h6>
+    <div class="table-responsive text-nowrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Request ID</th>
+            <th>Client Address</th>
+            <th>Service</th>
+            <th>Scheduled Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          <tr>
+            <td><strong>REQ-2024-001</strong></td>
             <td>123 Rue de Tunis, Tunis</td>
             <td>ADSL</td>
-            <td>2024-01-10</td>
-            <td><span class="badge bg-label-success">Accepted</span></td>
-            <td>Infrastructure available, credit score sufficient</td>
+            <td>2024-01-20</td>
+            <td><span class="badge bg-label-success">Completed</span></td>
             <td>
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                   <i class="bx bx-dots-vertical-rounded"></i>
                 </button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewRequestModal"><i class="bx bxs-detail me-1"></i> View Details</a>
+                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#scheduleInstallationModal"><i class="bx bx-calendar-event me-1"></i> Reschedule</a>
+                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-x me-1"></i> Cancel</a>
                   <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive me-1"></i> Archive</a>
                 </div>
               </div>
             </td>
           </tr>
           <tr>
-            <td><strong>Fatima Zohra</strong></td>
-            <td>45 Avenue Habib Bourguiba, Sfax</td>
+            <td><strong>REQ-2024-004</strong></td>
+            <td>56 Avenue de Carthage, Tunis</td>
+            <td>Fiber Optic</td>
+            <td>-</td>
+            <td><span class="badge bg-label-warning">Unscheduled</span></td>
+            <td>
+              <button type="button" class="btn btn-warning custom-btn" data-bs-toggle="modal" data-bs-target="#scheduleInstallationModal"><i class="bx bx-calendar-event me-1"></i>Schedule</button>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>REQ-2024-006</strong></td>
+            <td>89 Rue de Sousse, Sousse</td>
             <td>VDSL</td>
-            <td>2024-02-15</td>
-            <td><span class="badge bg-label-warning">Pending</span></td>
-            <td>Awaiting infrastructure check</td>
+            <td>2024-03-25</td>
+            <td><span class="badge bg-label-info">Scheduled</span></td>
             <td>
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                   <i class="bx bx-dots-vertical-rounded"></i>
                 </button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewRequestModal"><i class="bx bxs-detail me-1"></i> View Details</a>
-                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive me-1"></i> Archive</a>
-
+                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#scheduleInstallationModal"><i class="bx bx-calendar-event me-1"></i> Reschedule</a>
+                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-x me-1"></i> Cancel</a>
                 </div>
               </div>
             </td>
           </tr>
-          
         </tbody>
       </table>
     </div>
   </div>
 </div>
-<!-- View Request Details Modal -->
-<div class="modal fade" id="viewRequestModal" tabindex="-1" aria-labelledby="viewRequestModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
+<!-- Schedule Installation Modal -->
+<div class="modal fade" id="scheduleInstallationModal" tabindex="-1" aria-labelledby="scheduleInstallationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-custom-style">
     <div class="modal-content">
       <div class="modal-header bg-gradient-primary text-white">
-        <h5 class="modal-title" id="viewRequestModalLabel"><i class="bx bxs-detail me-2"></i>Request Details</h5>
+        <h5 class="modal-title gradient-text" id="scheduleInstallationModalLabel"><i class="bx bx-calendar-event me-2"></i>Schedule Installation</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body p-4">
-        <!-- Tabs -->
-        <ul class="nav nav-tabs mb-4" id="requestTab" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="user-tab" data-bs-toggle="tab" data-bs-target="#user-pane" type="button" role="tab" aria-controls="user-pane" aria-selected="true">
-              <i class="bx bx-user me-1"></i>User Info
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="analysis-tab" data-bs-toggle="tab" data-bs-target="#analysis-pane" type="button" role="tab" aria-controls="analysis-pane" aria-selected="false">
-              <i class="bx bx-check-circle me-1"></i>Analysis
-            </button>
-          </li>            
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history-pane" type="button" role="tab" aria-controls="history-pane" aria-selected="false">
-              <i class="bx bx-history me-1"></i>History
-            </button>
-          </li>
-        </ul>
-        <div class="tab-content" id="requestTabContent">
-          <!-- User Info Tab -->
-          <div class="tab-pane fade show active" id="user-pane" role="tabpanel" aria-labelledby="user-tab">
-            <div class="row">
-              <div class="col-md-6 mb-4">
-                <div class="card shadow-sm">
-                  <div class="card-header bg-light border-bottom">
-                    <h6 class="fw-semibold mb-0"><i class="bx bx-user me-2"></i>User Information</h6>
-                  </div>
-                  <div class="card-body">
-                    <br>
-                    <div class="mb-3">
-                      <h6 class="fw-semibold">User Name</h6>
-                      <p id="viewUserName" class="text-muted">Ahmed Ben Salah</p>
-                    </div>
-                    <div class="mb-3">
-                      <h6 class="fw-semibold">Address</h6>
-                      <p id="viewAddress" class="text-muted">123 Rue de Tunis, Tunis</p>
-                    </div>
-                    <div class="mb-3">
-                      <h6 class="fw-semibold">Service Requested</h6>
-                      <p id="viewService" class="text-muted">ADSL</p>
-                    </div>
-                    <div class="mb-3">
-                      <h6 class="fw-semibold">Date Submitted</h6>
-                      <p id="viewSubmissionDate" class="text-muted">2024-01-10</p>
-                    </div>
-                    <div class="mb-0">
-                      <h6 class="fw-semibold">Status</h6>
-                      <p id="viewStatus" class="badge bg-label-success">Accepted</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 mb-4">
-                <div class="card shadow-sm">
-                  <div class="card-header bg-light border-bottom">
-                    <h6 class="fw-semibold mb-0"><i class="bx bx-map me-2"></i>Service Availability Map</h6>
-                  </div>
-                  <div class="card-body">
-                    <br>
-                    <div id="mapPlaceholder" style="height: 300px; border: 2px solid; border-image: linear-gradient(to right, #696cff, #28a745) 1; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center;">
-                      <p class="text-muted">Google Maps API Placeholder (e.g., 123 Rue de Tunis, Tunis)</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Analysis Tab -->
-          <div class="tab-pane fade" id="analysis-pane" role="tabpanel" aria-labelledby="analysis-tab">
-            <div class="card shadow-sm">
-              <div class="card-header bg-light border-bottom">
-                <h6 class="fw-semibold mb-0"><i class="bx bx-check-circle me-2"></i>Analysis</h6>
-              </div>
-              <div class="card-body">
-                <div class="list-group list-group-flush">
-                  <!-- User Eligibility -->
-                  <div class="list-group-item">
-                  <br>
-                    <h6 class="fw-semibold mb-3"><i class="bx bx-user-check me-2"></i>User Eligibility</h6>
-                    <ul class="list-unstyled">
-                      <li class="mb-2"><i class="bx bx-money me-2 text-primary"></i>Credit Score: 750 <span class="badge bg-success ms-2">Sufficient</span></li>
-                      <li class="mb-0"><i class="bx bx-chevron-right me-2"></i>Existing Subscriptions: None</li>
-                    </ul>
-                  </div>
-                  <!-- Technical Feasibility -->
-                  <div class="list-group-item">
-                    <br>
-                    <h6 class="fw-semibold mb-3"><i class="bx bx-wrench me-2"></i>Technical Feasibility</h6>
-                    <ul class="list-unstyled">
-                      <li class="mb-2"><i class="bx bx-wifi me-2 text-primary"></i>Infrastructure: <span class="badge bg-success ms-2">Available</span></li>
-                      <li class="mb-0"><i class="bx bx-map-pin me-2 text-primary"></i>Distance to Node: 500m <span class="badge bg-success ms-2">Within Range</span></li>
-                    </ul>
-                  </div>
-                  <!-- Analysis Notes -->
-                  <div class="list-group-item">
-                    <br>
-                    <h6 class="fw-semibold mb-3"><i class="bx bx-note me-2"></i>Analysis Notes</h6>
-                    <p id="viewNotes" class="text-muted">Infrastructure available, credit score sufficient</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- History Tab -->
-          <div class="tab-pane fade" id="history-pane" role="tabpanel" aria-labelledby="history-tab">
-            <div class="card shadow-sm">
-              <div class="card-header bg-light border-bottom">
-                <h6 class="fw-semibold mb-0"><i class="bx bx-history me-2"></i>Request History</h6>
-              </div>
-              <div class="card-body">
-                <br>
-                <ul id="viewHistory" class="list-unstyled">
-                  <li class="mb-2"><i class="bx bx-chevron-right me-2"></i>Submitted: 2024-01-10</li>
-                  <li class="mb-0"><i class="bx bx-chevron-right me-2"></i>Accepted: 2024-01-12</li>
-                </ul>
-              </div>
-            </div>
-          </div>
+      <div class="modal-body p-4 bg-light-gradient">
+        <div class="mb-0">
+          <h6 class="fw-semibold">Scheduled Date</h6>
+          <input type="date" class="form-control custom-input" id="scheduledDate" />
         </div>
-        <!-- Decision Toggle -->
-        
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary"><i class="bx bx-check me-1"></i>Accept Request</button>
-        <button type="button" class="btn btn-danger"><i class="bx bx-x me-1"></i>Reject Request</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Edit Notes Modal -->
-<div class="modal fade" id="editNotesModal" tabindex="-1" aria-labelledby="editNotesModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-gradient-primary text-white">
-        <h5 class="modal-title" id="editNotesModalLabel"><i class="bx bx-edit-alt me-2"></i>Edit Analysis Notes</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="analysisNotes" class="form-label">Analysis Notes</label>
-            <textarea class="form-control" id="analysisNotes" rows="4" placeholder="e.g., Infrastructure available, credit score sufficient"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save Notes</button>
+        <button type="button" class="btn btn-info custom-btn"><i class="bx bx-save me-1"></i>Save</button>
       </div>
     </div>
   </div>
@@ -587,18 +490,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
             </div>
             </div>
             <!-- / Content -->
+
+
+
 
             <!-- Footer -->
             <footer class="content-footer footer bg-footer-theme">
