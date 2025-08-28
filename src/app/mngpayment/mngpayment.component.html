@@ -262,15 +262,21 @@
 
 
 
+              
+              
+
+
+
+
               <div class="card">
   <div class="card-header d-flex align-items-center justify-content-between">
     <h5 class="card-title m-0 me-2">Payments</h5>
     <div class="d-flex align-items-center">
-      <div class="input-group me-2">
+      <div class="input-group me-2" style="width:  200px;">
         <span class="input-group-text"><i class="bx bx-search"></i></span>
-        <input type="text" class="form-control" placeholder="Search by client name..." aria-label="Search payments" />
+        <input type="text" class="form-control" placeholder="Search by client name or service..." aria-label="Search payments" />
       </div>
-      <div class="input-group me-2">
+      <div class="input-group me-2" style="width:  150px;">
         <select class="form-select" aria-label="Filter by status">
           <option value="">All Statuses</option>
           <option value="Paid">Paid</option>
@@ -278,9 +284,11 @@
           <option value="Unpaid">Unpaid</option>
         </select>
       </div>
-      <div class="input-group">
-        <input type="date" class="form-control" placeholder="Filter by payment date" aria-label="Filter by date" />
+      <div class="input-group me-2" style="width:  150px;">
+        <input type="date" class="form-control" placeholder="Filter by payment date" aria-label="Filter by payment date" />
       </div>
+      <button type="button" class="btn btn-secondary custom-btn" data-bs-toggle="modal" data-bs-target="#viewArchivedPaymentsModal" style="width:  150px;"><i class="bx bx-box me-1"></i>Archive
+      </button>
     </div>
   </div>
   <div class="card-body">
@@ -288,12 +296,13 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Client Name</th>
+            <th>Client</th>
             <th>Service</th>
             <th>Amount</th>
-            <th>Payment Status</th>
+            <th>Status</th>
+            <th>Acceptance Date</th>
+            <th>Payment Deadline</th>
             <th>Payment Date</th>
-            <th>Installation Status</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -301,10 +310,11 @@
           <tr>
             <td><strong>Ahmed Ben Salah</strong></td>
             <td>ADSL</td>
-            <td>$50.00</td>
-            <td><span class="badge bg-label-success custom-badge">Paid</span></td>
+            <td>50 TND</td>
+            <td><span class="badge bg-label-success">Paid</span></td>
+            <td>2024-01-10</td>
+            <td>2024-01-17</td>
             <td>2024-01-15</td>
-            <td><span class="badge bg-label-primary custom-badge">Completed</span></td>
             <td>
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -312,7 +322,7 @@
                 </button>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewPaymentModal"><i class="bx bxs-detail me-1"></i> View Details</a>
-                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive-in me-1"></i> Archive</a>
+                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive me-1"></i> Archive</a>
                 </div>
               </div>
             </td>
@@ -320,10 +330,11 @@
           <tr>
             <td><strong>Fatima Zohra</strong></td>
             <td>VDSL</td>
-            <td>$75.00</td>
-            <td><span class="badge bg-label-warning custom-badge">Pending</span></td>
+            <td>75 TND</td>
+            <td><span class="badge bg-label-warning">Pending</span></td>
+            <td>2024-02-15</td>
+            <td>2024-02-22</td>
             <td>-</td>
-            <td><span class="badge bg-label-warning custom-badge">Not Scheduled</span></td>
             <td>
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -331,7 +342,7 @@
                 </button>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewPaymentModal"><i class="bx bxs-detail me-1"></i> View Details</a>
-                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive-in me-1"></i> Archive</a>
+                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive me-1"></i> Archive</a>
                 </div>
               </div>
             </td>
@@ -339,10 +350,11 @@
           <tr>
             <td><strong>Mohamed Amine</strong></td>
             <td>5G Box</td>
-            <td>$100.00</td>
-            <td><span class="badge bg-label-danger custom-badge">Unpaid</span></td>
+            <td>100 TND</td>
+            <td><span class="badge bg-label-danger">Unpaid</span></td>
+            <td>2024-03-01</td>
+            <td>2024-03-08</td>
             <td>-</td>
-            <td><span class="badge bg-label-warning custom-badge">Not Scheduled</span></td>
             <td>
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -350,26 +362,7 @@
                 </button>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewPaymentModal"><i class="bx bxs-detail me-1"></i> View Details</a>
-                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive-in me-1"></i> Archive</a>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><strong>Sara Jlassi</strong></td>
-            <td>Fiber</td>
-            <td>$120.00</td>
-            <td><span class="badge bg-label-success custom-badge">Paid</span></td>
-            <td>2024-02-10</td>
-            <td><span class="badge bg-label-warning custom-badge">Not Scheduled</span></td>
-            <td>
-              <div class="dropdown">
-                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                  <i class="bx bx-dots-vertical-rounded"></i>
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewPaymentModal"><i class="bx bxs-detail me-1"></i> View Details</a>
-                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive-in me-1"></i> Archive</a>
+                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive me-1"></i> Archive</a>
                 </div>
               </div>
             </td>
@@ -384,18 +377,26 @@
   <div class="modal-dialog modal-lg modal-custom-style">
     <div class="modal-content">
       <div class="modal-header bg-gradient-primary text-white">
-        <h5 class="modal-title gradient-text" id="viewPaymentModalLabel"><i class="bx bx-receipt me-2"></i>Invoice Details</h5>
+        <h5 class="modal-title gradient-text" id="viewPaymentModalLabel"><i class="bx bx-credit-card me-2"></i>Invoice Details</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body p-4 bg-light-gradient">
         <div class="card shadow-lg border-primary">
           <div class="card-header bg-gradient-light border-bottom">
-            <h6 class="fw-bold mb-0"><i class="bx bx-credit-card me-2 text-primary"></i>Payment Information</h6>
+            <h6 class="fw-bold mb-0"><i class="bx bx-credit-card me-2 text-primary"></i>Invoice Information</h6>
           </div>
           <div class="card-body">
             <div class="mb-3">
-              <h6 class="fw-semibold">Client Name</h6>
-              <p id="viewClientName" class="text-muted">Ahmed Ben Salah</p>
+              <h6 class="fw-semibold">Invoice Number</h6>
+              <p id="viewInvoiceNumber" class="text-muted">INV-2024-001</p>
+            </div>
+            <div class="mb-3">
+              <h6 class="fw-semibold">Client</h6>
+              <p id="viewClient" class="text-muted">Ahmed Ben Salah</p>
+            </div>
+            <div class="mb-3">
+              <h6 class="fw-semibold">Billing Address</h6>
+              <p id="viewBillingAddress" class="text-muted">123 Rue de Tunis, Tunis</p>
             </div>
             <div class="mb-3">
               <h6 class="fw-semibold">Service</h6>
@@ -403,38 +404,109 @@
             </div>
             <div class="mb-3">
               <h6 class="fw-semibold">Amount</h6>
-              <p id="viewAmount" class="text-muted">$50.00</p>
+              <p id="viewAmount" class="text-muted">50 TND</p>
             </div>
             <div class="mb-3">
-              <h6 class="fw-semibold">Payment Status</h6>
-              <p id="viewPaymentStatus" class="badge bg-label-success custom-badge">Paid</p>
+              <h6 class="fw-semibold">Status</h6>
+              <p id="viewStatus" class="badge bg-label-success">Paid</p>
             </div>
             <div class="mb-3">
-              <h6 class="fw-semibold">Payment Date</h6>
-              <p id="viewPaymentDate" class="text-muted">2024-01-15</p>
+              <h6 class="fw-semibold">Application Acceptance Date</h6>
+              <p id="viewAcceptanceDate" class="text-muted">2024-01-10</p>
             </div>
             <div class="mb-3">
-              <h6 class="fw-semibold">Installation Status</h6>
-              <p id="viewInstallationStatus" class="badge bg-label-primary custom-badge">Completed</p>
+              <h6 class="fw-semibold">Payment Deadline</h6>
+              <p id="viewPaymentDeadline" class="text-muted">2024-01-17</p>
             </div>
             <div class="mb-0">
-              <h6 class="fw-semibold">Installation Details</h6>
-              <ul class="list-unstyled">
-                <li class="mb-2"><i class="bx bx-calendar me-2 text-primary"></i>Installation Date: 2024-01-20</li>
-                <li class="mb-0"><i class="bx bx-user me-2 text-primary"></i>Technician: Ali Ben Youssef</li>
-              </ul>
+              <h6 class="fw-semibold">Payment Date</h6>
+              <p id="viewPaymentDate" class="text-muted">2024-01-15</p>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary custom-btn" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary custom-btn"><i class="bx bx-download me-1"></i>Generate Receipt</button>
       </div>
     </div>
   </div>
 </div>
+<!-- View Archived Payments Modal -->
+<div class="modal fade" id="viewArchivedPaymentsModal" tabindex="-1" aria-labelledby="archiveClientModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="max-width: 1100px;">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="archiveClientModalLabel">Archived Clients</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="table-responsive text-nowrap">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Address</th>
+                          <th>Phone</th>
+                          <th>Subscription History</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody class="table-border-bottom-0">
+                        <tr>
+                          <td><strong>Ali Ben Youssef</strong></td>
+                          <td>ali.benyoussefemail.com</td>
+                          <td>34 Rue de Kairouan, Kairouan</td>
+                          <td>+216 77 654 321</td>
+                          <td>ADSL (Ended)</td>
+                          <td>
+                            <div class="dropdown">
+                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                              </button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-out me-1"></i> Restore</a>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td><strong>Sarra Jlassi</strong></td>
+                          <td>sarra.jlassiemail.com</td>
+                          <td>67 Avenue de Carthage, Tunis</td>
+                          <td>+216 71 987 654</td>
+                          <td>Fibre Optic (Ended)</td>
+                          <td>
+                            <div class="dropdown">
+                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                              </button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-out me-1"></i> Restore</a>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
+
+
+
+
+
+
+
+
+
+              
 
 
 
