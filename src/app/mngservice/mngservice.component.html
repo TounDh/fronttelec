@@ -67,53 +67,45 @@
       </div>
       <div class="menu-inner-shadow"></div>
       <ul class="menu-inner py-1">
-        <li class="menu-item ">
-              <a routerLink="/dash" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Dashboard</div>
-              </a>
-            </li>
-
-            
-
-            <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">Manage</span>
-            </li>
-            <li class="menu-item active">
-              <a routerLink="/dash/services" class="menu-link ">
-                <i class="menu-icon tf-icons bx bx-globe"></i>
-                <div data-i18n="Basic">Services</div>
-              </a>
-            </li>
-            
-            <li class="menu-item ">
-              <a routerLink="/dash/clients" class="menu-link ">
-                <i class="menu-icon tf-icons bx bx-user-circle"></i>
-                <div data-i18n="Basic">Clients</div>
-              </a>
-            </li>
-
-            <li class="menu-item">
-              <a routerLink="/dash/applications" class="menu-link ">
-                <i class="menu-icon tf-icons bx bx-windows"></i>
-                <div data-i18n="Basic">Applications</div>
-              </a>
-            </li>
-            
-            <li class="menu-item">
-              <a routerLink="/dash/payments" class="menu-link ">
-                <i class="menu-icon tf-icons bx bx-credit-card"></i>
-                <div data-i18n="Basic">Payments</div>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a routerLink="/dash/installations" class="menu-link ">
-                <i class="menu-icon tf-icons bx bx-wrench"></i>
-                <div data-i18n="Basic">Installations</div>
-              </a>
-            </li>
-
-            
+        <li class="menu-item">
+          <a routerLink="/dash" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <div data-i18n="Analytics">Dashboard</div>
+          </a>
+        </li>
+        <li class="menu-header small text-uppercase">
+          <span class="menu-header-text">Manage</span>
+        </li>
+        <li class="menu-item active">
+          <a routerLink="/dash/services" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-globe"></i>
+            <div data-i18n="Basic">Services</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a routerLink="/dash/clients" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-user-circle"></i>
+            <div data-i18n="Basic">Clients</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a routerLink="/dash/applications" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-windows"></i>
+            <div data-i18n="Basic">Applications</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a routerLink="/dash/payments" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-credit-card"></i>
+            <div data-i18n="Basic">Payments</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a routerLink="/dash/installations" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-wrench"></i>
+            <div data-i18n="Basic">Installations</div>
+          </a>
+        </li>
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Help</span></li>
         <li class="menu-item">
           <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues" target="_blank" class="menu-link">
@@ -234,10 +226,10 @@
           <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between">
               <h5 class="card-title m-0 me-2">Services</h5>
-              <div class="d-flex align-items-center" >
-                
-                
-                <button class="btn btn-primary" data-bs-toggle="modal" style="width: 145px;" data-bs-target="#addServiceModal"> <i class="bx bx-add-to-queue me-1"></i> Add </button>
+              <div class="d-flex align-items-center">
+                <button class="btn btn-primary" data-bs-toggle="modal" style="width: 145px;" data-bs-target="#addServiceModal">
+                  <i class="bx bx-add-to-queue me-1"></i> Add
+                </button>
               </div>
             </div>
             <div class="card-body">
@@ -247,9 +239,7 @@
                     <tr>
                       <th>Name</th>
                       <th>Description</th>
-                      <th>Price (TND)</th>
-                      <th>Availability Areas</th>
-                      <th>Status</th>
+                      <th>Offers</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -257,17 +247,31 @@
                     <tr>
                       <td><strong>ADSL</strong></td>
                       <td>High-speed internet via copper lines</td>
-                      <td>29.99</td>
-                      <td>Tunis, Sfax, Sousse</td>
-                      <td><span class="badge bg-label-success">Active</span></td>
+                      <td>
+                        <div class="dropdown">
+                          <button class="btn btn-primary offers-dropdown" data-bs-toggle="dropdown">
+                            View Offers
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item offer-item" href="javascript:void(0);">29.99 TND, 10–20 Mbps, 12M</a>
+                            <a class="dropdown-item offer-item" href="javascript:void(0);">24.99 TND, 10–20 Mbps, 24M</a>
+                            <a class="dropdown-item offer-item" href="javascript:void(0);">27.99 TND, 15 Mbps, 18M</a>
+                          </div>
+                        </div>
+                      </td>
+                     
                       <td>
                         <div class="dropdown">
                           <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editServiceModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bx-lock me-1"></i> Deactivate</a>
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editServiceModal">
+                              <i class="bx bx-edit-alt me-1"></i> Edit
+                            </a>
+                            <a class="dropdown-item" href="javascript:void(0);">
+                              <i class="bx bx-lock me-1"></i> Deactivate
+                            </a>
                           </div>
                         </div>
                       </td>
@@ -275,17 +279,30 @@
                     <tr>
                       <td><strong>VDSL</strong></td>
                       <td>Faster internet using advanced DSL tech</td>
-                      <td>39.99</td>
-                      <td>Tunis, Ariana</td>
-                      <td><span class="badge bg-label-success">Active</span></td>
+                      <td>
+                        <div class="dropdown">
+                          <button class="btn btn-primary offers-dropdown" data-bs-toggle="dropdown">
+                            View Offers
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item offer-item" href="javascript:void(0);">39.99 TND, 20–50 Mbps, 12M</a>
+                            <a class="dropdown-item offer-item" href="javascript:void(0);">34.99 TND, 20–50 Mbps, 24M</a>
+                          </div>
+                        </div>
+                      </td>
+                      
                       <td>
                         <div class="dropdown">
                           <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editServiceModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bx-trash me-1"></i> Deactivate</a>
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editServiceModal">
+                              <i class="bx bx-edit-alt me-1"></i> Edit
+                            </a>
+                            <a class="dropdown-item" href="javascript:void(0);">
+                              <i class="bx bx-trash me-1"></i> Deactivate
+                            </a>
                           </div>
                         </div>
                       </td>
@@ -293,17 +310,32 @@
                     <tr>
                       <td><strong>5G Box</strong></td>
                       <td>Wireless 5G internet solution</td>
-                      <td>59.99</td>
-                      <td>Tunis</td>
-                      <td><span class="badge bg-label-success">Active</span></td>
                       <td>
                         <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="modal">
+                          <button class="btn btn-primary offers-dropdown" data-bs-toggle="dropdown">
+                            View Offers
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item offer-item" href="javascript:void(0);">59.99 TND, 50–100 Mbps, 12M</a>
+                            <a class="dropdown-item offer-item" href="javascript:void(0);">49.99 TND, 50–100 Mbps, 24M</a>
+                            <a class="dropdown-item offer-item" href="javascript:void(0);">54.99 TND, 80 Mbps, 18M</a>
+                            <a class="dropdown-item offer-item" href="javascript:void(0);">44.99 TND, 50 Mbps, 36M</a>
+                          </div>
+                        </div>
+                      </td>
+                      
+                      <td>
+                        <div class="dropdown">
+                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editServiceModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bx-trash me-1"></i> Deactivate</a>
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editServiceModal">
+                              <i class="bx bx-edit-alt me-1"></i> Edit
+                            </a>
+                            <a class="dropdown-item" href="javascript:void(0);">
+                              <i class="bx bx-trash me-1"></i> Deactivate
+                            </a>
                           </div>
                         </div>
                       </td>
@@ -311,17 +343,29 @@
                     <tr>
                       <td><strong>Fibre Optic</strong></td>
                       <td>Ultra-fast fiber internet</td>
-                      <td>49.99</td>
-                      <td>Sousse, Monastir</td>
-                      <td><span class="badge bg-label-warning">Inactive</span></td>
+                      <td>
+                        <div class="dropdown">
+                          <button class="btn btn-primary offers-dropdown" data-bs-toggle="dropdown">
+                            View Offers
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item offer-item" href="javascript:void(0);">49.99 TND, 100–500 Mbps, 12M</a>
+                          </div>
+                        </div>
+                      </td>
+                      
                       <td>
                         <div class="dropdown">
                           <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editServiceModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bx-lock-open me-1"></i> Activate</a>
+                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editServiceModal">
+                              <i class="bx bx-edit-alt me-1"></i> Edit
+                            </a>
+                            <a class="dropdown-item" href="javascript:void(0);">
+                              <i class="bx bx-lock-open me-1"></i> Activate
+                            </a>
                           </div>
                         </div>
                       </td>
@@ -350,8 +394,43 @@
                       <textarea class="form-control" id="serviceDescription" rows="3" placeholder="e.g., High-speed internet via copper lines"></textarea>
                     </div>
                     <div class="mb-3">
-                      <label for="servicePrice" class="form-label">Price (TND)</label>
-                      <input type="number" class="form-control" id="servicePrice" placeholder="e.g., 29.99" step="0.01" />
+                      <label class="form-label">Offers</label>
+                      <div class="offer-group">
+                        <h6 class="offer-title">Offer 1</h6>
+                        <div class="mb-2">
+                          <label for="offer1Price" class="form-label small">Price (TND)</label>
+                          <input type="number" class="form-control" id="offer1Price" placeholder="e.g., 29.99" step="0.01" />
+                        </div>
+                        <div class="mb-2">
+                          <label for="offer1Speed" class="form-label small">Speed</label>
+                          <input type="text" class="form-control" id="offer1Speed" placeholder="e.g., 10–20 Mbps" />
+                        </div>
+                        <div class="mb-2">
+                          <label for="offer1Commitment" class="form-label small">Commitment</label>
+                          <select class="form-select" id="offer1Commitment">
+                            <option value="12 Months">12 Months</option>
+                            <option value="24 Months">24 Months</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="offer-group">
+                        <h6 class="offer-title">Offer 2</h6>
+                        <div class="mb-2">
+                          <label for="offer2Price" class="form-label small">Price (TND)</label>
+                          <input type="number" class="form-control" id="offer2Price" placeholder="e.g., 24.99" step="0.01" />
+                        </div>
+                        <div class="mb-2">
+                          <label for="offer2Speed" class="form-label small">Speed</label>
+                          <input type="text" class="form-control" id="offer2Speed" placeholder="e.g., 10–20 Mbps" />
+                        </div>
+                        <div class="mb-2">
+                          <label for="offer2Commitment" class="form-label small">Commitment</label>
+                          <select class="form-select" id="offer2Commitment">
+                            <option value="12 Months">12 Months</option>
+                            <option value="24 Months">24 Months</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
                     <div class="mb-3">
                       <label for="serviceAreas" class="form-label">Availability Areas</label>
@@ -368,7 +447,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" >Save Service</button>
+                  <button type="button" class="btn btn-primary">Save Service</button>
                 </div>
               </div>
             </div>
@@ -392,8 +471,89 @@
                       <textarea class="form-control" id="editServiceDescription" rows="3" placeholder="e.g., High-speed internet via copper lines"></textarea>
                     </div>
                     <div class="mb-3">
-                      <label for="editServicePrice" class="form-label">Price (TND)</label>
-                      <input type="number" class="form-control" id="editServicePrice" placeholder="e.g., 29.99" step="0.01" />
+                      <label class="form-label">Offers</label>
+                      <p class="form-text small text-muted">Fill additional offer fields (Offer 3, Offer 4) if needed.</p>
+                      <div class="offer-group">
+                        <h6 class="offer-title">Offer 1</h6>
+                        <div class="mb-2">
+                          <label for="editOffer1Price" class="form-label small">Price (TND)</label>
+                          <input type="number" class="form-control" id="editOffer1Price" placeholder="e.g., 29.99" step="0.01" />
+                        </div>
+                        <div class="mb-2">
+                          <label for="editOffer1Speed" class="form-label small">Speed</label>
+                          <input type="text" class="form-control" id="editOffer1Speed" placeholder="e.g., 10–20 Mbps" />
+                        </div>
+                        <div class="mb-2">
+                          <label for="editOffer1Commitment" class="form-label small">Commitment</label>
+                          <select class="form-select" id="editOffer1Commitment">
+                            <option value="12 Months">12 Months</option>
+                            <option value="18 Months">18 Months</option>
+                            <option value="24 Months">24 Months</option>
+                            <option value="36 Months">36 Months</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="offer-group">
+                        <h6 class="offer-title">Offer 2</h6>
+                        <div class="mb-2">
+                          <label for="editOffer2Price" class="form-label small">Price (TND)</label>
+                          <input type="number" class="form-control" id="editOffer2Price" placeholder="e.g., 24.99" step="0.01" />
+                        </div>
+                        <div class="mb-2">
+                          <label for="editOffer2Speed" class="form-label small">Speed</label>
+                          <input type="text" class="form-control" id="editOffer2Speed" placeholder="e.g., 10–20 Mbps" />
+                        </div>
+                        <div class="mb-2">
+                          <label for="editOffer2Commitment" class="form-label small">Commitment</label>
+                          <select class="form-select" id="editOffer2Commitment">
+                            <option value="12 Months">12 Months</option>
+                            <option value="18 Months">18 Months</option>
+                            <option value="24 Months">24 Months</option>
+                            <option value="36 Months">36 Months</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="offer-group">
+                        <h6 class="offer-title">Offer 3</h6>
+                        <div class="mb-2">
+                          <label for="editOffer3Price" class="form-label small">Price (TND)</label>
+                          <input type="number" class="form-control" id="editOffer3Price" placeholder="e.g., 27.99" step="0.01" />
+                        </div>
+                        <div class="mb-2">
+                          <label for="editOffer3Speed" class="form-label small">Speed</label>
+                          <input type="text" class="form-control" id="editOffer3Speed" placeholder="e.g., 15 Mbps" />
+                        </div>
+                        <div class="mb-2">
+                          <label for="editOffer3Commitment" class="form-label small">Commitment</label>
+                          <select class="form-select" id="editOffer3Commitment">
+                            <option value="12 Months">12 Months</option>
+                            <option value="18 Months">18 Months</option>
+                            <option value="24 Months">24 Months</option>
+                            <option value="36 Months">36 Months</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="offer-group">
+                        <h6 class="offer-title">Offer 4</h6>
+                        <div class="mb-2">
+                          <label for="editOffer4Price" class="form-label small">Price (TND)</label>
+                          <input type="number" class="form-control" id="editOffer4Price" placeholder="e.g., 44.99" step="0.01" />
+                        </div>
+                        <div class="mb-2">
+                          <label for="editOffer4Speed" class="form-label small">Speed</label>
+                          <input type="text" class="form-control" id="editOffer4Speed" placeholder="e.g., 50 Mbps" />
+                        </div>
+                        <div class="mb-2">
+                          <label for="editOffer4Commitment" class="form-label small">Commitment</label>
+                          <select class="form-select" id="editOffer4Commitment">
+                            <option value="12 Months">12 Months</option>
+                            <option value="18 Months">18 Months</option>
+                            <option value="24 Months">24 Months</option>
+                            <option value="36 Months">36 Months</option>
+                          </select>
+                        </div>
+                      </div>
+                      <button type="button" class="btn btn-add-offer mt-2">Add Offer</button>
                     </div>
                     <div class="mb-3">
                       <label for="editServiceAreas" class="form-label">Availability Areas</label>
@@ -410,7 +570,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" >Update Service</button>
+                  <button type="button" class="btn btn-primary">Update Service</button>
                 </div>
               </div>
             </div>
