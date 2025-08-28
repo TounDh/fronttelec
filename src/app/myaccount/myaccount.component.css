@@ -1,0 +1,238 @@
+
+  /* General Styling */
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    background-color: var(--light);
+  }
+
+  /* Hero Header */
+  .hero-header {
+    background-color: var(--primary) !important;
+    transition: background-color 0.3s ease;
+  }
+
+  /* Section Title */
+  .section-title h6 {
+    color: var(--secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .section-title h2 {
+    color: var(--dark);
+    font-weight: 700;
+  }
+
+  /* Tabs */
+  
+
+  /* Cards */
+  .card {
+    border-radius: 8px;
+    background-color: var(--light);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+  }
+
+  .card-header.bg-primary {
+    background-color: #d1d5db !important;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .card-title {
+    font-weight: 600;
+    color: var(--dark);
+  }
+
+  .recent-card {
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Badges */
+  .badge {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 12px;
+    transition: transform 0.2s ease;
+  }
+
+  .badge.bg-pending {
+    background-color: #f59e0b !important;
+    color: var(--dark) !important;
+  }
+
+  .badge.bg-accepted {
+    background-color: #22c55e !important;
+    color: #ffffff !important;
+  }
+
+  .badge.bg-rejected {
+    background-color: #ef4444 !important;
+    color: #ffffff !important;
+  }
+
+  .badge.bg-scheduled {
+    background-color: var(--secondary) !important;
+    color: var(--light) !important;
+  }
+
+  .badge:hover {
+    transform: scale(1.1);
+  }
+
+  /* Pay Now Button */
+  .pay-now-btn {
+    background-color: #e4aa2e !important;
+    border: none !important;
+    padding: 12px 24px !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: var(--light) !important;
+    border-radius: 8px !important;
+    transition: background-color 0.3s ease, transform 0.2s ease !important;
+    position: relative !important;
+    display: inline-block !important;
+    opacity: 1 !important;
+    z-index: 10 !important;
+    text-align: center !important;
+  }
+
+  .pay-now-btn:hover {
+    background-color: #b90909 !important;
+    transform: scale(1.05) !important;
+  }
+
+  .pay-now-btn::before,
+  .pay-now-btn::after {
+    display: none !important;
+  }
+
+  /* Override portfolio-item btn to prevent conflicts */
+  .portfolio-item .pay-now-btn {
+    background: #e4aa2e !important;
+    width: auto !important;
+    height: auto !important;
+    top: auto !important;
+    right: auto !important;
+    opacity: 1 !important;
+  }
+
+  /* Countdown Card */
+  .countdown-card {
+    background-color: #ffffff;
+    border: 2px solid var(--secondary);
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .countdown-card h6 {
+    color: var(--dark);
+    font-weight: 600;
+  }
+
+  .countdown-text {
+    margin: 0;
+    color: var(--secondary);
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  /* Tables */
+  .table th {
+    background-color: #6b7280 !important;
+    color: var(--light);
+  }
+
+  .table td {
+    vertical-align: middle;
+    color: var(--dark);
+  }
+
+  /* Modal */
+  .modal-content {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .modal-header.bg-primary {
+    background-color: var(--primary) !important;
+  }
+
+  .modal-body {
+    background-color: #ffffff;
+  }
+
+  .form-control {
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: var(--secondary);
+    box-shadow: 0 0 6px rgba(71, 119, 245, 0.2);
+  }
+
+  .modal-footer .btn-primary {
+    background-color: var(--secondary) !important;
+    border: none;
+    border-radius: 6px;
+  }
+
+  .modal-footer .btn-primary:hover {
+    background-color: #3b82f6 !important;
+  }
+
+  .modal-footer .btn-secondary {
+    background-color: #6b7280 !important;
+    border: none;
+    border-radius: 6px;
+  }
+
+  .modal-footer .btn-secondary:hover {
+    background-color: #4b5563 !important;
+  }
+/* Edit Button */
+.edit-btn {
+  background-color: #2dd4bf !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+  transition: background-color 0.3s ease, transform 0.2s ease !important;
+  position: relative !important;
+  display: inline-block !important;
+  opacity: 1 !important;
+  z-index: 10 !important;
+  text-align: center !important;
+}
+
+.edit-btn:hover {
+  background-color: #14b8a6 !important;
+  transform: scale(1.05) !important;
+}
+
+.edit-btn::before,
+.edit-btn::after {
+  display: none !important;
+}
+
+.portfolio-item .edit-btn {
+  background: #2dd4bf !important;
+  width: auto !important;
+  height: auto !important;
+  top: auto !important;
+  right: auto !important;
+  opacity: 1 !important;
+}

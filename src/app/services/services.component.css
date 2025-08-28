@@ -1,0 +1,163 @@
+
+
+/* Modal Styling */
+.modal.fade .modal-dialog {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content {
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+/* Modal Header */
+.modal-header {
+  background: linear-gradient(135deg, #fab0dd 0%, #f3c7c7 100%);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-title {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.btn-close.btn-close-white {
+  background-color: #2dd4bf;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  opacity: 1;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-close.btn-close-white:hover {
+  background-color: #14b8a6;
+  transform: rotate(90deg);
+}
+
+/* Modal Body */
+.modal-body {
+  background-color: #ffffff;
+  color: #1f2937;
+  padding: 20px;
+}
+
+.modal-body h6 {
+  color: #1f2937;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.modal-body p, .modal-body ul {
+  color: #4b5563;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.modal-body ul {
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+/* Table Styling */
+.table {
+  margin-bottom: 15px;
+  border-collapse: separate;
+  border-spacing: 0 4px;
+}
+
+.table-header {
+  background-color: #e5e7eb !important;
+  color: #1f2937 !important;
+}
+
+.table-header th {
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-align: center;
+  border: 1px solid #d1d5db;
+}
+
+.table tbody td {
+  background-color: #ffffff;
+  color: #1f2937;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  transition: background-color 0.2s ease;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table tbody td:hover {
+  background-color: #f3f4f6;
+}
+
+/* Ensure first column (speed) is left-aligned for readability */
+.table tbody td:first-child {
+  text-align: left;
+}
+
+/* Modal Footer */
+.modal-footer .btn-primary {
+  background-color: #2dd4bf !important;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modal-footer .btn-primary:hover {
+  background-color: #14b8a6 !important;
+  transform: scale(1.05);
+}
+
+/* Tables (for future use) */
+.table td {
+  vertical-align: auto;
+  color: #1f2937;
+}
+
+/* Apply Service Button */
+.apply-service-btn {
+  background-color: #65a0d1 !important;
+  border: none !important;
+  padding: 12px 24px !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  border-radius: 25px !important;
+  transition: background-color 0.3s ease, transform 0.2s ease !important;
+  margin-top: 20px;
+}
+
+.apply-service-btn:hover {
+  background-color: #1f14b8 !important;
+  transform: scale(1.05) !important;
+}
+
+.apply-service-btn::before,
+.apply-service-btn::after {
+  display: none !important;
+}
