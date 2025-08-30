@@ -6,7 +6,7 @@
         <hr class="bg-white mx-auto mt-0" style="width: 90px;">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-center">
-            <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
+            <li class="breadcrumb-item"><a class="text-white" href="#" routerLink="/">Home</a></li>
             <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
             <li class="breadcrumb-item text-white active" aria-current="page">Sign Up</li>
           </ol>
@@ -19,43 +19,202 @@
 <div class="container-xxl py-5">
   <div class="container px-lg-5">
     <div class="row justify-content-center">
-      <div class="col-lg-7">
+      <div class="col-lg-8">
         <div class="section-title position-relative text-center mb-5 pb-2 wow fadeInUp" data-wow-delay="0.1s">
           <h6 class="position-relative d-inline text-primary ps-4">Sign Up</h6>
           <h2 class="mt-2">Create a New Account</h2>
         </div>
-        <div class="auth-container wow fadeInUp" data-wow-delay="0.3s">
-          <div class="auth-slides">
-            <div class="auth-slide">
-              <form>
-                <div class="row g-3">
-                  <div class="col-12">
-                    <div class="form-floating">
-                      <input type="text" class="form-control" id="name" placeholder="Your Name">
-                      <label for="name">Full Name</label>
+        
+        <!-- Success Message -->
+        <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+          <i class="fas fa-check-circle me-2"></i>
+          {{ successMessage }}
+          <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+        </div>
+
+        <!-- Error Message -->
+        <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+          <i class="fas fa-exclamation-circle me-2"></i>
+          {{ errorMessage }}
+          <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+        </div>
+
+        <div class="card shadow-sm border-0 wow fadeInUp" data-wow-delay="0.3s">
+          <div class="card-body p-5">
+            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" novalidate>
+              <div class="row g-4">
+                
+                <!-- Name Field -->
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="name" 
+                           formControlName="name" placeholder="Your Name"
+                           [class.is-invalid]="hasError('name', 'required') || hasError('name', 'minlength') || hasError('name', 'maxlength')"
+                           [class.is-valid]="name?.valid && name?.touched">
+                    <label for="name" class="form-label">First Name</label>
+                    <div class="invalid-feedback" *ngIf="hasError('name', 'required')">
+                      First name is required
                     </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="form-floating">
-                      <input type="email" class="form-control" id="email" placeholder="Your Email">
-                      <label for="email">Email Address</label>
+                    <div class="invalid-feedback" *ngIf="hasError('name', 'minlength')">
+                      First name must be at least 2 characters
                     </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="form-floating">
-                      <input type="password" class="form-control" id="password" placeholder="Password">
-                      <label for="password">Password</label>
+                    <div class="invalid-feedback" *ngIf="hasError('name', 'maxlength')">
+                      First name cannot exceed 50 characters
                     </div>
-                  </div>
-                  <div class="col-12">
-                    <button class="btn btn-primary w-100 py-3" type="submit">Sign Up</button>
-                  </div>
-                  <div class="text-center mt-3">
-                    <a routerLink="/login" class="btn btn-link text-primary">Already have an account? Sign In</a>
                   </div>
                 </div>
-              </form>
-            </div>
+                
+                <!-- Surname Field -->
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="surname" 
+                           formControlName="surname" placeholder="Your Surname"
+                           [class.is-invalid]="hasError('surname', 'required') || hasError('surname', 'minlength') || hasError('surname', 'maxlength')"
+                           [class.is-valid]="surname?.valid && surname?.touched">
+                    <label for="surname" class="form-label">Last Name</label>
+                    <div class="invalid-feedback" *ngIf="hasError('surname', 'required')">
+                      Last name is required
+                    </div>
+                    <div class="invalid-feedback" *ngIf="hasError('surname', 'minlength')">
+                      Last name must be at least 2 characters
+                    </div>
+                    <div class="invalid-feedback" *ngIf="hasError('surname', 'maxlength')">
+                      Last name cannot exceed 50 characters
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Phone Field -->
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="tel" class="form-control" id="phone" 
+                           formControlName="phone" placeholder="Your Phone"
+                           [class.is-invalid]="hasError('phone', 'required') || hasError('phone', 'pattern')"
+                           [class.is-valid]="phone?.valid && phone?.touched">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <div class="invalid-feedback" *ngIf="hasError('phone', 'required')">
+                      Phone number is required
+                    </div>
+                    <div class="invalid-feedback" *ngIf="hasError('phone', 'pattern')">
+                      Please enter a valid phone number (10-15 digits)
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Birthdate Field -->
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="date" class="form-control" id="birthdate" 
+                           formControlName="birthdate"
+                           [class.is-invalid]="hasError('birthdate', 'required') || hasError('birthdate', 'underage')"
+                           [class.is-valid]="birthdate?.valid && birthdate?.touched"
+                           [max]="getMaxBirthdate()">
+                    <label for="birthdate" class="form-label">Date of Birth</label>
+                    <div class="invalid-feedback" *ngIf="hasError('birthdate', 'required')">
+                      Date of birth is required
+                    </div>
+                    <div class="invalid-feedback" *ngIf="hasError('birthdate', 'underage')">
+                      You must be at least 18 years old to register
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="col-12">
+                  <hr class="my-4 border-primary">
+                </div>
+                
+                <!-- Email Field -->
+                <div class="col-12">
+                  <div class="form-floating">
+                    <input type="email" class="form-control" id="email" 
+                           formControlName="email" placeholder="Your Email"
+                           [class.is-invalid]="hasError('email', 'required') || hasError('email', 'email') || hasError('email', 'maxlength')"
+                           [class.is-valid]="email?.valid && email?.touched">
+                    <label for="email" class="form-label">Email Address</label>
+                    <div class="invalid-feedback" *ngIf="hasError('email', 'required')">
+                      Email is required
+                    </div>
+                    <div class="invalid-feedback" *ngIf="hasError('email', 'email')">
+                      Please enter a valid email address
+                    </div>
+                    <div class="invalid-feedback" *ngIf="hasError('email', 'maxlength')">
+                      Email cannot exceed 100 characters
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Password Field -->
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="password" class="form-control" id="password" 
+                           formControlName="password" placeholder="Password"
+                           [class.is-invalid]="hasError('password', 'required') || hasError('password', 'minlength') || hasError('password', 'maxlength')"
+                           [class.is-valid]="password?.valid && password?.touched">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="invalid-feedback" *ngIf="hasError('password', 'required')">
+                      Password is required
+                    </div>
+                    <div class="invalid-feedback" *ngIf="hasError('password', 'minlength')">
+                      Password must be at least 8 characters long
+                    </div>
+                    <div class="invalid-feedback" *ngIf="hasError('password', 'maxlength')">
+                      Password cannot exceed 100 characters
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Confirm Password Field -->
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="password" class="form-control" id="confirmPassword" 
+                           formControlName="confirmPassword" placeholder="Confirm Password"
+                           [class.is-invalid]="hasError('confirmPassword', 'required') || signupForm.hasError('mismatch')"
+                           [class.is-valid]="confirmPassword?.valid && confirmPassword?.touched && !signupForm.hasError('mismatch')">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <div class="invalid-feedback" *ngIf="hasError('confirmPassword', 'required')">
+                      Please confirm your password
+                    </div>
+                    <div class="invalid-feedback" *ngIf="signupForm.hasError('mismatch') && confirmPassword?.touched">
+                      Passwords do not match
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="col-12">
+                  <hr class="my-4 border-primary">
+                </div>
+                
+                <!-- Submit Button -->
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary w-100 py-3" 
+                          [disabled]="signupForm.invalid || isLoading">
+                    <span *ngIf="!isLoading">
+                      <i class="fas fa-user-plus me-2"></i>Sign Up
+                    </span>
+                    <span *ngIf="isLoading">
+                      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                      Processing...
+                    </span>
+                  </button>
+                </div>
+
+                <!-- Reset Button -->
+                <div class="col-12">
+                  <button type="button" class="btn btn-outline-secondary w-100 py-2" 
+                          (click)="resetForm()" [disabled]="isLoading">
+                    <i class="fas fa-redo me-2"></i>Reset Form
+                  </button>
+                </div>
+                
+                <!-- Login Link -->
+                <div class="col-12 text-center mt-4">
+                  <p class="mb-0">Already have an account?</p>
+                  <a routerLink="/login" class="btn btn-link text-primary text-decoration-none">
+                    <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                  </a>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
