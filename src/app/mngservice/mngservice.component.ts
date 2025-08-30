@@ -2,14 +2,22 @@ import { Component, AfterViewInit, OnDestroy, Renderer2, Inject } from '@angular
 import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
 import { ViewEncapsulation } from '@angular/core';
-import ApexCharts from 'apexcharts';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ServiceService } from '../core/services/service.service';
+import { Srvce, Offer } from '../core/models/srvce.model';
+import ApexCharts from 'apexcharts';
 
 @Component({
   selector: 'app-mngservice',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule, HttpClientModule],
+  providers: [
+    ServiceService, // Provide ServiceService here
+    HttpClient // Provide HttpClient here
+  ],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './mngservice.component.html',
   styleUrls: [
@@ -20,20 +28,22 @@ import { RouterModule } from '@angular/router';
     '../../assets/sneat/vendor/fonts/boxicons.css',
     '../../assets/sneat/vendor/libs/perfect-scrollbar/perfect-scrollbar.css',
     '../../assets/sneat/vendor/libs/apex-charts/apex-charts.css'
-  ]
+    ]
 })
 export class MngserviceComponent implements AfterViewInit, OnDestroy {
   private scriptElements: HTMLScriptElement[] = [];
-  private offerCount: number = 0; // To track the number of offer field sets
+  private offerCount: number = 0;
+  service: Partial<Srvce> = { name: '', description: '', installationFees: 0, offers: [] }; // Use Partial<Srvce>
+  services: Srvce[] = [];
 
   constructor(
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document,
-    private router: Router
+    private router: Router,
+    private serviceService: ServiceService
   ) {}
 
   ngAfterViewInit() {
-    // Load Sneat JS files
     const jsFiles = [
       'assets/sneat/vendor/libs/popper/popper.js',
       'assets/sneat/vendor/js/bootstrap.js',
@@ -52,36 +62,19 @@ export class MngserviceComponent implements AfterViewInit, OnDestroy {
       this.scriptElements.push(script);
     });
 
-    // Initialize charts (example)
     const totalRevenueOptions = {
-      chart: {
-        type: 'line',
-        height: 350
-      },
-      series: [{
-        name: 'Revenue',
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-      }],
-      xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
-      },
+      chart: { type: 'line', height: 350 },
+      series: [{ name: 'Revenue', data: [10, 41, 35, 51, 49, 62, 69, 91, 148] }],
+      xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'] },
       colors: ['#2124B1']
     };
     const totalRevenueChart = new ApexCharts(document.querySelector('#totalRevenueChart'), totalRevenueOptions);
     totalRevenueChart.render();
 
     const growthChartOptions = {
-      chart: {
-        type: 'bar',
-        height: 200
-      },
-      series: [{
-        name: 'Growth',
-        data: [32.5, 41.2]
-      }],
-      xaxis: {
-        categories: ['2022', '2021']
-      },
+      chart: { type: 'bar', height: 200 },
+      series: [{ name: 'Growth', data: [32.5, 41.2] }],
+      xaxis: { categories: ['2022', '2021'] },
       colors: ['#4777F5']
     };
     const growthChart = new ApexCharts(document.querySelector('#growthChart'), growthChartOptions);
@@ -89,15 +82,17 @@ export class MngserviceComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Remove scripts to prevent conflicts
     this.scriptElements.forEach(element => this.renderer.removeChild(this.document.body, element));
   }
 
   addOfferFields() {
     this.offerCount++;
     const container = this.document.getElementById('offerFieldsContainer');
+    if (!container) {
+      console.error('Offer fields container not found');
+      return;
+    }
 
-    // Create a div to hold the offer fields
     const offerDiv = this.renderer.createElement('div');
     this.renderer.addClass(offerDiv, 'offer-field-set');
     this.renderer.addClass(offerDiv, 'mb-3');
@@ -117,6 +112,15 @@ export class MngserviceComponent implements AfterViewInit, OnDestroy {
     this.renderer.addClass(priceInput, 'form-control');
     this.renderer.setAttribute(priceInput, 'placeholder', 'e.g., 29.99');
     this.renderer.setAttribute(priceInput, 'id', `offerPrice_${this.offerCount}`);
+    this.renderer.setAttribute(priceInput, 'name', `offerPrice_${this.offerCount}`);
+    this.renderer.listen(priceInput, 'input', (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      this.service.offers = this.service.offers || [];
+      this.service.offers[this.offerCount - 1] = {
+        ...(this.service.offers[this.offerCount - 1] || {}),
+        price: parseFloat(target.value) || 0
+      };
+    });
 
     this.renderer.appendChild(priceDiv, priceLabel);
     this.renderer.appendChild(priceDiv, priceInput);
@@ -135,6 +139,15 @@ export class MngserviceComponent implements AfterViewInit, OnDestroy {
     this.renderer.addClass(speedInput, 'form-control');
     this.renderer.setAttribute(speedInput, 'placeholder', 'e.g., 10–20');
     this.renderer.setAttribute(speedInput, 'id', `offerSpeed_${this.offerCount}`);
+    this.renderer.setAttribute(speedInput, 'name', `offerSpeed_${this.offerCount}`);
+    this.renderer.listen(speedInput, 'input', (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      this.service.offers = this.service.offers || [];
+      this.service.offers[this.offerCount - 1] = {
+        ...(this.service.offers[this.offerCount - 1] || {}),
+        speed: target.value
+      };
+    });
 
     this.renderer.appendChild(speedDiv, speedLabel);
     this.renderer.appendChild(speedDiv, speedInput);
@@ -153,16 +166,86 @@ export class MngserviceComponent implements AfterViewInit, OnDestroy {
     this.renderer.addClass(commitmentInput, 'form-control');
     this.renderer.setAttribute(commitmentInput, 'placeholder', 'e.g., 12');
     this.renderer.setAttribute(commitmentInput, 'id', `offerCommitment_${this.offerCount}`);
+    this.renderer.setAttribute(commitmentInput, 'name', `offerCommitment_${this.offerCount}`);
+    this.renderer.listen(commitmentInput, 'input', (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      this.service.offers = this.service.offers || [];
+      this.service.offers[this.offerCount - 1] = {
+        ...(this.service.offers[this.offerCount - 1] || {}),
+        commitment: target.value
+      };
+    });
 
     this.renderer.appendChild(commitmentDiv, commitmentLabel);
     this.renderer.appendChild(commitmentDiv, commitmentInput);
 
-    // Append all fields to the offer div
     this.renderer.appendChild(offerDiv, priceDiv);
     this.renderer.appendChild(offerDiv, speedDiv);
     this.renderer.appendChild(offerDiv, commitmentDiv);
-
-    // Append the offer div to the container
     this.renderer.appendChild(container, offerDiv);
+
+    this.service.offers = this.service.offers || [];
+    this.service.offers[this.offerCount - 1] = { price: 0, speed: '', commitment: '' } as Offer;
+  }
+
+  
+saveService() {
+  if (!this.service.name || !this.service.description) {
+    alert('Service name and description are required.');
+    return;
+  }
+
+  // Create service data without id
+  const serviceData = {
+    name: this.service.name || '',
+    description: this.service.description || '',
+    installationFees: parseFloat(this.service.installationFees?.toString() || '0') || 0,
+    offers: (this.service.offers || []).filter(offer => offer.price && offer.speed && offer.commitment)
+  };
+
+  this.serviceService.createService(serviceData).subscribe({
+    next: (response) => {
+      alert('Service created successfully!');
+      this.service = { name: '', description: '', installationFees: 0, offers: [] };
+      this.offerCount = 0;
+      const container = this.document.getElementById('offerFieldsContainer');
+      if (container) {
+        container.innerHTML = '';
+      }
+      const modal = this.document.getElementById('addServiceModal');
+      if (modal) {
+        const closeButton = modal.querySelector('.btn-close') as HTMLElement;
+        if (closeButton) {
+          closeButton.click();
+        }
+      }
+    },
+    error: (error) => {
+      alert('Error creating service: ' + error.message);
+    }
+  });
+}
+
+ngOnInit() {
+    this.loadServices();
+  }
+
+  loadServices() {
+    this.serviceService.getAllServices().subscribe({
+      next: (services) => {
+        this.services = services;
+      },
+      error: (error) => {
+        console.error('Error loading services:', error);
+        alert('Error loading services: ' + error.message);
+      }
+    });
+  }
+
+  // ... rest of your existing methods (ngAfterViewInit, ngOnDestroy, addOfferFields, saveService) ...
+
+  // Add this method to format offer display
+  formatOffer(offer: Offer): string {
+    return `${offer.price} TND, ${offer.speed} Mbps, ${offer.commitment}M`;
   }
 }

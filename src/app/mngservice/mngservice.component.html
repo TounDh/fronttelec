@@ -222,159 +222,94 @@
       <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
-          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Manage /</span> Services</h4>
-          <div class="card">
-            <div class="card-header d-flex align-items-center justify-content-between">
-              <h5 class="card-title m-0 me-2">Services</h5>
-              <div class="d-flex align-items-center">
-                <button class="btn btn-primary" data-bs-toggle="modal" style="width: 145px;" data-bs-target="#addServiceModal">
-                  <i class="bx bx-add-to-queue me-1"></i> Add
-                </button>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive text-nowrap">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Description</th>
-                      <th>Offers</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody class="table-border-bottom-0">
-                    <tr>
-                      <td><strong>ADSL</strong></td>
-                      <td>High-speed internet via copper lines</td>
-                      <td>
-                        <div class="dropdown">
-                          <button class="btn btn-primary offers-dropdown" data-bs-toggle="dropdown">
-                            View Offers
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item offer-item" href="javascript:void(0);">29.99 TND, 10–20 Mbps, 12M</a>
-                            <a class="dropdown-item offer-item" href="javascript:void(0);">24.99 TND, 10–20 Mbps, 24M</a>
-                            <a class="dropdown-item offer-item" href="javascript:void(0);">27.99 TND, 15 Mbps, 18M</a>
-                          </div>
-                        </div>
-                      </td>
-                     
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editServiceModal">
-                              <i class="bx bx-edit-alt me-1"></i> Edit
-                            </a>
-                            <a class="dropdown-item" href="javascript:void(0);">
-                              <i class="bx bx-lock me-1"></i> Deactivate
-                            </a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><strong>VDSL</strong></td>
-                      <td>Faster internet using advanced DSL tech</td>
-                      <td>
-                        <div class="dropdown">
-                          <button class="btn btn-primary offers-dropdown" data-bs-toggle="dropdown">
-                            View Offers
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item offer-item" href="javascript:void(0);">39.99 TND, 20–50 Mbps, 12M</a>
-                            <a class="dropdown-item offer-item" href="javascript:void(0);">34.99 TND, 20–50 Mbps, 24M</a>
-                          </div>
-                        </div>
-                      </td>
-                      
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editServiceModal">
-                              <i class="bx bx-edit-alt me-1"></i> Edit
-                            </a>
-                            <a class="dropdown-item" href="javascript:void(0);">
-                              <i class="bx bx-trash me-1"></i> Deactivate
-                            </a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><strong>5G Box</strong></td>
-                      <td>Wireless 5G internet solution</td>
-                      <td>
-                        <div class="dropdown">
-                          <button class="btn btn-primary offers-dropdown" data-bs-toggle="dropdown">
-                            View Offers
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item offer-item" href="javascript:void(0);">59.99 TND, 50–100 Mbps, 12M</a>
-                            <a class="dropdown-item offer-item" href="javascript:void(0);">49.99 TND, 50–100 Mbps, 24M</a>
-                            <a class="dropdown-item offer-item" href="javascript:void(0);">54.99 TND, 80 Mbps, 18M</a>
-                            <a class="dropdown-item offer-item" href="javascript:void(0);">44.99 TND, 50 Mbps, 36M</a>
-                          </div>
-                        </div>
-                      </td>
-                      
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editServiceModal">
-                              <i class="bx bx-edit-alt me-1"></i> Edit
-                            </a>
-                            <a class="dropdown-item" href="javascript:void(0);">
-                              <i class="bx bx-trash me-1"></i> Deactivate
-                            </a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><strong>Fibre Optic</strong></td>
-                      <td>Ultra-fast fiber internet</td>
-                      <td>
-                        <div class="dropdown">
-                          <button class="btn btn-primary offers-dropdown" data-bs-toggle="dropdown">
-                            View Offers
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item offer-item" href="javascript:void(0);">49.99 TND, 100–500 Mbps, 12M</a>
-                          </div>
-                        </div>
-                      </td>
-                      
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editServiceModal">
-                              <i class="bx bx-edit-alt me-1"></i> Edit
-                            </a>
-                            <a class="dropdown-item" href="javascript:void(0);">
-                              <i class="bx bx-lock-open me-1"></i> Activate
-                            </a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+  <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Manage /</span> Services</h4>
+  <div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h5 class="card-title m-0 me-2">Services</h5>
+      <div class="d-flex align-items-center">
+        <button class="btn btn-primary" data-bs-toggle="modal" style="width: 145px;" data-bs-target="#addServiceModal">
+          <i class="bx bx-add-to-queue me-1"></i> Add
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive text-nowrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Installation Fees</th>
+              <th>Offers</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+            <!-- Dynamic rows for services -->
+            <tr *ngFor="let service of services">
+              <td><strong>{{service.name}}</strong></td>
+              <td>{{service.description}}</td>
+              <td>{{service.installationFees}} TND</td>
+              <td>
+                <div class="dropdown" *ngIf="service.offers && service.offers.length > 0">
+                  <button class="btn btn-primary offers-dropdown" data-bs-toggle="dropdown">
+                    View Offers ({{service.offers.length}})
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item offer-item" href="javascript:void(0);" *ngFor="let offer of service.offers">
+                      {{formatOffer(offer)}}
+                    </a>
+                  </div>
+                </div>
+                <span *ngIf="!service.offers || service.offers.length === 0" class="text-muted">
+                  No offers
+                </span>
+              </td>
+              <td>
+                <div class="dropdown">
+                  <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                    <i class="bx bx-dots-vertical-rounded"></i>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editServiceModal">
+                      <i class="bx bx-edit-alt me-1"></i> Edit
+                    </a>
+                    <a class="dropdown-item" href="javascript:void(0);">
+                      <i class="bx bx-lock me-1"></i> Deactivate
+                    </a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- Loading state -->
+            <tr *ngIf="services.length === 0">
+              <td colspan="5" class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading services...</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           <!-- Add Service Modal -->
 <div class="modal fade" id="addServiceModal" tabindex="-1" aria-labelledby="addServiceModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -384,34 +319,65 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form #serviceForm="ngForm" (ngSubmit)="saveService()">
           <div class="mb-3">
             <label for="serviceName" class="form-label">Service Name</label>
-            <input type="text" class="form-control" id="serviceName" placeholder="e.g., ADSL" />
+            <input
+              type="text"
+              class="form-control"
+              id="serviceName"
+              name="serviceName"
+              [(ngModel)]="service.name"
+              placeholder="e.g., ADSL"
+              required
+            />
           </div>
           <div class="mb-3">
             <label for="serviceDescription" class="form-label">Description</label>
-            <textarea class="form-control" id="serviceDescription" rows="3" placeholder="e.g., High-speed internet via copper lines"></textarea>
+            <textarea
+              class="form-control"
+              id="serviceDescription"
+              name="serviceDescription"
+              [(ngModel)]="service.description"
+              rows="3"
+              placeholder="e.g., High-speed internet via copper lines"
+              required
+            ></textarea>
+          </div>
+          <div class="mb-3 installation-fees-field">
+            <label for="installationFees" class="form-label">Installation Fees (TND)</label>
+            <div class="input-group">
+              <span class="input-group-text">TND</span>
+              <input
+                type="number"
+                class="form-control"
+                id="installationFees"
+                name="installationFees"
+                [(ngModel)]="service.installationFees"
+                placeholder="e.g., 50.00"
+                step="0.01"
+                min="0"
+              />
+            </div>
           </div>
           <div class="mb-3">
             <label class="form-label">Offers</label>
-            <div id="offerFieldsContainer">
-              <!-- Dynamically added offer fields will appear here -->
-            </div>
+            <div id="offerFieldsContainer"></div>
             <button type="button" class="btn btn-outline-info mb-2" (click)="addOfferFields()">Add Offer</button>
-            
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" [disabled]="!serviceForm.valid">Save Service</button>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save Service</button>
       </div>
     </div>
   </div>
 </div>
-          <!-- Edit Service Modal -->
+          <!-- Edit Service Modal start-->
         
-        <!-- / Content -->
+          <!-- Edit Service Modal end -->
+
+          <!-- / Content -->
         <!-- Footer -->
         <footer class="content-footer footer bg-footer-theme">
           <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
