@@ -271,12 +271,17 @@
                     <i class="bx bx-dots-vertical-rounded"></i>
                   </button>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editServiceModal">
-                      <i class="bx bx-edit-alt me-1"></i> Edit
-                    </a>
-                    <a class="dropdown-item" href="javascript:void(0);">
-                      <i class="bx bx-lock me-1"></i> Deactivate
-                    </a>
+                    <a class="dropdown-item" href="javascript:void(0);" 
+           data-bs-toggle="modal" 
+           data-bs-target="#editServiceModal"
+           (click)="openEditModal(service)">
+          <i class="bx bx-edit-alt me-1"></i> Edit
+        </a>
+
+        <a class="dropdown-item" href="javascript:void(0);" (click)="deleteService(service)">
+          <i class="bx bx-trash me-1"></i> Delete
+        </a>
+                    
                   </div>
                 </div>
               </td>
@@ -373,9 +378,103 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
           <!-- Edit Service Modal start-->
-        
+        <!-- Edit Service Modal -->
+<div class="modal fade" id="editServiceModal" tabindex="-1" aria-labelledby="editServiceModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editServiceModalLabel">Edit Service</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #editServiceForm="ngForm" (ngSubmit)="updateService()">
+          <input type="hidden" [(ngModel)]="selectedService.id" name="serviceId" />
+          
+          <div class="mb-3">
+            <label for="editServiceName" class="form-label">Service Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="editServiceName"
+              name="editServiceName"
+              [(ngModel)]="selectedService.name"
+              placeholder="e.g., ADSL"
+              required
+            />
+          </div>
+          
+          <div class="mb-3">
+            <label for="editServiceDescription" class="form-label">Description</label>
+            <textarea
+              class="form-control"
+              id="editServiceDescription"
+              name="editServiceDescription"
+              [(ngModel)]="selectedService.description"
+              rows="3"
+              placeholder="e.g., High-speed internet via copper lines"
+              required
+            ></textarea>
+          </div>
+          
+          <div class="mb-3 installation-fees-field">
+            <label for="editInstallationFees" class="form-label">Installation Fees (TND)</label>
+            <div class="input-group">
+              <span class="input-group-text">TND</span>
+              <input
+                type="number"
+                class="form-control"
+                id="editInstallationFees"
+                name="editInstallationFees"
+                [(ngModel)]="selectedService.installationFees"
+                placeholder="e.g., 50.00"
+                step="0.01"
+                min="0"
+              />
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label">Offers</label>
+            <div id="editOfferFieldsContainer"></div>
+            <button type="button" class="btn btn-outline-info mb-2" (click)="addEditOfferFields()">
+              Add Offer
+            </button>
+          </div>
+          
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" [disabled]="!editServiceForm.valid">
+              Update Service
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
           <!-- Edit Service Modal end -->
+
+
+
+
+
+
+
+
+
+
+
 
           <!-- / Content -->
         <!-- Footer -->
