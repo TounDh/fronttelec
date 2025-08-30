@@ -1,24 +1,64 @@
-<form>
-  <div class="row g-3">
-    <div class="col-12">
-      <div class="form-floating">
-        <input type="email" class="form-control" id="email" placeholder="Your Email">
-        <label for="email">Email Address</label>
-      </div>
-    </div>
-    <div class="col-12">
-      <div class="form-floating">
-        <input type="password" class="form-control" id="password" placeholder="Password">
-        <label for="password">Password</label>
-      </div>
-    </div>
-    <div class="col-12">
-      <button class="btn btn-primary w-100 py-3" type="submit">Sign In</button>
-    </div>
-    <div class="text-center mt-3">
-            
-          <a routerLink="/logup" class="btn btn-link text-primary" >Need an account? Sign Up</a>
-          </div>
-    
-  </div>
-</form>
+            <form [formGroup]="signinForm" (ngSubmit)="onSubmit()" novalidate>
+              <div class="row g-4">
+                
+                <!-- Email Field -->
+                <div class="col-12">
+                  <div class="form-floating">
+                    <input type="email" class="form-control" id="signin-email" 
+                           formControlName="email" placeholder="Your Email"
+                           [class.is-invalid]="hasError('email', 'required') || hasError('email', 'email')"
+                           [class.is-valid]="email?.valid && email?.touched">
+                    <label for="signin-email" class="form-label">Email Address</label>
+                    <div class="invalid-feedback" *ngIf="hasError('email', 'required')">
+                      Email is required
+                    </div>
+                    <div class="invalid-feedback" *ngIf="hasError('email', 'email')">
+                      Please enter a valid email address
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Password Field -->
+                <div class="col-12">
+                  <div class="form-floating">
+                    <input type="password" class="form-control" id="signin-password" 
+                           formControlName="password" placeholder="Password"
+                           [class.is-invalid]="hasError('password', 'required') || hasError('password', 'minlength')"
+                           [class.is-valid]="password?.valid && password?.touched">
+                    <label for="signin-password" class="form-label">Password</label>
+                    <div class="invalid-feedback" *ngIf="hasError('password', 'required')">
+                      Password is required
+                    </div>
+                    <div class="invalid-feedback" *ngIf="hasError('password', 'minlength')">
+                      Password must be at least 8 characters long
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="col-12">
+                  <hr class="my-4 border-primary">
+                </div>
+                
+                <!-- Submit Button -->
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary w-100 py-3" 
+                          [disabled]="signinForm.invalid || isLoading">
+                    <span *ngIf="!isLoading">
+                      <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                    </span>
+                    <span *ngIf="isLoading">
+                      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                      Signing in...
+                    </span>
+                  </button>
+                </div>
+                
+                <!-- Signup Link -->
+                <div class="col-12 text-center mt-4">
+                  <p class="mb-0">Don't have an account?</p>
+                  <a routerLink="/signup" class="btn btn-link text-primary text-decoration-none">
+                    <i class="fas fa-user-plus me-2"></i>Sign Up
+                  </a>
+                </div>
+              </div>
+            </form>
