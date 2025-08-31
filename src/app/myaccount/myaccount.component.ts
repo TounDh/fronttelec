@@ -27,6 +27,10 @@ export class MyaccountComponent implements OnInit {
   showEditAddressModal: boolean = false;
   userAddress: any = null;
   userApplications: any[] = [];
+  userPayments: any[] = []; // Add this
+  recentPayment: any = null;
+  isLoadingPayments: boolean = false;
+
 
   constructor(
     private authService: AuthService,
@@ -62,6 +66,8 @@ export class MyaccountComponent implements OnInit {
       this.loadUserAddress();
     } else if (section === 'applications') {
       this.loadUserApplications();
+    } else if (section === 'payments') { // Add this
+      this.loadUserPayments();
     }
   }
 
@@ -258,6 +264,66 @@ export class MyaccountComponent implements OnInit {
           }
         }
       });
+    }
+  }
+
+
+
+
+
+
+
+  loadUserPayments() {
+    if (this.currentUser && this.currentUser.id) {
+      this.isLoadingPayments = true;
+      
+      // First get all applications for this user
+      this.http.get<any[]>(`http://localhost:8085/api/applications/user/${this.currentUser.id}`)
+        .pipe(
+          catchError(error => {
+            console.error('Error loading applications for payments:', error);
+            this.isLoadingPayments = false;
+            return throwError(() => error);
+          })
+        )
+        .subscribe({
+          next: (applications) => {
+            // Get all approved application IDs
+            const approvedApplicationIds = applications
+              .filter(app => app.status === 'APPROVED')
+              .map(app => app.id);
+            
+            if (approvedApplicationIds.length === 0) {
+              this.isLoadingPayments = false;
+              this.userPayments = [];
+              return;
+            }
+            
+            // Get payments for these applications
+            this.http.post<any[]>(`http://localhost:8085/api/payments/by-applications`, approvedApplicationIds)
+              .pipe(
+                catchError(error => {
+                  console.error('Error loading payments:', error);
+                  this.isLoadingPayments = false;
+                  return throwError(() => error);
+                })
+              )
+              .subscribe({
+                next: (payments) => {
+                  this.isLoadingPayments = false;
+                  this.userPayments = payments || [];
+                  
+                  // Sort payments by deadline (newest first)
+                  this.userPayments.sort((a, b) => {
+                    return new Date(b.deadline).getTime() - new Date(a.deadline).getTime();
+                  });
+                  
+                  // Set recent payment (most recent)
+                  this.recentPayment = this.userPayments.length > 0 ? this.userPayments[0] : null;
+                }
+              });
+          }
+        });
     }
   }
 }

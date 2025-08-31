@@ -272,64 +272,104 @@
 
       
       <!-- Payments Section -->
-      <div class="col-12 portfolio-item" *ngIf="activeSection === 'payments'" data-wow-delay="0.4s">
-        <div class="card border-0 shadow-sm">
-          <div class="card-body">
-            <h4 class="card-title">Payments</h4>
-            <!-- Recent Approved Application -->
-            <div class="card mb-4 border-0 recent-card">
-              <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Recent Approved Application</h5>
-              </div>
-              <div class="card-body d-flex flex-column">
-                <div>
-                  <p><strong>Service:</strong> Internet Plan 100Mbps</p>
-                  <p><strong>Status:</strong> <span class="badge bg-accepted">Approved</span></p>
-                  <p><strong>Approval Date:</strong> Aug 01, 2025</p>
-                  <p><strong>Amount:</strong> $99.99</p>
-                </div>
-                <div class="mt-auto align-self-end">
-                  <button class="pay-now-btn" data-bs-toggle="modal" data-bs-target="#paymentModal">Pay Now</button>
-                </div>
-              </div>
+       <!--please my friend deapseek respect this layout but at the same time add what is necessary to only display past payments for this current user and at recent approved section display the recent payment only and dont add logic for pay now button now -->
+      <!-- Payments Section -->
+<div class="col-12 portfolio-item" *ngIf="activeSection === 'payments'" data-wow-delay="0.4s">
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <h4 class="card-title">Payments</h4>
+      
+      <!-- Loading state -->
+      <div *ngIf="isLoadingPayments" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <!-- No payments message -->
+      <div *ngIf="!isLoadingPayments && (!userPayments || userPayments.length === 0)" class="alert alert-info">
+        No payments found.
+      </div>
+
+      <div *ngIf="!isLoadingPayments && userPayments && userPayments.length > 0">
+        <!-- Recent Payment (most recent) -->
+        <div class="card mb-4 border-0 recent-card" *ngIf="recentPayment">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Recent Payment</h5>
+          </div>
+          <div class="card-body d-flex flex-column">
+            <div>
+              <p><strong>Service:</strong> {{ recentPayment.application?.srvce?.name || 'N/A' }}</p>
+              <p><strong>Status:</strong> 
+                <span [ngClass]="{
+                  'badge bg-pending': recentPayment.status === 'PENDING',
+                  'badge bg-accepted': recentPayment.status === 'PAID',
+                  'badge bg-rejected': recentPayment.status === 'OVERDUE'
+                }">
+                  {{ recentPayment.status }}
+                </span>
+              </p>
+              <p><strong>Due Date:</strong> {{ formatDate(recentPayment.deadline) }}</p>
+              <p><strong>Amount:</strong> ${{ recentPayment.total }}</p>
             </div>
-            <!-- Payment History -->
-            <h5 class="mb-3">Payment History</h5>
-            <div class="table-responsive">
-              <table class="table table-striped">
-                <thead class="table-header">
-                  <tr>
-                    <th>Month</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th>Date Paid</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>July 2025</td>
-                    <td>$99.99</td>
-                    <td><span class="badge bg-accepted">Paid</span></td>
-                    <td>Jul 05, 2025</td>
-                  </tr>
-                  <tr>
-                    <td>June 2025</td>
-                    <td>$89.99</td>
-                    <td><span class="badge bg-accepted">Paid</span></td>
-                    <td>Jun 03, 2025</td>
-                  </tr>
-                  <tr>
-                    <td>May 2025</td>
-                    <td>$94.99</td>
-                    <td><span class="badge bg-accepted">Paid</span></td>
-                    <td>May 02, 2025</td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="mt-auto align-self-end">
+              <button class="pay-now-btn" data-bs-toggle="modal" data-bs-target="#paymentModal">Pay Now</button>
             </div>
           </div>
         </div>
+
+        <!-- Payment History -->
+        <h5 class="mb-3">Payment History</h5>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead class="table-header">
+              <tr>
+                <th>Service</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th>Paid Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let payment of userPayments">
+                <td>{{ payment.application?.srvce?.name || 'N/A' }}</td>
+                <td>${{ payment.total }}</td>
+                <td>
+                  <span [ngClass]="{
+                    'badge bg-pending': payment.status === 'PENDING',
+                    'badge bg-accepted': payment.status === 'PAID',
+                    'badge bg-rejected': payment.status === 'OVERDUE'
+                  }">
+                    {{ payment.status }}
+                  </span>
+                </td>
+                <td>{{ formatDate(payment.deadline) }}</td>
+                <td>{{ payment.status === 'PAID' ? formatDate(payment.paidDate) : '-' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       <!-- Installations Section -->
       <div class="col-12 portfolio-item" *ngIf="activeSection === 'installations'" data-wow-delay="0.5s">
