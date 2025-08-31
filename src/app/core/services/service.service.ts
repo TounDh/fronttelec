@@ -11,8 +11,19 @@ export class ServiceService {
 
   constructor(private http: HttpClient) {}
 
-  createService(service: Omit<Srvce, 'id'>): Observable<Srvce> {
-  return this.http.post<Srvce>(this.apiUrl, service);
+  createService(service: Srvce): Observable<Srvce> {
+    // Ensure offers don't have circular references
+    const serviceData = {
+        ...service,
+        offers: service.offers?.map(offer => ({
+            commitment: offer.commitment,
+            speed: offer.speed,
+            price: offer.price
+            // Don't include id or srvce to avoid circular references
+        })) || []
+    };
+    
+    return this.http.post<Srvce>(this.apiUrl, serviceData);
 }
 
   getAllServices(): Observable<Srvce[]> {

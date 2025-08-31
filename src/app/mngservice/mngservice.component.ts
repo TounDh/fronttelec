@@ -193,40 +193,42 @@ export class MngserviceComponent implements AfterViewInit, OnDestroy, OnInit {
 
   
 saveService() {
-  if (!this.service.name || !this.service.description) {
-    alert('Service name and description are required.');
-    return;
-  }
-
-  // Create service data without id
-  const serviceData = {
-    name: this.service.name || '',
-    description: this.service.description || '',
-    installationFees: parseFloat(this.service.installationFees?.toString() || '0') || 0,
-    offers: (this.service.offers || []).filter(offer => offer.price && offer.speed && offer.commitment)
-  };
-
-  this.serviceService.createService(serviceData).subscribe({
-    next: (response) => {
-      alert('Service created successfully!');
-      this.service = { name: '', description: '', installationFees: 0, offers: [] };
-      this.offerCount = 0;
-      const container = this.document.getElementById('offerFieldsContainer');
-      if (container) {
-        container.innerHTML = '';
-      }
-      const modal = this.document.getElementById('addServiceModal');
-      if (modal) {
-        const closeButton = modal.querySelector('.btn-close') as HTMLElement;
-        if (closeButton) {
-          closeButton.click();
-        }
-      }
-    },
-    error: (error) => {
-      alert('Error creating service: ' + error.message);
+    if (!this.service.name || !this.service.description) {
+        alert('Service name and description are required.');
+        return;
     }
-  });
+
+    const serviceData: Srvce = {
+        id: null,
+        name: this.service.name || '',
+        description: this.service.description || '',
+        installationFees: parseFloat(this.service.installationFees?.toString() || '0') || 0,
+        offers: (this.service.offers || []).filter(offer => 
+            offer && offer.price !== undefined && offer.speed && offer.commitment
+        ).map(offer => ({
+            id: null,
+            price: offer.price || 0,
+            speed: offer.speed || '',
+            commitment: offer.commitment || '',
+            srvce: null
+        }))
+    };
+
+    this.serviceService.createService(serviceData).subscribe({
+        next: (response) => {
+            alert('Service created successfully!');
+            this.service = { name: '', description: '', installationFees: 0, offers: [] };
+            this.offerCount = 0;
+            const container = this.document.getElementById('offerFieldsContainer');
+            if (container) {
+                container.innerHTML = '';
+            }
+            this.loadServices(); // Reload services to see the new one
+        },
+        error: (error) => {
+            alert('Error creating service: ' + error.message);
+        }
+    });
 }
 
 ngOnInit() {
