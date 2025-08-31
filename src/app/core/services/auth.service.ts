@@ -39,29 +39,26 @@ interface AuthResponse {
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8085/api/auth';
+  private userApiUrl = 'http://localhost:8085/api/users'; // Add base URL for user endpoints
 
   constructor(private http: HttpClient) { }
 
-  // auth.service.ts - FIX THE LOGIN METHOD
-// In auth.service.ts
-login(credentials: { email: string; password: string }): Observable<AuthResponse> {
-  return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
-    map(response => {
-      if (response && response.token) {
-        // Store ONLY the user object, not the entire response
-        localStorage.setItem('currentUser', JSON.stringify(response.user));
-        localStorage.setItem('authToken', response.token);
-      }
-      return response;
-    }),
-    catchError(error => {
-      return throwError(() => error);
-    })
-  );
-}
+  login(credentials: { email: string; password: string }): Observable<AuthResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
+      map(response => {
+        if (response && response.token) {
+          localStorage.setItem('currentUser', JSON.stringify(response.user));
+          localStorage.setItem('authToken', response.token);
+        }
+        return response;
+      }),
+      catchError(error => {
+        return throwError(() => error);
+      })
+    );
+  }
 
   logout(): void {
-    // Remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     localStorage.removeItem('authToken');
   }
@@ -72,48 +69,60 @@ login(credentials: { email: string; password: string }): Observable<AuthResponse
   }
 
   getCurrentUser(): UserData | null {
-  try {
-    const currentUser = localStorage.getItem('currentUser');
-    if (!currentUser) return null;
-    
-    const parsedUser = JSON.parse(currentUser);
-    console.log('Raw parsed user:', parsedUser);
-    
-    // Check if we have the nested structure
-    if (parsedUser && parsedUser.user) {
-      return parsedUser.user; // Return the nested user object
+    try {
+      const currentUser = localStorage.getItem('currentUser');
+      if (!currentUser) return null;
+
+      const parsedUser = JSON.parse(currentUser);
+      console.log('Raw parsed user:', parsedUser);
+
+      if (parsedUser && parsedUser.user) {
+        return parsedUser.user;
+      }
+
+      return parsedUser;
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+      return null;
     }
-    
-    return parsedUser; // Return flat user object
-  } catch (error) {
-    console.error('Error parsing user data:', error);
-    return null;
   }
-}
-
-
-
 
   getAuthToken(): string | null {
     return localStorage.getItem('authToken');
   }
 
-  // Optional: Get user role
   getUserRole(): string | null {
     const user = this.getCurrentUser();
     return user ? user.role : null;
   }
 
-  // Optional: Check if user has specific role
   hasRole(role: string): boolean {
     const userRole = this.getUserRole();
     return userRole === role;
   }
- 
+
+  // New method to update user in the backend
+  updateUser(user: UserData): Observable<UserData> {
+    const url = `${this.userApiUrl}/${user.id}`;
+    return this.http.put<UserData>(url, user, {
+      headers: {
+        Authorization: `Bearer ${this.getAuthToken()}`
+      }
+    }).pipe(
+      map(response => {
+        // Update localStorage with the response
+        localStorage.setItem('currentUser', JSON.stringify(response));
+        return response;
+      }),
+      catchError(error => {
+        console.error('Error updating user:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
   updateCurrentUser(user: any) {
-  // Update the current user in the service
-  this.getCurrentUser = user;
-  // You might also want to update localStorage here if that's your main storage method
-  localStorage.setItem('currentUser', JSON.stringify(user));
-}
+    // Update localStorage only
+    localStorage.setItem('currentUser', JSON.stringify(user));
+  }
 }

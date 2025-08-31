@@ -108,30 +108,80 @@
 
 <!-- KEEP EVERYTHING ELSE EXACTLY THE SAME - DON'T MODIFY ANY OTHER SECTIONS -->
 
-      <!-- Address Section -->
-      <div class="col-12 portfolio-item" *ngIf="activeSection === 'address'" data-wow-delay="0.2s">
-        <div class="card border-0 shadow-sm">
-          <div class="card-body">
-            <h4 class="card-title">User Address</h4>
-            <div class="row">
-              <div class="col-md-6">
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item"><strong>Street:</strong> 123 Main St</li>
-                  <li class="list-group-item"><strong>Governorate:</strong> New York</li>
-                  <li class="list-group-item"><strong>City:</strong> New York City</li>
-                  <li class="list-group-item"><strong>Zip Code:</strong> 10001</li>
-                  <li class="list-group-item"><strong>Country:</strong> USA</li>
-                </ul>
+
+
+ <!-- Address Section -->
+<div class="col-12 portfolio-item" *ngIf="activeSection === 'address'" data-wow-delay="0.2s">
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <h4 class="card-title">User Address</h4>
+      
+      <!-- Loading state -->
+      <div *ngIf="isLoadingAddress" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <!-- No address message -->
+      <div *ngIf="!isLoadingAddress && !userAddress" class="alert alert-info">
+        No address found. Please add your address.
+      </div>
+
+      <!-- Address display -->
+      <div *ngIf="!isLoadingAddress && userAddress" class="row">
+        <div class="col-md-6">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Street:</strong> {{ userAddress.street }}</li>
+            <li class="list-group-item"><strong>Governorate:</strong> {{ userAddress.governorate }}</li>
+            <li class="list-group-item"><strong>City:</strong> {{ userAddress.city }}</li>
+            <li class="list-group-item"><strong>Zip Code:</strong> {{ userAddress.zipCode }}</li>
+            <li class="list-group-item"><strong>Country:</strong> {{ userAddress.country }}</li>
+            <li class="list-group-item" *ngIf="userAddress.latitude && userAddress.longitude">
+              <strong>Coordinates:</strong> {{ userAddress.latitude }}, {{ userAddress.longitude }}
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <div class="map-container">
+            <div id="map" style="height: 300px; border-radius: 8px;">
+              <div *ngIf="!userAddress.latitude || !userAddress.longitude" class="text-center p-5">
+                <i class="fas fa-map-marker-alt fa-3x text-muted mb-3"></i>
+                <p>Check Google Maps to retrieve your longitude and latitude</p>
               </div>
-              <div class="col-md-6">
-                <div class="map-container">
-                  <div id="map" style="height: 300px; background: #e5e7eb; border-radius: 8px;"></div>
-                </div>
-              </div>
+              <div *ngIf="userAddress.latitude && userAddress.longitude" id="map-content" style="height: 100%"></div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Action buttons -->
+      <div class="mt-3 text-end">
+        <button class="btn btn-primary me-2" (click)="showAddAddressModal = true" *ngIf="!userAddress">
+          Add Address
+        </button>
+        <button class="btn btn-primary me-2" (click)="openEditAddressModal()" *ngIf="userAddress">
+          Edit Address
+        </button>
+        <button class="btn btn-danger" (click)="deleteAddress()" *ngIf="userAddress">
+          Delete Address
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+      
+
+
+
 
       <!-- Applications Section -->
       <div class="col-12 portfolio-item" *ngIf="activeSection === 'applications'" data-wow-delay="0.3s">
@@ -368,6 +418,73 @@
     <div class="custom-modal-footer">
       <button type="button" class="btn btn-secondary" (click)="showEditModal = false">Cancel</button>
       <button type="button" class="btn btn-primary" (click)="saveChanges()" [disabled]="editForm.invalid">Save</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Add/Edit Address Modal -->
+<div class="custom-modal-backdrop" *ngIf="showAddAddressModal || showEditAddressModal">
+  <div class="custom-modal" style="max-width: 600px;">
+    <div class="custom-modal-header bg-primary text-white">
+      <h5 class="modal-title">{{ userAddress ? 'Edit' : 'Add' }} Address</h5>
+      <button type="button" class="close-btn" (click)="closeAddressModal()">&times;</button>
+    </div>
+    <div class="custom-modal-body">
+      <form [formGroup]="addressForm">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="street" class="form-label">Street</label>
+            <input type="text" class="form-control" id="street" formControlName="street">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="city" class="form-label">City</label>
+            <input type="text" class="form-control" id="city" formControlName="city">
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="governorate" class="form-label">Governorate</label>
+            <input type="text" class="form-control" id="governorate" formControlName="governorate">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="country" class="form-label">Country</label>
+            <input type="text" class="form-control" id="country" formControlName="country">
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="zipCode" class="form-label">Zip Code</label>
+            <input type="text" class="form-control" id="zipCode" formControlName="zipCode">
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="latitude" class="form-label">Latitude</label>
+            <input type="number" step="any" class="form-control" id="latitude" formControlName="latitude">
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="longitude" class="form-label">Longitude</label>
+            <input type="number" step="any" class="form-control" id="longitude" formControlName="longitude">
+          </div>
+        </div>
+        
+        <div class="mb-3">
+          <small class="text-muted">
+            <i class="fas fa-info-circle"></i> 
+            You can get latitude and longitude coordinates from Google Maps
+          </small>
+        </div>
+      </form>
+    </div>
+    <div class="custom-modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeAddressModal()">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="saveAddress()">
+        {{ userAddress ? 'Update' : 'Save' }} Address
+      </button>
     </div>
   </div>
 </div>
