@@ -35,6 +35,19 @@ export class MngapplicComponent implements OnInit, AfterViewInit, OnDestroy {
   dateFilter: string = '';
   backendError: boolean = false;
 
+  isEligible: boolean = false;
+  isTechnicallyFeasible: boolean = false;
+  isTechnicallyFeasibleWithConditions: boolean = false;
+
+  userAddress: any = null;
+  creditScore: number = 0;
+  hasActiveSubscriptions: boolean = false;
+  paymentHistory: any = null;
+  infrastructureAvailable: boolean = false;
+  distanceToNode: number = 0;
+  estimatedInstallationTime: string = '';
+  analysisNotes: string = '';
+  statusHistory: any[] = [];
   // Sample data structure that matches your database
   private sampleApplications = [
     {
@@ -225,9 +238,211 @@ export class MngapplicComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  viewApplicationDetails(application: any) {
-    this.selectedApplication = application;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Add these methods to your component
+viewApplicationDetails(application: any) {
+  this.selectedApplication = application;
+  this.loadUserAddress(application.user?.id);
+  this.calculateEligibility(application);
+  this.calculateTechnicalFeasibility(application);
+  this.loadStatusHistory(application.id);
+}
+
+loadUserAddress(userId: number) {
+  if (userId) {
+    this.http.get<any>(`http://localhost:8085/api/address/user/${userId}`)
+      .subscribe({
+        next: (address) => {
+          this.userAddress = address;
+        },
+        error: (error) => {
+          console.error('Error loading user address:', error);
+          this.userAddress = null;
+        }
+      });
   }
+}
+
+calculateEligibility(application: any) {
+  // Simulate credit score calculation (650-850 range)
+  this.creditScore = Math.floor(Math.random() * 200) + 650;
+  
+  // Simulate subscription check
+  this.hasActiveSubscriptions = Math.random() > 0.7;
+  
+  // Simulate payment history
+  this.paymentHistory = {
+    hasLatePayments: Math.random() > 0.8,
+    totalPayments: Math.floor(Math.random() * 50) + 10
+  };
+  
+  // Determine eligibility
+  this.isEligible = this.creditScore >= 650 && !this.paymentHistory.hasLatePayments;
+}
+
+calculateTechnicalFeasibility(application: any) {
+  // Simulate infrastructure check based on address
+  this.infrastructureAvailable = Math.random() > 0.3;
+  
+  // Simulate distance calculation (100-1500 meters)
+  this.distanceToNode = Math.floor(Math.random() * 1400) + 100;
+  
+  // Simulate installation time estimation
+  const days = Math.floor(this.distanceToNode / 300) + 1;
+  this.estimatedInstallationTime = `${days} business day${days > 1 ? 's' : ''}`;
+  
+  // Determine technical feasibility
+  this.isTechnicallyFeasible = this.infrastructureAvailable && this.distanceToNode <= 500;
+  this.isTechnicallyFeasibleWithConditions = this.infrastructureAvailable && this.distanceToNode <= 1000;
+}
+
+loadStatusHistory(applicationId: number) {
+  // Simulate status history
+  this.statusHistory = [
+    {
+      status: 'PENDING',
+      description: 'Application submitted',
+      timestamp: this.selectedApplication.applicationDate
+    }
+  ];
+}
+
+getCreditScoreRating(score: number): string {
+  if (score >= 750) return 'Excellent';
+  if (score >= 700) return 'Good';
+  if (score >= 650) return 'Fair';
+  return 'Poor';
+}
+
+getDistanceRating(distance: number): string {
+  if (distance <= 500) return 'Excellent';
+  if (distance <= 1000) return 'Acceptable';
+  return 'Poor';
+}
+
+getTechnicalFeasibilityStatus(): string {
+  if (this.isTechnicallyFeasible) return 'FEASIBLE';
+  if (this.isTechnicallyFeasibleWithConditions) return 'FEASIBLE WITH CONDITIONS';
+  return 'NOT FEASIBLE';
+}
+
+getStatusIcon(status: string): string {
+  switch (status) {
+    case 'PENDING': return 'time';
+    case 'APPROVED': return 'check';
+    case 'REJECTED': return 'x';
+    default: return 'circle';
+  }
+}
+
+saveAnalysisNotes() {
+  // Implement save functionality
+  console.log('Analysis notes saved:', this.analysisNotes);
+  // You would typically call an API endpoint here
+}
+
+generateAutomaticAnalysis() {
+  // Generate automatic analysis based on calculated values
+  this.analysisNotes = `Automatic Analysis:
+- Credit Score: ${this.creditScore} (${this.getCreditScoreRating(this.creditScore)})
+- Payment History: ${this.paymentHistory.hasLatePayments ? 'Has late payments' : 'Good history'}
+- Infrastructure: ${this.infrastructureAvailable ? 'Available' : 'Not available'}
+- Distance to Node: ${this.distanceToNode}m (${this.getDistanceRating(this.distanceToNode)})
+- Recommended Action: ${this.getRecommendedAction()}`;
+}
+
+getRecommendedAction(): string {
+  if (this.isEligible && this.isTechnicallyFeasible) {
+    return 'APPROVE - Good candidate for service';
+  } else if (this.isEligible && this.isTechnicallyFeasibleWithConditions) {
+    return 'APPROVE WITH CONDITIONS - May require additional installation costs';
+  } else {
+    return 'REJECT - Does not meet eligibility or technical requirements';
+  }
+}
+
+approveApplication() {
+  // Implement approval logic
+  this.updateApplicationStatus('APPROVED');
+}
+
+rejectApplication() {
+  // Implement rejection logic
+  this.updateApplicationStatus('REJECTED');
+}
+
+updateApplicationStatus(newStatus: string) {
+  if (!this.selectedApplication) return;
+  
+  this.http.put(`http://localhost:8085/api/applications/${this.selectedApplication.id}/status?status=${newStatus}`, {})
+    .subscribe({
+      next: (updatedApplication) => {
+        this.selectedApplication.status = newStatus;
+        // Add to status history
+        this.statusHistory.push({
+          status: newStatus,
+          description: `Application ${newStatus.toLowerCase()}`,
+          timestamp: new Date()
+        });
+
+         this.closeModal('viewRequestModal');
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+        
+      },
+      error: (error) => {
+        console.error('Error updating application status:', error);
+      }
+    });
+}
+
+
+
+private closeModal(modalId: string) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    // Use Bootstrap's modal hide method if available
+    const bootstrapModal = (window as any).bootstrap?.Modal?.getInstance(modal);
+    if (bootstrapModal) {
+      bootstrapModal.hide();
+    } else {
+      // Fallback: manually hide the modal
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) {
+        backdrop.remove();
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
   formatDate(dateString: string): string {
     if (!dateString) return 'N/A';

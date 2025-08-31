@@ -54,4 +54,41 @@
 
 
 
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
 
+.timeline-item {
+  position: relative;
+  padding-bottom: 2rem;
+}
+
+.timeline-point {
+  position: absolute;
+  left: -2rem;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.timeline-point-primary {
+  background-color: #696cff;
+}
+
+.timeline-point-success {
+  background-color: #71dd37;
+}
+
+.timeline-point-danger {
+  background-color: #ff3e1d;
+}
+
+.timeline-content {
+  margin-left: 1rem;
+}
