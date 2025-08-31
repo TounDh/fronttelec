@@ -35,24 +35,78 @@
       </div>
     </div>
     <div class="row g-4 portfolio-container">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <!-- Details Section -->
-      <div class="col-12 portfolio-item" *ngIf="activeSection === 'details'" data-wow-delay="0.1s">
-        <div class="card border-0 shadow-sm">
-          <div class="card-body">
-            <h4 class="card-title">User Personal Details</h4>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item"><strong>Name:</strong> Yash Patel</li>
-              <li class="list-group-item"><strong>Surname:</strong> Sharma</li>
-              <li class="list-group-item"><strong>Email:</strong> yashexample.com</li>
-              <li class="list-group-item"><strong>Telephone:</strong> +1-555-123-4567</li>
-              <li class="list-group-item"><strong>Date of Birth:</strong> 01/15/1995</li>
-            </ul>
-            <div class="mt-3 text-end">
-              <button class="edit-btn" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
-            </div>
-          </div>
+      <!-- Only change the Details Section - keep everything else exactly the same -->
+<div class="col-12 portfolio-item" *ngIf="activeSection === 'details'" data-wow-delay="0.1s">
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <h4 class="card-title">User Personal Details</h4>
+      
+      <!-- Loading state -->
+      <div *ngIf="isLoading" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
       </div>
+
+      <!-- User details -->
+      <ul *ngIf="!isLoading && currentUser" class="list-group list-group-flush">
+<li class="list-group-item"><strong>Name:</strong> {{ currentUser.name }}</li>
+<li class="list-group-item"><strong>Surname:</strong> {{ currentUser.surname }}</li>
+<li class="list-group-item"><strong>Email:</strong> {{ currentUser.email }}</li>
+<li class="list-group-item">
+  <strong>Telephone:</strong> 
+  {{ currentUser?.phone || 'Not available' }}
+</li>
+<li class="list-group-item">
+  <strong>Date of Birth:</strong> 
+  {{ currentUser?.birthdate || 'Not available' }}
+</li>
+
+      </ul>
+
+      <!-- No user data message -->
+      <div *ngIf="!isLoading && !currentUser" class="alert alert-info">
+        No user data available. Please log in again.
+      </div>
+
+      <div class="mt-3 text-end">
+        <button class="edit-btn" (click)="showEditModal = true">Edit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- KEEP EVERYTHING ELSE EXACTLY THE SAME - DON'T MODIFY ANY OTHER SECTIONS -->
 
       <!-- Address Section -->
       <div class="col-12 portfolio-item" *ngIf="activeSection === 'address'" data-wow-delay="0.2s">
@@ -272,41 +326,48 @@
 </div>
 
 <!-- Edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="editModalLabel">Edit Personal Details</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="editName" class="form-label">Name</label>
-            <input type="text" class="form-control" id="editName" value="Yash Patel">
+<div class="custom-modal-backdrop" *ngIf="showEditModal">
+  <div class="custom-modal">
+    <div class="custom-modal-header bg-primary text-white">
+      <h5 class="modal-title">Edit Personal Details</h5>
+      <button type="button" class="close-btn" (click)="showEditModal = false">&times;</button>
+    </div>
+    <div class="custom-modal-body">
+      <form [formGroup]="editForm">
+        <div class="mb-3">
+          <label for="editName" class="form-label">Name</label>
+          <input type="text" class="form-control" id="editName" formControlName="name">
+          <div *ngIf="editForm.get('name')?.invalid && editForm.get('name')?.touched" class="text-danger">
+            Name is required
           </div>
-          <div class="mb-3">
-            <label for="editSurname" class="form-label">Surname</label>
-            <input type="text" class="form-control" id="editSurname" value="Sharma">
+        </div>
+        <div class="mb-3">
+          <label for="editSurname" class="form-label">Surname</label>
+          <input type="text" class="form-control" id="editSurname" formControlName="surname">
+          <div *ngIf="editForm.get('surname')?.invalid && editForm.get('surname')?.touched" class="text-danger">
+            Surname is required
           </div>
-          <div class="mb-3">
-            <label for="editEmail" class="form-label">Email</label>
-            <input type="email" class="form-control" id="editEmail" value="yash@example.com">
+        </div>
+        <div class="mb-3">
+          <label for="editEmail" class="form-label">Email</label>
+          <input type="email" class="form-control" id="editEmail" formControlName="email">
+          <div *ngIf="editForm.get('email')?.invalid && editForm.get('email')?.touched" class="text-danger">
+            Please enter a valid email
           </div>
-          <div class="mb-3">
-            <label for="editTelephone" class="form-label">Telephone</label>
-            <input type="tel" class="form-control" id="editTelephone" value="+1-555-123-4567">
-          </div>
-          <div class="mb-3">
-            <label for="editDob" class="form-label">Date of Birth</label>
-            <input type="text" class="form-control" id="editDob" value="01/15/1995">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary">Save</button>
-      </div>
+        </div>
+        <div class="mb-3">
+          <label for="editPhone" class="form-label">Phone</label>
+          <input type="tel" class="form-control" id="editPhone" formControlName="phone">
+        </div>
+        <div class="mb-3">
+          <label for="editBirthdate" class="form-label">Date of Birth</label>
+          <input type="date" class="form-control" id="editBirthdate" formControlName="birthdate">
+        </div>
+      </form>
+    </div>
+    <div class="custom-modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="showEditModal = false">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="saveChanges()" [disabled]="editForm.invalid">Save</button>
     </div>
   </div>
 </div>

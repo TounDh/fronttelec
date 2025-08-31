@@ -12,6 +12,8 @@ interface LoginResponse {
     surname: string;
     email: string;
     role: string;
+    phone: string;
+    birthdate: string;
   };
   token: string;
 }
@@ -22,6 +24,8 @@ interface UserData {
   surname: string;
   email: string;
   role: string;
+  phone: string;
+  birthdate: string;
 }
 
 interface AuthResponse {
@@ -38,21 +42,23 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(credentials: { email: string; password: string }): Observable<AuthResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
-      map(response => {
-        // Store user details and jwt token in local storage
-        if (response && response.token) {
-          localStorage.setItem('currentUser', JSON.stringify(response.user));
-          localStorage.setItem('authToken', response.token);
-        }
-        return response;
-      }),
-      catchError(error => {
-        return throwError(() => error);
-      })
-    );
-  }
+  // auth.service.ts - FIX THE LOGIN METHOD
+// In auth.service.ts
+login(credentials: { email: string; password: string }): Observable<AuthResponse> {
+  return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
+    map(response => {
+      if (response && response.token) {
+        // Store ONLY the user object, not the entire response
+        localStorage.setItem('currentUser', JSON.stringify(response.user));
+        localStorage.setItem('authToken', response.token);
+      }
+      return response;
+    }),
+    catchError(error => {
+      return throwError(() => error);
+    })
+  );
+}
 
   logout(): void {
     // Remove user from local storage to log user out
@@ -66,9 +72,27 @@ export class AuthService {
   }
 
   getCurrentUser(): UserData | null {
+  try {
     const currentUser = localStorage.getItem('currentUser');
-    return currentUser ? JSON.parse(currentUser) : null;
+    if (!currentUser) return null;
+    
+    const parsedUser = JSON.parse(currentUser);
+    console.log('Raw parsed user:', parsedUser);
+    
+    // Check if we have the nested structure
+    if (parsedUser && parsedUser.user) {
+      return parsedUser.user; // Return the nested user object
+    }
+    
+    return parsedUser; // Return flat user object
+  } catch (error) {
+    console.error('Error parsing user data:', error);
+    return null;
   }
+}
+
+
+
 
   getAuthToken(): string | null {
     return localStorage.getItem('authToken');
@@ -85,4 +109,11 @@ export class AuthService {
     const userRole = this.getUserRole();
     return userRole === role;
   }
+ 
+  updateCurrentUser(user: any) {
+  // Update the current user in the service
+  this.getCurrentUser = user;
+  // You might also want to update localStorage here if that's your main storage method
+  localStorage.setItem('currentUser', JSON.stringify(user));
+}
 }
