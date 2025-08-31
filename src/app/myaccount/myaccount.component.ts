@@ -19,12 +19,14 @@ export class MyaccountComponent implements OnInit {
   currentUser: any = null;
   isLoading: boolean = true;
   isLoadingAddress: boolean = false;
+  isLoadingApplications: boolean = false;
   editForm: FormGroup;
   addressForm: FormGroup;
   showEditModal: boolean = false;
   showAddAddressModal: boolean = false;
   showEditAddressModal: boolean = false;
   userAddress: any = null;
+  userApplications: any[] = [];
 
   constructor(
     private authService: AuthService,
@@ -58,6 +60,8 @@ export class MyaccountComponent implements OnInit {
     this.activeSection = section;
     if (section === 'address') {
       this.loadUserAddress();
+    } else if (section === 'applications') {
+      this.loadUserApplications();
     }
   }
 
@@ -82,8 +86,53 @@ export class MyaccountComponent implements OnInit {
     }
   }
 
+  // Add this method to load user applications
+  loadUserApplications() {
+  if (this.currentUser && this.currentUser.id) {
+    this.isLoadingApplications = true;
+    this.http.get<any[]>(`http://localhost:8085/api/applications/user/${this.currentUser.id}`)
+      .pipe(
+        catchError(error => {
+          console.error('Error loading applications:', error);
+          this.isLoadingApplications = false;
+          alert('Failed to load applications. Please try again.');
+          return throwError(() => error);
+        })
+      )
+      .subscribe({
+        next: (applications) => {
+          this.isLoadingApplications = false;
+          console.log('Applications received:', applications); // Debug log
+          
+          this.userApplications = applications || [];
+          
+          // Sort applications by date (newest first)
+          this.userApplications.sort((a, b) => {
+            return new Date(b.applicationDate).getTime() - new Date(a.applicationDate).getTime();
+          });
+          
+          console.log('Sorted applications:', this.userApplications); // Debug log
+        }
+      });
+  }
+}
   
 
+  // Add this method to format dates
+  formatDate(dateString: string): string {
+    if (!dateString) return 'N/A';
+    
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+    });
+  }
+
+  // ... rest of your existing methods remain the same
   openEditAddressModal() {
     if (this.userAddress) {
       this.addressForm.patchValue(this.userAddress);
@@ -96,8 +145,6 @@ export class MyaccountComponent implements OnInit {
     this.showEditAddressModal = false;
     this.addressForm.reset();
   }
-
-  
 
   deleteAddress() {
     if (confirm('Are you sure you want to delete your address?')) {
@@ -139,83 +186,78 @@ export class MyaccountComponent implements OnInit {
     }
   }
 
+  loadUserAddress() {
+    if (this.currentUser && this.currentUser.id) {
+      this.isLoadingAddress = true;
+      this.http.get<any>(`http://localhost:8085/api/address/user/${this.currentUser.id}`)
+        .pipe(
+          catchError(error => {
+            console.error('Error loading address:', error);
+            this.isLoadingAddress = false;
+            
+            if (error.status === 404) {
+              // No address found - this is normal
+              this.userAddress = null;
+            } else {
+              alert('Failed to load address. Please try again.');
+            }
+            return throwError(() => error);
+          })
+        )
+        .subscribe({
+          next: (response) => {
+            this.isLoadingAddress = false;
+            
+            // Handle the response structure correctly
+            if (response && response.data) {
+              this.userAddress = response.data; // Extract from data property
+            } else if (response && response.message) {
+              // No address found but API returned a message
+              console.log(response.message);
+              this.userAddress = null;
+            } else {
+              // Handle raw address response (backward compatibility)
+              this.userAddress = response;
+            }
+          }
+        });
+    }
+  }
 
-  // In myaccount.component.ts
-// In myaccount.component.ts
-// Update the loadUserAddress method
-loadUserAddress() {
-  if (this.currentUser && this.currentUser.id) {
-    this.isLoadingAddress = true;
-    this.http.get<any>(`http://localhost:8085/api/address/user/${this.currentUser.id}`)
+  saveAddress() {
+    if (this.addressForm.valid && this.currentUser && this.currentUser.id) {
+      const addressData = this.addressForm.value;
+      
+      this.http.post<any>(
+        `http://localhost:8085/api/address/user/${this.currentUser.id}`, 
+        addressData
+      )
       .pipe(
         catchError(error => {
-          console.error('Error loading address:', error);
-          this.isLoadingAddress = false;
-          
-          if (error.status === 404) {
-            // No address found - this is normal
-            this.userAddress = null;
-          } else {
-            alert('Failed to load address. Please try again.');
-          }
+          console.error('Error saving address:', error);
+          alert('Failed to save address. Please try again.');
           return throwError(() => error);
         })
       )
       .subscribe({
         next: (response) => {
-          this.isLoadingAddress = false;
-          
-          // Handle the response structure correctly
+          // Handle response with consistent structure
           if (response && response.data) {
             this.userAddress = response.data; // Extract from data property
+            this.showAddAddressModal = false;
+            this.showEditAddressModal = false;
+            alert('Address saved successfully!');
           } else if (response && response.message) {
-            // No address found but API returned a message
-            console.log(response.message);
-            this.userAddress = null;
+            alert('Failed to save address: ' + response.message);
           } else {
             // Handle raw address response (backward compatibility)
             this.userAddress = response;
+            this.showAddAddressModal = false;
+            this.showEditAddressModal = false;
+            alert('Address saved successfully!');
           }
         }
       });
+    }
   }
-}
-
-// Update the saveAddress method
-saveAddress() {
-  if (this.addressForm.valid && this.currentUser && this.currentUser.id) {
-    const addressData = this.addressForm.value;
-    
-    this.http.post<any>(
-      `http://localhost:8085/api/address/user/${this.currentUser.id}`, 
-      addressData
-    )
-    .pipe(
-      catchError(error => {
-        console.error('Error saving address:', error);
-        alert('Failed to save address. Please try again.');
-        return throwError(() => error);
-      })
-    )
-    .subscribe({
-      next: (response) => {
-        // Handle response with consistent structure
-        if (response && response.data) {
-          this.userAddress = response.data; // Extract from data property
-          this.showAddAddressModal = false;
-          this.showEditAddressModal = false;
-          alert('Address saved successfully!');
-        } else if (response && response.message) {
-          alert('Failed to save address: ' + response.message);
-        } else {
-          // Handle raw address response (backward compatibility)
-          this.userAddress = response;
-          this.showAddAddressModal = false;
-          this.showEditAddressModal = false;
-          alert('Address saved successfully!');
-        }
-      }
-    });
-  }
-}
 }

@@ -182,51 +182,95 @@
 
 
       <!-- Applications Section -->
-      <div class="col-12 portfolio-item" *ngIf="activeSection === 'applications'" data-wow-delay="0.3s">
-        <div class="card border-0 shadow-sm">
-          <div class="card-body">
-            <h4 class="card-title">Applications</h4>
-            <!-- Recent Application -->
-            <div class="card mb-4 border-0 recent-card">
-              <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Recent Application</h5>
-              </div>
-              <div class="card-body">
-                <p><strong>Service:</strong> TV Package Premium</p>
-                <p><strong>Status:</strong> <span class="badge bg-pending">Pending</span></p>
-                <p><strong>Application Date:</strong> Aug 26, 2025</p>
-                <p><strong>Message:</strong> Waiting for Admin Response</p>
-              </div>
-            </div>
-            <!-- Previous Applications -->
-            <h5 class="mb-3">Previous Applications</h5>
-            <div class="table-responsive">
-              <table class="table table-striped">
-                <thead class="table-header">
-                  <tr>
-                    <th>Service</th>
-                    <th>Status</th>
-                    <th>Application Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Internet Plan 100Mbps</td>
-                    <td><span class="badge bg-accepted">Accepted</span></td>
-                    <td>Aug 01, 2025</td>
-                  </tr>
-                  <tr>
-                    <td>Mobile Plan Unlimited</td>
-                    <td><span class="badge bg-rejected">Rejected</span></td>
-                    <td>Jul 15, 2025</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+      <!-- Applications Section -->
+<!-- Applications Section -->
+<div class="col-12 portfolio-item" *ngIf="activeSection === 'applications'" data-wow-delay="0.3s">
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <h4 class="card-title">Applications</h4>
+      
+      <!-- Loading state -->
+      <div *ngIf="isLoadingApplications" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
       </div>
 
+      <!-- No applications message -->
+      <div *ngIf="!isLoadingApplications && (!userApplications || userApplications.length === 0)" class="alert alert-info">
+        You haven't submitted any applications yet.
+      </div>
+
+      <!-- All Applications - Recent on top, others in table -->
+      <div *ngIf="!isLoadingApplications && userApplications && userApplications.length > 0">
+        <!-- Recent Application (most recent) -->
+        <div class="card mb-4 border-0 recent-card">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Recent Application</h5>
+          </div>
+          <div class="card-body">
+            <p><strong>Application ID:</strong> {{ userApplications[0].id }}</p>
+            <p><strong>Status:</strong> 
+              <span [ngClass]="{
+                'badge bg-pending': userApplications[0].status === 'PENDING',
+                'badge bg-accepted': userApplications[0].status === 'APPROVED',
+                'badge bg-rejected': userApplications[0].status === 'REJECTED'
+              }">
+                {{ userApplications[0].status }}
+              </span>
+            </p>
+            <p><strong>Application Date:</strong> {{ formatDate(userApplications[0].applicationDate) }}</p>
+            <p><strong>Service ID:</strong> {{ userApplications[0].srvce_id }}</p>
+            <p><strong>Offer ID:</strong> {{ userApplications[0].offer_id }}</p>
+          </div>
+        </div>
+
+        <!-- All Other Applications in a table -->
+        <h5 class="mb-3">All Applications</h5>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead class="table-header">
+              <tr>
+                <th>ID</th>
+                <th>Status</th>
+                <th>Service ID</th>
+                <th>Offer ID</th>
+                <th>Application Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let application of userApplications">
+                <td>{{ application.id }}</td>
+                <td>
+                  <span [ngClass]="{
+                    'badge bg-pending': application.status === 'PENDING',
+                    'badge bg-accepted': application.status === 'APPROVED',
+                    'badge bg-rejected': application.status === 'REJECTED'
+                  }">
+                    {{ application.status }}
+                  </span>
+                </td>
+                <td>{{ application.srvce_id }}</td>
+                <td>{{ application.offer_id }}</td>
+                <td>{{ formatDate(application.applicationDate) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+      
       <!-- Payments Section -->
       <div class="col-12 portfolio-item" *ngIf="activeSection === 'payments'" data-wow-delay="0.4s">
         <div class="card border-0 shadow-sm">
