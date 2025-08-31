@@ -161,3 +161,152 @@
 .apply-service-btn::after {
   display: none !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Custom Modal Styles */
+.custom-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+.custom-modal {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.custom-modal-header {
+  padding: 1rem;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-modal-body {
+  padding: 1.5rem;
+}
+
+.custom-modal-footer {
+  padding: 1rem;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: white;
+  cursor: pointer;
+}
+
+/* Service Item Styles */
+.service-item {
+  background: #FFFFFF;
+  box-shadow: 0 0 45px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  transition: 0.3s;
+  border: 1px solid transparent;
+  padding: 2rem 1rem;
+}
+
+.service-item:hover {
+  border-color: #0D6EFD;
+  transform: translateY(-5px);
+}
+
+.service-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 60px;
+  margin: 0 auto 20px auto;
+  color: #0D6EFD;
+  background: #F8F9FA;
+}
+
+.show-more-btn {
+  background: #6C757D;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin: 0.25rem;
+}
+
+.show-more-btn:hover {
+  background: #5A6268;
+}
+
+.apply-service-btn {
+  background: #0D6EFD;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin: 0.25rem;
+}
+
+.apply-service-btn:hover {
+  background: #0B5ED7;
+}
+
+/* Table Styles */
+.table-header {
+  background-color: #0D6EFD;
+  color: white;
+}
+
+/* Form Styles */
+.form-check {
+  padding: 0.5rem;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.form-check-input {
+  margin-right: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .custom-modal {
+    width: 95%;
+    margin: 1rem;
+  }
+  
+  .service-item {
+    padding: 1.5rem 0.5rem;
+  }
+}
