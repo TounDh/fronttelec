@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-myaccount',
@@ -141,37 +142,46 @@ export class MyaccountComponent implements OnInit {
 
   // In myaccount.component.ts
 // In myaccount.component.ts
+// Update the loadUserAddress method
 loadUserAddress() {
   if (this.currentUser && this.currentUser.id) {
     this.isLoadingAddress = true;
-    this.http.get<any>(`http://localhost:8085/api/address/user/${this.currentUser.id}`).subscribe({
-      next: (response) => {
-        // Check if response is actually an address object or an error message
-        if (response && response.id) { // Assuming address has an id property
-          this.userAddress = response;
-        } else {
-          console.log('No address found or error response:', response);
-          this.userAddress = null;
+    this.http.get<any>(`http://localhost:8085/api/address/user/${this.currentUser.id}`)
+      .pipe(
+        catchError(error => {
+          console.error('Error loading address:', error);
+          this.isLoadingAddress = false;
+          
+          if (error.status === 404) {
+            // No address found - this is normal
+            this.userAddress = null;
+          } else {
+            alert('Failed to load address. Please try again.');
+          }
+          return throwError(() => error);
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          this.isLoadingAddress = false;
+          
+          // Handle the response structure correctly
+          if (response && response.data) {
+            this.userAddress = response.data; // Extract from data property
+          } else if (response && response.message) {
+            // No address found but API returned a message
+            console.log(response.message);
+            this.userAddress = null;
+          } else {
+            // Handle raw address response (backward compatibility)
+            this.userAddress = response;
+          }
         }
-        this.isLoadingAddress = false;
-      },
-      error: (error) => {
-        console.error('Error loading address:', error);
-        this.userAddress = null;
-        this.isLoadingAddress = false;
-        
-        // Show appropriate message to user
-        if (error.status === 404) {
-          // No address found - this is normal for new users
-          console.log('No address found for user');
-        } else {
-          alert('Failed to load address. Please try again.');
-        }
-      }
-    });
+      });
   }
 }
 
+// Update the saveAddress method
 saveAddress() {
   if (this.addressForm.valid && this.currentUser && this.currentUser.id) {
     const addressData = this.addressForm.value;
@@ -179,21 +189,31 @@ saveAddress() {
     this.http.post<any>(
       `http://localhost:8085/api/address/user/${this.currentUser.id}`, 
       addressData
-    ).subscribe({
+    )
+    .pipe(
+      catchError(error => {
+        console.error('Error saving address:', error);
+        alert('Failed to save address. Please try again.');
+        return throwError(() => error);
+      })
+    )
+    .subscribe({
       next: (response) => {
-        // Check if response is successful
-        if (response && response.id) {
+        // Handle response with consistent structure
+        if (response && response.data) {
+          this.userAddress = response.data; // Extract from data property
+          this.showAddAddressModal = false;
+          this.showEditAddressModal = false;
+          alert('Address saved successfully!');
+        } else if (response && response.message) {
+          alert('Failed to save address: ' + response.message);
+        } else {
+          // Handle raw address response (backward compatibility)
           this.userAddress = response;
           this.showAddAddressModal = false;
           this.showEditAddressModal = false;
           alert('Address saved successfully!');
-        } else {
-          alert('Failed to save address: ' + (response.message || 'Unknown error'));
         }
-      },
-      error: (error) => {
-        console.error('Error saving address:', error);
-        alert('Failed to save address. Please try again.');
       }
     });
   }
