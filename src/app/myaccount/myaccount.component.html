@@ -210,6 +210,8 @@
           </div>
           <div class="card-body">
             <p><strong>Application ID:</strong> {{ userApplications[0].id }}</p>
+            <p><strong>Service:</strong> {{ userApplications[0].srvce?.name || 'N/A' }}</p>
+            <p><strong>Offer:</strong> {{ userApplications[0].offer?.speed || 'N/A' }} Mbps - ${{ userApplications[0].offer?.price || 'N/A' }}</p>
             <p><strong>Status:</strong> 
               <span [ngClass]="{
                 'badge bg-pending': userApplications[0].status === 'PENDING',
@@ -220,8 +222,6 @@
               </span>
             </p>
             <p><strong>Application Date:</strong> {{ formatDate(userApplications[0].applicationDate) }}</p>
-            <p><strong>Service ID:</strong> {{ userApplications[0].srvce_id }}</p>
-            <p><strong>Offer ID:</strong> {{ userApplications[0].offer_id }}</p>
           </div>
         </div>
 
@@ -232,15 +232,17 @@
             <thead class="table-header">
               <tr>
                 <th>ID</th>
+                <th>Service</th>
+                <th>Offer</th>
                 <th>Status</th>
-                <th>Service ID</th>
-                <th>Offer ID</th>
                 <th>Application Date</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let application of userApplications">
                 <td>{{ application.id }}</td>
+                <td>{{ application.srvce?.name || 'N/A' }}</td>
+                <td>{{ application.offer?.speed || 'N/A' }} Mbps - ${{ application.offer?.price || 'N/A' }}</td>
                 <td>
                   <span [ngClass]="{
                     'badge bg-pending': application.status === 'PENDING',
@@ -250,8 +252,6 @@
                     {{ application.status }}
                   </span>
                 </td>
-                <td>{{ application.srvce_id }}</td>
-                <td>{{ application.offer_id }}</td>
                 <td>{{ formatDate(application.applicationDate) }}</td>
               </tr>
             </tbody>
