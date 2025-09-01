@@ -74,8 +74,6 @@
               </a>
             </li>
 
-            
-
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Manage</span>
             </li>
@@ -148,8 +146,9 @@
               <input
                 type="text"
                 class="form-control border-0 shadow-none"
-                placeholder="Search..."
-                aria-label="Search..."
+                placeholder="Search users..."
+                aria-label="Search users..."
+                (input)="onSearchChange($event)"
               />
             </div>
           </div>
@@ -234,154 +233,77 @@
               <div class="d-flex align-items-center">
                 <div class="input-group me-2" style="width: 200px;">
                   <span class="input-group-text"><i class="bx bx-search"></i></span>
-                  <input type="text" class="form-control" placeholder="Search clients by name, address, or status..." aria-label="Search clients" />
+                  <input type="text" class="form-control" placeholder="Search users..." aria-label="Search users" (input)="onSearchChange($event)" />
                 </div>
                 <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#archiveClientModal" style="width: 145px;"><i class="bx bx-box me-1"></i>Archive</button>
               </div>
             </div>
             <div class="card-body">
               <div class="table-responsive text-nowrap">
-                <table class="table">
+                <!-- Loading State -->
+                <div *ngIf="isLoading" class="text-center py-4">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <p class="mt-2">Loading users...</p>
+                </div>
+
+                <!-- No Users Found -->
+                <div *ngIf="!isLoading && filteredUsers.length === 0" class="text-center py-4">
+                  <i class="bx bx-user-x bx-lg text-muted"></i>
+                  <p class="mt-2 text-muted">No users found</p>
+                </div>
+
+                <!-- Users Table -->
+                <table *ngIf="!isLoading && filteredUsers.length > 0" class="table">
                   <thead>
                     <tr>
                       <th>Name</th>
                       <th>Email</th>
-                      <th>Address</th>
                       <th>Phone</th>
-                      <th>Subscription History</th>
+                      <th>Role</th>
                       <th>Status</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody class="table-border-bottom-0">
-                    <tr>
-                      <td><strong>Ahmed Ben Salah</strong></td>
-                      <td>ahmed.bensalahemail.com</td>
-                      <td>123 Rue de Tunis, Tunis</td>
-                      <td>+216 71 234 567</td>
-                      <td>ADSL (Active), Fibre Optic (Ended)</td>
-                      <td><span class="badge bg-label-success">Active</span></td>
+                    <tr *ngFor="let user of filteredUsers">
                       <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bxs-user-detail me-1"></i> User Details</a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
-                            <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bx-archive me-1"></i> Archive</a>
-                          </div>
-                        </div>
+                        <strong>{{ user.name }} {{ user.surname }}</strong>
                       </td>
-                    </tr>
-                    <tr>
-                      <td><strong>Fatima Zohra</strong></td>
-                      <td>fatima.zohraemail.com</td>
-                      <td>45 Avenue Habib Bourguiba, Sfax</td>
-                      <td>+216 74 890 123</td>
-                      <td>VDSL (Active)</td>
-                      <td><span class="badge bg-label-success">Active</span></td>
+                      <td>{{ user.email }}</td>
+                      <td>{{ user.phone || 'N/A' }}</td>
                       <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bxs-user-detail me-1"></i> User Details</a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
-                            <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-in me-1"></i> Archive</a>
-                          </div>
-                        </div>
+                        <span class="badge bg-label-info">{{ user.role || 'USER' }}</span>
                       </td>
-                    </tr>
-                    <tr>
-                      <td><strong>Mohamed Amine</strong></td>
-                      <td>mohamed.amineemail.com</td>
-                      <td>78 Rue de Sousse, Sousse</td>
-                      <td>+216 73 456 789</td>
-                      <td>5G Box (Pending)</td>
-                      <td><span class="badge bg-label-success">Active</span></td>
                       <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bxs-user-detail me-1"></i> User Details</a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
-                            <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-in me-1"></i> Archive</a>
-                          </div>
-                        </div>
+                        <span class="badge bg-label-success">Active</span>
                       </td>
-                    </tr>
-                    <tr>
-                      <td><strong>Sana Karray</strong></td>
-                      <td>sana.karrayemail.com</td>
-                      <td>12 Rue de Monastir, Monastir</td>
-                      <td>+216 73 123 456</td>
-                      <td>Fibre Optic (Active)</td>
-                      <td><span class="badge bg-label-success">Active</span></td>
                       <td>
                         <div class="dropdown">
                           <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                             <i class="bx bx-dots-vertical-rounded"></i>
                           </button>
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bxs-user-detail me-1"></i> User Details</a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
-                            <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-in me-1"></i> Archive</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><strong>Khaled Mhiri</strong></td>
-                      <td>khaled.mhiriemail.com</td>
-                      <td>56 Avenue de la Liberte, Ariana</td>
-                      <td>+216 70 987 654</td>
-                      <td>ADSL (Active)</td>
-                      <td><span class="badge bg-label-success">Active</span></td>
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bxs-user-detail me-1"></i> User Details</a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
-                            <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-in me-1"></i> Archive</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><strong>Leila Saidi</strong></td>
-                      <td>leila.saidiemail.com</td>
-                      <td>89 Rue de Bizerte, Bizerte</td>
-                      <td>+216 72 345 678</td>
-                      <td>VDSL (Pending)</td>
-                      <td><span class="badge bg-label-success">Active</span></td>
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewClientModal" ><i class="bx bxs-user-detail me-1"></i> User Details</a>
-                            <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editClientModal" ><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" routerLink="/dash/applications" ><i class="bx bx-list-ul me-1"></i> View Requests</a>
-                            <a class="dropdown-item" routerLink="/dash/payments" ><i class="bx bx-credit-card me-1"></i> View Payments</a>
-                            <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-in me-1"></i> Archive</a>
+                            <a class="dropdown-item" href="javascript:void(0);" 
+                               (click)="viewUserDetails(user)" data-bs-toggle="modal" data-bs-target="#viewClientModal">
+                              <i class="bx bxs-user-detail me-1"></i> User Details
+                            </a>
+                            <a class="dropdown-item" href="javascript:void(0);" 
+                               (click)="editUser(user)" data-bs-toggle="modal" data-bs-target="#editClientModal">
+                              <i class="bx bx-edit-alt me-1"></i> Edit
+                            </a>
+                            <a class="dropdown-item" routerLink="/dash/applications" 
+                               [queryParams]="{userId: user.id}">
+                              <i class="bx bx-list-ul me-1"></i> View Applications
+                            </a>
+                            <a class="dropdown-item" routerLink="/dash/payments" 
+                               [queryParams]="{userId: user.id}">
+                              <i class="bx bx-credit-card me-1"></i> View Payments
+                            </a>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="archiveUser(user)">
+                              <i class="bx bx-archive me-1"></i> Archive
+                            </a>
                           </div>
                         </div>
                       </td>
@@ -401,39 +323,50 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <form>
+                  <form *ngIf="selectedUser">
                     <div class="mb-3">
                       <label for="editClientName" class="form-label">Name</label>
-                      <input type="text" class="form-control" id="editClientName" placeholder="e.g., Ahmed Ben Salah" />
+                      <input type="text" class="form-control" id="editClientName" 
+                             [(ngModel)]="selectedUser.name" name="name"
+                             placeholder="e.g., Ahmed" />
+                    </div>
+                    <div class="mb-3">
+                      <label for="editClientSurname" class="form-label">Surname</label>
+                      <input type="text" class="form-control" id="editClientSurname" 
+                             [(ngModel)]="selectedUser.surname" name="surname"
+                             placeholder="e.g., Ben Salah" />
                     </div>
                     <div class="mb-3">
                       <label for="editClientEmail" class="form-label">Email</label>
-                      <input type="email" class="form-control" id="editClientEmail" placeholder="e.g., ahmed.bensalahemail.com" />
-                    </div>
-                    <div class="mb-3">
-                      <label for="editClientAddress" class="form-label">Address</label>
-                      <input type="text" class="form-control" id="editClientAddress" placeholder="e.g., 123 Rue de Tunis, Tunis" />
+                      <input type="email" class="form-control" id="editClientEmail" 
+                             [(ngModel)]="selectedUser.email" name="email"
+                             placeholder="e.g., ahmed.bensalah@email.com" />
                     </div>
                     <div class="mb-3">
                       <label for="editClientPhone" class="form-label">Phone</label>
-                      <input type="text" class="form-control" id="editClientPhone" placeholder="e.g., +216 71 234 567" />
+                      <input type="text" class="form-control" id="editClientPhone" 
+                             [(ngModel)]="selectedUser.phone" name="phone"
+                             placeholder="e.g., +216 71 234 567" />
                     </div>
                     <div class="mb-3">
-                      <label for="editClientStatus" class="form-label">Status</label>
-                      <select class="form-select" id="editClientStatus">
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
+                      <label for="editClientRole" class="form-label">Role</label>
+                      <select class="form-select" id="editClientRole" 
+                              [(ngModel)]="selectedUser.role" name="role">
+                        <option value="USER">User</option>
+                        <option value="ADMIN">Admin</option>
+                        <option value="TECHNICIAN">Technician</option>
                       </select>
                     </div>
                   </form>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" >Update Client</button>
+                  <button type="button" class="btn btn-primary" (click)="updateUser()">Update Client</button>
                 </div>
               </div>
             </div>
           </div>
+
           <!-- View Client Details Modal -->
           <div class="modal fade" id="viewClientModal" tabindex="-1" aria-labelledby="viewClientModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -442,48 +375,45 @@
                   <h5 class="modal-title" id="viewClientModalLabel">Client Details</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                  <div class="mb-3">
-                    <h6>Name</h6>
-                    <p id="viewClientName">Ahmed Ben Salah</p>
+                <div class="modal-body" *ngIf="selectedUser">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <h6>Name</h6>
+                        <p>{{ selectedUser.name }} {{ selectedUser.surname }}</p>
+                      </div>
+                      <div class="mb-3">
+                        <h6>Email</h6>
+                        <p>{{ selectedUser.email }}</p>
+                      </div>
+                      <div class="mb-3">
+                        <h6>Phone</h6>
+                        <p>{{ selectedUser.phone || 'N/A' }}</p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <h6>Birthdate</h6>
+                        <p>{{ selectedUser.birthdate || 'N/A' }}</p>
+                      </div>
+                      <div class="mb-3">
+                        <h6>Role</h6>
+                        <p><span class="badge bg-label-info">{{ selectedUser.role || 'USER' }}</span></p>
+                      </div>
+                      <div class="mb-3">
+                        <h6>User ID</h6>
+                        <p>{{ selectedUser.id }}</p>
+                      </div>
+                    </div>
                   </div>
                   <div class="mb-3">
-                    <h6>Email</h6>
-                    <p id="viewClientEmail">ahmed.bensalahemail.com</p>
-                  </div>
-                  <div class="mb-3">
-                    <h6>Address</h6>
-                    <p id="viewClientAddress">123 Rue de Tunis, Tunis</p>
-                  </div>
-                  <div class="mb-3">
-                    <h6>Phone</h6>
-                    <p id="viewClientPhone">+216 71 234 567</p>
-                  </div>
-                  <div class="mb-3">
-                    <h6>Subscription History</h6>
-                    <ul id="viewClientSubscriptions">
-                      <li>ADSL (Active, Started: 2024-01-15)</li>
-                      <li>Fibre Optic (Ended, 2023-12-01)</li>
-                    </ul>
-                  </div>
-                  <div class="mb-3">
-                    <h6>Past Requests</h6>
-                    <ul id="viewClientRequests">
-                      <li>ADSL Request (Approved, 2024-01-10)</li>
-                      <li>Fibre Optic Request (Rejected, 2023-11-20)</li>
-                    </ul>
-                  </div>
-                  <div class="mb-3">
-                    <h6>Technician Visits</h6>
-                    <ul id="viewClientVisits">
-                      <li>ADSL Installation (2024-01-20, Technician: Ali Ben Youssef)</li>
-                    </ul>
-                  </div>
-                  <div class="mb-3">
-                    <h6>Payments</h6>
-                    <ul id="viewClientPayments">
-                      <li>Payment #1234 (29.99 TND, Paid, 2024-02-01)</li>
-                    </ul>
+                    <h6>Applications</h6>
+                    <p *ngIf="selectedUser.applications && selectedUser.applications.length > 0">
+                      {{ selectedUser.applications.length }} application(s)
+                    </p>
+                    <p *ngIf="!selectedUser.applications || selectedUser.applications.length === 0">
+                      No applications found
+                    </p>
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -492,7 +422,8 @@
               </div>
             </div>
           </div>
-          <!-- Archive Client Modal -->
+
+          <!-- Archive Client Modal (Remains mostly the same) -->
           <div class="modal fade" id="archiveClientModal" tabindex="-1" aria-labelledby="archiveClientModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" style="max-width: 1100px;">
               <div class="modal-content">
@@ -507,9 +438,8 @@
                         <tr>
                           <th>Name</th>
                           <th>Email</th>
-                          <th>Address</th>
                           <th>Phone</th>
-                          <th>Subscription History</th>
+                          <th>Role</th>
                           <th>Actions</th>
                         </tr>
                       </thead>
@@ -517,33 +447,15 @@
                         <tr>
                           <td><strong>Ali Ben Youssef</strong></td>
                           <td>ali.benyoussefemail.com</td>
-                          <td>34 Rue de Kairouan, Kairouan</td>
                           <td>+216 77 654 321</td>
-                          <td>ADSL (Ended)</td>
+                          <td><span class="badge bg-label-secondary">USER</span></td>
                           <td>
                             <div class="dropdown">
                               <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                 <i class="bx bx-dots-vertical-rounded"></i>
                               </button>
                               <div class="dropdown-menu">
-                                <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-out me-1"></i> Restore</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><strong>Sarra Jlassi</strong></td>
-                          <td>sarra.jlassiemail.com</td>
-                          <td>67 Avenue de Carthage, Tunis</td>
-                          <td>+216 71 987 654</td>
-                          <td>Fibre Optic (Ended)</td>
-                          <td>
-                            <div class="dropdown">
-                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-out me-1"></i> Restore</a>
+                                <a class="dropdown-item" href="javascript:void(0);"><i class="bx bxs-archive-out me-1"></i> Restore</a>
                               </div>
                             </div>
                           </td>
@@ -561,6 +473,7 @@
         </div>
       </div>
       <!-- / Content -->
+      <!-- Footer -->
       <!-- Footer -->
       <footer class="content-footer footer bg-footer-theme">
         <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
