@@ -345,9 +345,12 @@
                 </span>
               </td>
               <td>
-                <button type="button" class="btn btn-warning custom-btn" data-bs-toggle="modal" data-bs-target="#scheduleInstallationModal" (click)="selectInstallation(installation)">
-                  <i class="bx bx-calendar-event me-1"></i>Schedule
-                </button>
+                <button class="btn btn-primary btn-sm" 
+        (click)="selectInstallation(installation)"
+        data-bs-toggle="modal" 
+        data-bs-target="#scheduleInstallationModal">
+    <i class="bx bx-calendar"></i> Schedule
+</button>
               </td>
             </tr>
           </tbody>
@@ -397,12 +400,8 @@
                     <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#scheduleInstallationModal" (click)="selectInstallation(installation)">
                       <i class="bx bx-calendar-event me-1"></i> Reschedule
                     </a>
-                    <a class="dropdown-item" href="javascript:void(0);" (click)="updateInstallationStatus(installation.id, 'CANCELLED')">
-                      <i class="bx bx-x me-1"></i> Cancel
-                    </a>
-                    <a class="dropdown-item" href="javascript:void(0);" (click)="updateInstallationStatus(installation.id, 'COMPLETED')">
-                      <i class="bx bx-check me-1"></i> Mark Complete
-                    </a>
+                    
+                    
                   </div>
                 </div>
               </td>
@@ -415,33 +414,32 @@
 </div>
 
 <!-- Schedule Installation Modal (unchanged) -->
-<div class="modal fade" id="scheduleInstallationModal" tabindex="-1" aria-labelledby="scheduleInstallationModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm modal-custom-style">
-    <div class="modal-content">
-      <div class="modal-header bg-gradient-primary text-white">
-        <h5 class="modal-title gradient-text" id="scheduleInstallationModalLabel">
-          <i class="bx bx-calendar-event me-2"></i>Schedule Installation
-        </h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body p-4 bg-light-gradient" *ngIf="selectedInstallation">
-        <div class="mb-3">
-          <h6 class="fw-semibold">Client: {{ getUserFullName(selectedInstallation) }}</h6>
+<div class="modal fade" id="scheduleInstallationModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Schedule Installation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="selectedInstallation">
+                    <p><strong>Client:</strong> {{getUserFullName(selectedInstallation)}}</p>
+                    <p><strong>Service:</strong> {{getServiceName(selectedInstallation)}}</p>
+                    
+                    <div class="mb-3">
+                        <label for="scheduleDate" class="form-label">Installation Date</label>
+                        <input type="date" class="form-control" id="scheduleDate" 
+                               [(ngModel)]="scheduleDate" required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" 
+                        (click)="scheduleInstallation(selectedInstallation.id)">
+                    Confirm Schedule
+                </button>
+            </div>
         </div>
-        <div class="mb-3">
-          <h6 class="fw-semibold">Service: {{ getServiceName(selectedInstallation) }}</h6>
-        </div>
-        <div class="mb-0">
-          <h6 class="fw-semibold">Scheduled Date</h6>
-          <input type="date" class="form-control custom-input" [(ngModel)]="scheduleDate" />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-info custom-btn" (click)="scheduleInstallation(selectedInstallation.id)">
-          <i class="bx bx-save me-1"></i>Save
-        </button>
-      </div>
     </div>
-  </div>
 </div>

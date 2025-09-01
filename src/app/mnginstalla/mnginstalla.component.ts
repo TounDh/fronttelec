@@ -5,13 +5,14 @@ import { ViewEncapsulation } from '@angular/core';
 import ApexCharts from 'apexcharts';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-mnginstalla',
   standalone: true,
   imports: [CommonModule, RouterModule, HttpClientModule, FormsModule],
+  
   encapsulation: ViewEncapsulation.None,
   templateUrl: './mnginstalla.component.html',
   styleUrls: [
@@ -49,26 +50,28 @@ export class mnginstallaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   loadInstallations() {
     this.isLoading = true;
-    this.http.get<any[]>('http://localhost:8085/api/installations') // Correct endpoint
-      .subscribe({
-        next: (data) => {
-          this.installations = data;
-          this.filteredInstallations = [...this.installations];
-          this.unscheduledInstallations = this.installations.filter(inst => 
-            !inst.date || inst.status === 'UNSCHEDULED'
-          );
-          this.isLoading = false;
-        },
-        error: (error: HttpErrorResponse) => {
-          console.error('Error loading installations:', {
-            status: error.status,
-            statusText: error.statusText,
-            message: error.message,
-            errorDetails: error.error
-          });
-          this.isLoading = false;
-        }
-      });
+    this.http.get<any[]>('http://localhost:8085/api/installations', {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    }).subscribe({
+      next: (data) => {
+        this.installations = data;
+        this.filteredInstallations = [...this.installations];
+        this.unscheduledInstallations = this.installations.filter(inst => 
+          !inst.date || inst.status === 'UNSCHEDULED'
+        );
+        this.isLoading = false;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('Error loading installations:', {
+          status: error.status,
+          statusText: error.statusText,
+          message: error.message,
+          errorDetails: error.error
+        });
+        this.isLoading = false;
+        alert('Failed to load installations. Please check if the backend server is running at http://localhost:8085.');
+      }
+    });
   }
 
   searchInstallations() {
@@ -104,41 +107,50 @@ export class mnginstallaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   scheduleInstallation(installationId: number) {
     if (!this.scheduleDate) {
-      alert('Please select a date');
-      return;
+        alert('Please select a valid date.');
+        return;
     }
-    
-    this.http.patch<any>(`http://localhost:8085/api/installations/${installationId}/schedule`, { date: this.scheduleDate })
-      .subscribe({
-        next: (data) => {
-          this.loadInstallations();
-          this.closeModal('scheduleInstallationModal');
-          alert('Installation scheduled successfully!');
-        },
-        error: (error) => {
-          console.error('Error scheduling installation:', error);
-          alert('Failed to schedule installation. Please try again.');
-        }
-      });
-  }
 
-  updateInstallationStatus(installationId: number, status: string) {
-    this.http.patch<any>(`http://localhost:8085/api/installations/${installationId}/status`, { status })
-      .subscribe({
+    // Format date to YYYY-MM-DD
+    const formattedDate = new Date(this.scheduleDate).toISOString().split('T')[0];
+    
+    this.http.patch<any>(
+        `http://localhost:8085/api/installations/${installationId}/schedule`, 
+        { date: formattedDate, status: "SCHEDULED" },
+        { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
+    ).subscribe({
         next: (data) => {
-          this.loadInstallations();
-          alert('Installation status updated successfully!');
+            // Update the local installation object immediately
+            const index = this.installations.findIndex(inst => inst.id === installationId);
+            if (index !== -1) {
+                this.installations[index].status = "SCHEDULED";
+                this.installations[index].date = formattedDate;
+                this.filteredInstallations = [...this.installations];
+                this.unscheduledInstallations = this.installations.filter(inst => 
+                    !inst.date || inst.status === 'UNSCHEDULED'
+                );
+            }
+            
+            this.closeModal('scheduleInstallationModal');
+            alert('Installation scheduled successfully!');
         },
-        error: (error) => {
-          console.error('Error updating installation status:', error);
-          alert('Failed to update installation status. Please try again.');
+        error: (error: HttpErrorResponse) => {
+            console.error('Error scheduling installation:', error);
+            alert('Failed to schedule installation. Please try again.');
         }
-      });
-  }
+    });
+}
+
+
+
+
+
+
+  
 
   selectInstallation(installation: any) {
     this.selectedInstallation = installation;
-    this.scheduleDate = '';
+    this.scheduleDate = installation.date ? new Date(installation.date).toISOString().split('T')[0] : '';
   }
 
   getUserFullName(installation: any): string {
@@ -192,14 +204,17 @@ export class mnginstallaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   closeModal(modalId: string) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-      modal.classList.remove('show');
-      modal.style.display = 'none';
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) backdrop.remove();
+    const modalElement = this.document.getElementById(modalId);
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement) || 
+                    new (window as any).bootstrap.Modal(modalElement);
+      modal.hide();
     }
+    const backdrop = this.document.querySelector('.modal-backdrop');
+    if (backdrop) {
+      this.renderer.removeChild(this.document.body, backdrop);
+    }
+    this.renderer.removeClass(this.document.body, 'modal-open');
   }
 
   ngAfterViewInit() {
