@@ -275,31 +275,55 @@
 
 
 
-              <div class="card">
+              <!-- Update the table to remove paidDate column -->
+<div class="card">
   <div class="card-header d-flex align-items-center justify-content-between">
     <h5 class="card-title m-0 me-2">Payments</h5>
     <div class="d-flex align-items-center">
-      <div class="input-group me-2" style="width:  200px;">
+      <div class="input-group me-2" style="width: 200px;">
         <span class="input-group-text"><i class="bx bx-search"></i></span>
-        <input type="text" class="form-control" placeholder="Search by client name or service..." aria-label="Search payments" />
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Search by client name or service..." 
+          [(ngModel)]="searchTerm"
+          (input)="searchPayments()"
+          aria-label="Search payments" />
       </div>
-      <div class="input-group me-2" style="width:  150px;">
-        <select class="form-select" aria-label="Filter by status">
+      <div class="input-group me-2" style="width: 150px;">
+        <select 
+          class="form-select" 
+          [(ngModel)]="statusFilter"
+          (change)="searchPayments()"
+          aria-label="Filter by status">
           <option value="">All Statuses</option>
-          <option value="Paid">Paid</option>
-          <option value="Pending">Pending</option>
-          <option value="Unpaid">Unpaid</option>
+          <option value="PAID">Paid</option>
+          <option value="PENDING">Pending</option>
+          <option value="OVERDUE">Overdue</option>
         </select>
       </div>
-      <div class="input-group me-2" style="width:  150px;">
-        <input type="date" class="form-control" placeholder="Filter by payment date" aria-label="Filter by payment date" />
+      <div class="input-group me-2" style="width: 150px;">
+        <input 
+          type="date" 
+          class="form-control" 
+          [(ngModel)]="dateFilter"
+          (change)="searchPayments()"
+          placeholder="Filter by deadline" 
+          aria-label="Filter by deadline" />
       </div>
-      <button type="button" class="btn btn-secondary custom-btn" data-bs-toggle="modal" data-bs-target="#viewArchivedPaymentsModal" style="width:  145px;"><i class="bx bx-box me-1"></i>Archive
+      <button type="button" class="btn btn-secondary custom-btn" data-bs-toggle="modal" data-bs-target="#viewArchivedPaymentsModal" style="width: 145px;">
+        <i class="bx bx-box me-1"></i>Archive
       </button>
     </div>
   </div>
   <div class="card-body">
-    <div class="table-responsive text-nowrap">
+    <div *ngIf="isLoading" class="text-center py-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    
+    <div *ngIf="!isLoading" class="table-responsive text-nowrap">
       <table class="table">
         <thead>
           <tr>
@@ -309,222 +333,104 @@
             <th>Status</th>
             <th>Acceptance Date</th>
             <th>Payment Deadline</th>
-            <th>Payment Date</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
-          <tr>
-            <td><strong>Ahmed Ben Salah</strong></td>
-            <td>ADSL</td>
-            <td>50 TND</td>
-            <td><span class="badge bg-label-success">Paid</span></td>
-            <td>2024-01-10</td>
-            <td>2024-01-17</td>
-            <td>2024-01-15</td>
+          <tr *ngFor="let payment of filteredPayments">
+            <td>
+              <strong>{{ getUserFullName(payment) }}</strong>
+            </td>
+            <td>{{ getServiceName(payment) }}</td>
+            <td>{{ payment.total }} TND</td>
+            <td>
+              <span class="badge" [ngClass]="getStatusBadgeClass(payment.status)">
+                {{ getStatusText(payment.status) }}
+              </span>
+            </td>
+            <td>{{ formatDate(payment.application?.applicationDate) }}</td>
+            <td>{{ formatDate(payment.deadline) }}</td>
             <td>
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                   <i class="bx bx-dots-vertical-rounded"></i>
                 </button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewPaymentModal"><i class="bx bxs-detail me-1"></i> View Details</a>
-                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive me-1"></i> Archive</a>
+                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewPaymentModal" (click)="selectPayment(payment)">
+                    <i class="bx bxs-detail me-1"></i> View Details
+                  </a>
+                  <a class="dropdown-item" href="javascript:void(0);" (click)="updatePaymentStatus(payment.id, 'ARCHIVED')">
+                    <i class="bx bx-archive me-1"></i> Archive
+                  </a>
                 </div>
               </div>
             </td>
           </tr>
-          <tr>
-            <td><strong>Fatima Zohra</strong></td>
-            <td>VDSL</td>
-            <td>75 TND</td>
-            <td><span class="badge bg-label-warning">Pending</span></td>
-            <td>2024-02-15</td>
-            <td>2024-02-22</td>
-            <td>-</td>
-            <td>
-              <div class="dropdown">
-                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                  <i class="bx bx-dots-vertical-rounded"></i>
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewPaymentModal"><i class="bx bxs-detail me-1"></i> View Details</a>
-                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive me-1"></i> Archive</a>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td><strong>Mohamed Amine</strong></td>
-            <td>5G Box</td>
-            <td>100 TND</td>
-            <td><span class="badge bg-label-danger">Unpaid</span></td>
-            <td>2024-03-01</td>
-            <td>2024-03-08</td>
-            <td>-</td>
-            <td>
-              <div class="dropdown">
-                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                  <i class="bx bx-dots-vertical-rounded"></i>
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#viewPaymentModal"><i class="bx bxs-detail me-1"></i> View Details</a>
-                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-archive me-1"></i> Archive</a>
-                </div>
-              </div>
-            </td>
+          <tr *ngIf="filteredPayments.length === 0 && !isLoading">
+            <td colspan="7" class="text-center py-4">No payments found</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
-<!-- View Payment Details Modal -->
+
+<!-- Update the modal to remove paidDate reference -->
 <div class="modal fade" id="viewPaymentModal" tabindex="-1" aria-labelledby="viewPaymentModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-custom-style">
     <div class="modal-content">
       <div class="modal-header bg-gradient-primary text-white">
-        <h5 class="modal-title gradient-text" id="viewPaymentModalLabel"><i class="bx bx-credit-card me-2"></i>Invoice Details</h5>
+        <h5 class="modal-title gradient-text" id="viewPaymentModalLabel">
+          <i class="bx bx-credit-card me-2"></i>Payment Details
+        </h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body p-4 bg-light-gradient">
+      <div class="modal-body p-4 bg-light-gradient" *ngIf="selectedPayment">
         <div class="card shadow-lg border-primary">
           <div class="card-header bg-gradient-light border-bottom">
-            <h6 class="fw-bold mb-0"><i class="bx bx-credit-card me-2 text-primary"></i>Invoice Information</h6>
+            <h6 class="fw-bold mb-0"><i class="bx bx-credit-card me-2 text-primary"></i>Payment Information</h6>
           </div>
           <div class="card-body">
             <div class="mb-3">
-              <h6 class="fw-semibold">Invoice Number</h6>
-              <p id="viewInvoiceNumber" class="text-muted">INV-2024-001</p>
+              <h6 class="fw-semibold">Payment ID</h6>
+              <p class="text-muted">PAY-{{ selectedPayment.id.toString().padStart(4, '0') }}</p>
             </div>
             <div class="mb-3">
               <h6 class="fw-semibold">Client</h6>
-              <p id="viewClient" class="text-muted">Ahmed Ben Salah</p>
+              <p class="text-muted">{{ getUserFullName(selectedPayment) }}</p>
             </div>
             <div class="mb-3">
-              <h6 class="fw-semibold">Billing Address</h6>
-              <p id="viewBillingAddress" class="text-muted">123 Rue de Tunis, Tunis</p>
+              <h6 class="fw-semibold">Email</h6>
+              <p class="text-muted">{{ selectedPayment.application?.user?.email || 'N/A' }}</p>
             </div>
             <div class="mb-3">
               <h6 class="fw-semibold">Service</h6>
-              <p id="viewService" class="text-muted">ADSL</p>
+              <p class="text-muted">{{ getServiceName(selectedPayment) }}</p>
             </div>
             <div class="mb-3">
               <h6 class="fw-semibold">Amount</h6>
-              <p id="viewAmount" class="text-muted">50 TND</p>
+              <p class="text-muted">{{ selectedPayment.total }} TND</p>
             </div>
             <div class="mb-3">
               <h6 class="fw-semibold">Status</h6>
-              <p id="viewStatus" class="badge bg-label-success">Paid</p>
+              <span class="badge" [ngClass]="getStatusBadgeClass(selectedPayment.status)">
+                {{ getStatusText(selectedPayment.status) }}
+              </span>
             </div>
             <div class="mb-3">
               <h6 class="fw-semibold">Application Acceptance Date</h6>
-              <p id="viewAcceptanceDate" class="text-muted">2024-01-10</p>
-            </div>
-            <div class="mb-3">
-              <h6 class="fw-semibold">Payment Deadline</h6>
-              <p id="viewPaymentDeadline" class="text-muted">2024-01-17</p>
+              <p class="text-muted">{{ formatDate(selectedPayment.application?.applicationDate) }}</p>
             </div>
             <div class="mb-0">
-              <h6 class="fw-semibold">Payment Date</h6>
-              <p id="viewPaymentDate" class="text-muted">2024-01-15</p>
+              <h6 class="fw-semibold">Payment Deadline</h6>
+              <p class="text-muted">{{ formatDate(selectedPayment.deadline) }}</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="modal-footer">
-      </div>
     </div>
   </div>
 </div>
-<!-- View Archived Payments Modal -->
-<div class="modal fade" id="viewArchivedPaymentsModal" tabindex="-1" aria-labelledby="archiveClientModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" style="max-width: 1100px;">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="archiveClientModalLabel">Archived Clients</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <div class="table-responsive text-nowrap">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>Address</th>
-                          <th>Phone</th>
-                          <th>Subscription History</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody class="table-border-bottom-0">
-                        <tr>
-                          <td><strong>Ali Ben Youssef</strong></td>
-                          <td>ali.benyoussefemail.com</td>
-                          <td>34 Rue de Kairouan, Kairouan</td>
-                          <td>+216 77 654 321</td>
-                          <td>ADSL (Ended)</td>
-                          <td>
-                            <div class="dropdown">
-                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-out me-1"></i> Restore</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><strong>Sarra Jlassi</strong></td>
-                          <td>sarra.jlassiemail.com</td>
-                          <td>67 Avenue de Carthage, Tunis</td>
-                          <td>+216 71 987 654</td>
-                          <td>Fibre Optic (Ended)</td>
-                          <td>
-                            <div class="dropdown">
-                              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="javascript:void(0);" ><i class="bx bxs-archive-out me-1"></i> Restore</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-
-
-
-
-
-
-
-
-              
-
-
-
-
-
-
-
-
-
-            </div>
-            </div>
             <!-- / Content -->
 
 
