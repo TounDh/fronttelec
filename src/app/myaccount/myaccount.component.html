@@ -371,57 +371,99 @@
 
 
 
+      <!-- Installations Section : please my friend deapseek in here display all installations related to current user in previous installations section and the most recent one in next installation and keep the countdown if status = SCHEDULED and DATE is available-->
       <!-- Installations Section -->
-      <div class="col-12 portfolio-item" *ngIf="activeSection === 'installations'" data-wow-delay="0.5s">
-        <div class="card border-0 shadow-sm">
+<div class="col-12 portfolio-item" *ngIf="activeSection === 'installations'" data-wow-delay="0.5s">
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <h4 class="card-title">Installations</h4>
+      
+      <!-- Loading state -->
+      <div *ngIf="isLoadingInstallations" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <!-- No installations message -->
+      <div *ngIf="!isLoadingInstallations && (!userInstallations || userInstallations.length === 0)" class="alert alert-info">
+        No installations found.
+      </div>
+
+      <div *ngIf="!isLoadingInstallations && userInstallations && userInstallations.length > 0">
+        <!-- Next Installation (most recent scheduled installation) -->
+        <div class="card mb-4 border-0 recent-card" *ngIf="nextInstallation">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Next Installation</h5>
+          </div>
           <div class="card-body">
-            <h4 class="card-title">Installations</h4>
-            <!-- Next Installation -->
-            <div class="card mb-4 border-0 recent-card">
-              <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Next Installation</h5>
-              </div>
-              <div class="card-body">
-                <p><strong>Service:</strong> Internet Plan 100Mbps</p>
-                <p><strong>Status:</strong> <span class="badge bg-scheduled">Scheduled</span></p>
-                <p><strong>Scheduled Date:</strong> Sep 05, 2025</p>
-                <div class="countdown-card mt-3">
-                  <h6>Countdown to Installation:</h6>
-                  <p class="countdown-text">8 days left</p>
-                </div>
-              </div>
-            </div>
-            <!-- Previous Installations -->
-            <h5 class="mb-3">Previous Installations</h5>
-            <div class="table-responsive">
-              <table class="table table-striped">
-                <thead class="table-header">
-                  <tr>
-                    <th>Service</th>
-                    <th>Status</th>
-                    <th>Installation Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Mobile Plan Unlimited</td>
-                    <td><span class="badge bg-accepted">Completed</span></td>
-                    <td>Jul 20, 2025</td>
-                  </tr>
-                  <tr>
-                    <td>TV Package Premium</td>
-                    <td><span class="badge bg-pending">Pending</span></td>
-                    <td>-</td>
-                  </tr>
-                </tbody>
-              </table>
+            <p><strong>Service:</strong> {{ nextInstallation.application?.srvce?.name || 'N/A' }}</p>
+            <p><strong>Status:</strong> 
+              <span [ngClass]="{
+                'badge bg-scheduled': nextInstallation.status === 'SCHEDULED',
+                'badge bg-pending': nextInstallation.status === 'PENDING',
+                'badge bg-accepted': nextInstallation.status === 'COMPLETED',
+                'badge bg-rejected': nextInstallation.status === 'CANCELLED'
+              }">
+                {{ nextInstallation.status }}
+              </span>
+            </p>
+            <p><strong>Scheduled Date:</strong> {{ formatDate(nextInstallation.date) }}</p>
+            
+            <!-- Countdown (only show if status is SCHEDULED and date is available) -->
+            <div *ngIf="nextInstallation.status === 'SCHEDULED' && nextInstallation.date" class="countdown-card mt-3">
+              <h6>Countdown to Installation:</h6>
+              <p class="countdown-text">{{ calculateCountdown(nextInstallation.date) }}</p>
             </div>
           </div>
+        </div>
+
+        <!-- Previous Installations -->
+        <h5 class="mb-3">Previous Installations</h5>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead class="table-header">
+              <tr>
+                <th>Service</th>
+                <th>Status</th>
+                <th>Installation Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let installation of previousInstallations">
+                <td>{{ installation.application?.srvce?.name || 'N/A' }}</td>
+                <td>
+                  <span [ngClass]="{
+                    'badge bg-scheduled': installation.status === 'SCHEDULED',
+                    'badge bg-pending': installation.status === 'PENDING',
+                    'badge bg-accepted': installation.status === 'COMPLETED',
+                    'badge bg-rejected': installation.status === 'CANCELLED'
+                  }">
+                    {{ installation.status }}
+                  </span>
+                </td>
+                <td>{{ installation.date ? formatDate(installation.date) : '-' }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
 </div>
+      
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- Payment Modal -->
 <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
@@ -432,26 +474,37 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form [formGroup]="paymentForm">
           <div class="mb-3">
             <label for="cardNumber" class="form-label">Card Number</label>
-            <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456">
+            <input type="text" class="form-control" id="cardNumber" formControlName="cardNumber" placeholder="4242 4242 4242 4242">
+            <div *ngIf="paymentForm.get('cardNumber')?.invalid && paymentForm.get('cardNumber')?.touched" class="text-danger">
+              Please enter a valid 16-digit card number
+            </div>
           </div>
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="expiryDate" class="form-label">Expiry Date</label>
-              <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY">
+              <input type="text" class="form-control" id="expiryDate" formControlName="expiryDate" placeholder="MM/YY">
+              <div *ngIf="paymentForm.get('expiryDate')?.invalid && paymentForm.get('expiryDate')?.touched" class="text-danger">
+                Please enter a valid expiry date (MM/YY)
+              </div>
             </div>
             <div class="col-md-6 mb-3">
               <label for="cvv" class="form-label">CVV</label>
-              <input type="text" class="form-control" id="cvv" placeholder="123">
+              <input type="text" class="form-control" id="cvv" formControlName="cvv" placeholder="123">
+              <div *ngIf="paymentForm.get('cvv')?.invalid && paymentForm.get('cvv')?.touched" class="text-danger">
+                Please enter a valid 3-digit CVV
+              </div>
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Pay</button>
+        <button type="button" class="btn btn-primary" (click)="processPayment()" [disabled]="paymentForm.invalid || isProcessingPayment">
+          {{ isProcessingPayment ? 'Processing...' : 'Pay' }}
+        </button>
       </div>
     </div>
   </div>

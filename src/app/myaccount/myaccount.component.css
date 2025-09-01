@@ -410,3 +410,41 @@
   color: white;
   cursor: pointer;
 }
+
+
+
+/* Installation status badges */
+.badge.bg-scheduled {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.badge.bg-pending {
+  background-color: #ffc107;
+  color: black;
+}
+
+.badge.bg-accepted {
+  background-color: #28a745;
+  color: white;
+}
+
+.badge.bg-rejected {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Countdown styles */
+.countdown-card {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  border-left: 4px solid #007bff;
+}
+
+.countdown-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 0;
+}

@@ -31,6 +31,16 @@ export class MyaccountComponent implements OnInit {
   recentPayment: any = null;
   isLoadingPayments: boolean = false;
 
+  paymentForm: FormGroup;
+  isProcessingPayment: boolean = false;
+
+
+  userInstallations: any[] = [];
+  nextInstallation: any = null;
+  previousInstallations: any[] = [];
+  isLoadingInstallations: boolean = false;
+  countdownInterval: any = null;
+
 
   constructor(
     private authService: AuthService,
@@ -54,6 +64,12 @@ export class MyaccountComponent implements OnInit {
       latitude: [null],
       longitude: [null]
     });
+    // Initialize payment form
+    this.paymentForm = this.fb.group({
+      cardNumber: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
+      expiryDate: ['', [Validators.required, Validators.pattern(/^\d{2}\/\d{2}$/), this.validateExpiryDate.bind(this)]],
+      cvv: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]]
+    });
   }
 
   ngOnInit() {
@@ -68,6 +84,8 @@ export class MyaccountComponent implements OnInit {
       this.loadUserApplications();
     } else if (section === 'payments') { // Add this
       this.loadUserPayments();
+    } else if (section === 'installations') {
+      this.loadUserInstallations();
     }
   }
 
@@ -129,14 +147,23 @@ export class MyaccountComponent implements OnInit {
     if (!dateString) return 'N/A';
     
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
+    
+    // For installation dates, use a simpler format
+    if (this.activeSection === 'installations') {
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+      
+    }
+  return date.toLocaleDateString('en-US', {
       year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-    });
-  }
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });}
 
   // ... rest of your existing methods remain the same
   openEditAddressModal() {
@@ -326,4 +353,231 @@ export class MyaccountComponent implements OnInit {
         });
     }
   }
+
+
+
+
+
+
+  processPayment() {
+  if (this.paymentForm.valid && this.recentPayment) {
+    this.isProcessingPayment = true;
+    
+    // Send the expiry date in MM/YY format (don't convert to MM-YY)
+    const paymentData = {
+      cardNumber: this.paymentForm.value.cardNumber.replace(/\s/g, ''), // Remove spaces
+      expiryDate: this.paymentForm.value.expiryDate, // Keep as MM/YY
+      cvv: this.paymentForm.value.cvv
+    };
+
+    console.log('Sending payment data:', paymentData); // Debug log
+
+    this.http.post<any>(`http://localhost:8085/api/payments/${this.recentPayment.id}/process`, paymentData)
+      .pipe(
+        catchError(error => {
+          console.error('Error processing payment:', error);
+          this.isProcessingPayment = false;
+          alert(error.error?.error || 'Failed to process payment. Please try again.');
+          return throwError(() => error);
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          this.isProcessingPayment = false;
+          alert(response.message || 'Payment processed successfully!');
+          // Refresh payments
+          this.loadUserPayments();
+          // Close modal
+          this.closePaymentModal();
+          this.paymentForm.reset();
+        }
+      });
+  }
+}
+
+// Add this method to close the modal properly
+closePaymentModal() {
+  const modal = document.getElementById('paymentModal');
+  if (modal) {
+    modal.classList.remove('show');
+    modal.style.display = 'none';
+    document.body.classList.remove('modal-open');
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop) backdrop.remove();
+  }
+}
+
+
+
+// Add this method to format the expiry date input as user types
+formatExpiryDate(event: any) {
+  let input = event.target.value.replace(/\D/g, ''); // Remove non-digits
+  if (input.length > 4) input = input.substring(0, 4); // Limit to 4 digits
+  
+  // Format as MM/YY
+  if (input.length > 2) {
+    input = input.substring(0, 2) + '/' + input.substring(2);
+  }
+  
+  this.paymentForm.patchValue({
+    expiryDate: input
+  }, {emitEvent: false});
+}
+
+// Add custom validator for expiry date
+validateExpiryDate(control: any) {
+  const value = control.value;
+  if (!value) return null;
+  
+  // Check format (MM/YY)
+  if (!/^\d{2}\/\d{2}$/.test(value)) {
+    return { invalidFormat: true };
+  }
+  
+  const [month, year] = value.split('/').map(Number);
+  
+  // Check if month is valid (1-12)
+  if (month < 1 || month > 12) {
+    return { invalidMonth: true };
+  }
+  
+  // Check if date is in the future
+  const currentYear = new Date().getFullYear() % 100; // Last 2 digits
+  const currentMonth = new Date().getMonth() + 1;
+  
+  if (year < currentYear || (year === currentYear && month < currentMonth)) {
+    return { expired: true };
+  }
+  
+  return null; // Valid
+}
+
+
+
+
+
+
+
+loadUserInstallations() {
+    if (this.currentUser && this.currentUser.id) {
+      this.isLoadingInstallations = true;
+      
+      // First get all applications for this user
+      this.http.get<any[]>(`http://localhost:8085/api/applications/user/${this.currentUser.id}`)
+        .pipe(
+          catchError(error => {
+            console.error('Error loading applications for installations:', error);
+            this.isLoadingInstallations = false;
+            return throwError(() => error);
+          })
+        )
+        .subscribe({
+          next: (applications) => {
+            // Get all approved application IDs
+            const approvedApplicationIds = applications
+              .filter(app => app.status === 'APPROVED')
+              .map(app => app.id);
+            
+            if (approvedApplicationIds.length === 0) {
+              this.isLoadingInstallations = false;
+              this.userInstallations = [];
+              this.nextInstallation = null;
+              this.previousInstallations = [];
+              return;
+            }
+            
+            // Get installations for these applications
+            this.http.post<any[]>(`http://localhost:8085/api/installations/by-applications`, approvedApplicationIds)
+              .pipe(
+                catchError(error => {
+                  console.error('Error loading installations:', error);
+                  this.isLoadingInstallations = false;
+                  return throwError(() => error);
+                })
+              )
+              .subscribe({
+                next: (installations) => {
+                  this.isLoadingInstallations = false;
+                  this.userInstallations = installations || [];
+                  
+                  // Sort installations by date (newest first)
+                  this.userInstallations.sort((a, b) => {
+                    return new Date(b.date).getTime() - new Date(a.date).getTime();
+                  });
+                  
+                  // Find next installation (most recent scheduled one)
+                  this.nextInstallation = this.userInstallations.find(inst => 
+                    inst.status === 'SCHEDULED' && new Date(inst.date) > new Date()
+                  );
+                  
+                  // Find previous installations (all others)
+                  this.previousInstallations = this.userInstallations.filter(inst => 
+                    inst !== this.nextInstallation
+                  );
+                  
+                  // Start countdown timer if there's a scheduled installation
+                  if (this.nextInstallation && this.nextInstallation.status === 'SCHEDULED') {
+                    this.startCountdownTimer();
+                  }
+                }
+              });
+          }
+        });
+    }}
+
+
+    calculateCountdown(installationDate: string): string {
+    const now = new Date();
+    const targetDate = new Date(installationDate);
+    const diff = targetDate.getTime() - now.getTime();
+    
+    if (diff <= 0) {
+      return 'Installation date has passed';
+    }
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    if (days > 0) {
+      return `${days} days, ${hours} hours left`;
+    } else if (hours > 0) {
+      return `${hours} hours, ${minutes} minutes left`;
+    } else {
+      return `${minutes} minutes, ${seconds} seconds left`;
+    }
+  }
+
+  startCountdownTimer() {
+    // Clear any existing interval
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
+    }
+    
+    // Update countdown every minute
+    this.countdownInterval = setInterval(() => {
+      if (this.nextInstallation && this.nextInstallation.date) {
+        // This will trigger change detection and update the countdown text
+        this.calculateCountdown(this.nextInstallation.date);
+      } else {
+        clearInterval(this.countdownInterval);
+      }
+    }, 60000); // Update every minute
+  }
+  formatInstallationDate(dateString: string): string {
+    if (!dateString) return 'N/A';
+    
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  }
+
+ 
+    
+    // For other sections, use the detailed format
+    
 }
