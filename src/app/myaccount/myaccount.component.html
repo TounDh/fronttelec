@@ -328,7 +328,6 @@
                 <th>Amount</th>
                 <th>Status</th>
                 <th>Due Date</th>
-                <th>Paid Date</th>
               </tr>
             </thead>
             <tbody>
@@ -345,7 +344,6 @@
                   </span>
                 </td>
                 <td>{{ formatDate(payment.deadline) }}</td>
-                <td>{{ payment.status === 'PAID' ? formatDate(payment.paidDate) : '-' }}</td>
               </tr>
             </tbody>
           </table>
