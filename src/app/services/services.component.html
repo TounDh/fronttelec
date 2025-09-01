@@ -42,11 +42,14 @@
           </div>
           <h5 class="mb-3">{{ service.name }}</h5>
           <p>{{ service.description || 'Premium service with excellent features' }}</p>
-          <div class="mt-auto">
-            <a class="btn show-more-btn px-3 mx-2" (click)="openServiceModal(service)">
+          <div class="mt-auto" style="padding-left: 25%;">
+            <a class="btn show-more-btn px-3 mx-2" style="width: 120px; " (click)="openServiceModal(service)">
               Details
             </a>
-            <a class="btn apply-service-btn px-3 mx-2" (click)="openApplyModal(service)">
+            <div class="col-12" style="padding-right: 25%;">
+                  <hr class="my-1 border-primary">
+                </div>
+            <a class="btn apply-service-btn px-3 mx-2 " style="width: 120px; padding-right: 10%; " (click)="openApplyModal(service)">
               Apply Now
             </a>
           </div>
