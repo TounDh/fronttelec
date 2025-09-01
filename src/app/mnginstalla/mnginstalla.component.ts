@@ -1,18 +1,21 @@
-import { Component, AfterViewInit, OnDestroy, Renderer2, Inject } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, Renderer2, Inject, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
 import { ViewEncapsulation } from '@angular/core';
 import ApexCharts from 'apexcharts';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-mnginstalla',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, HttpClientModule, FormsModule],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './mnginstalla.component.html',
-  styleUrls: ['./mnginstalla.component.css',
+  styleUrls: [
+    './mnginstalla.component.css',
     '../../assets/sneat/vendor/css/core.css',
     '../../assets/sneat/vendor/css/theme-default.css',
     '../../assets/sneat/css/demo.css',
@@ -21,17 +24,185 @@ import { RouterModule } from '@angular/router';
     '../../assets/sneat/vendor/libs/apex-charts/apex-charts.css'
   ]
 })
-export class mnginstallaComponent implements AfterViewInit, OnDestroy {
+export class mnginstallaComponent implements OnInit, AfterViewInit, OnDestroy {
   private scriptElements: HTMLScriptElement[] = [];
+  installations: any[] = [];
+  unscheduledInstallations: any[] = [];
+  filteredInstallations: any[] = [];
+  isLoading: boolean = true;
+  searchTerm: string = '';
+  statusFilter: string = '';
+  dateFilter: string = '';
+  selectedInstallation: any = null;
+  scheduleDate: string = '';
 
   constructor(
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {}
 
+  ngOnInit() {
+    this.loadInstallations();
+  }
+
+  loadInstallations() {
+    this.isLoading = true;
+    this.http.get<any[]>('http://localhost:8085/api/installations') // Correct endpoint
+      .subscribe({
+        next: (data) => {
+          this.installations = data;
+          this.filteredInstallations = [...this.installations];
+          this.unscheduledInstallations = this.installations.filter(inst => 
+            !inst.date || inst.status === 'UNSCHEDULED'
+          );
+          this.isLoading = false;
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error('Error loading installations:', {
+            status: error.status,
+            statusText: error.statusText,
+            message: error.message,
+            errorDetails: error.error
+          });
+          this.isLoading = false;
+        }
+      });
+  }
+
+  searchInstallations() {
+    if (!this.searchTerm && !this.statusFilter && !this.dateFilter) {
+      this.filteredInstallations = [...this.installations];
+      return;
+    }
+    
+    this.filteredInstallations = this.installations.filter(installation => {
+      if (this.searchTerm) {
+        const searchLower = this.searchTerm.toLowerCase();
+        const clientName = this.getUserFullName(installation).toLowerCase();
+        const serviceName = this.getServiceName(installation).toLowerCase();
+        if (!clientName.includes(searchLower) && !serviceName.includes(searchLower)) {
+          return false;
+        }
+      }
+      
+      if (this.statusFilter && installation.status !== this.statusFilter) {
+        return false;
+      }
+      
+      if (this.dateFilter) {
+        const installationDate = installation.date ? new Date(installation.date).toISOString().split('T')[0] : '';
+        if (installationDate !== this.dateFilter) {
+          return false;
+        }
+      }
+      
+      return true;
+    });
+  }
+
+  scheduleInstallation(installationId: number) {
+    if (!this.scheduleDate) {
+      alert('Please select a date');
+      return;
+    }
+    
+    this.http.patch<any>(`http://localhost:8085/api/installations/${installationId}/schedule`, { date: this.scheduleDate })
+      .subscribe({
+        next: (data) => {
+          this.loadInstallations();
+          this.closeModal('scheduleInstallationModal');
+          alert('Installation scheduled successfully!');
+        },
+        error: (error) => {
+          console.error('Error scheduling installation:', error);
+          alert('Failed to schedule installation. Please try again.');
+        }
+      });
+  }
+
+  updateInstallationStatus(installationId: number, status: string) {
+    this.http.patch<any>(`http://localhost:8085/api/installations/${installationId}/status`, { status })
+      .subscribe({
+        next: (data) => {
+          this.loadInstallations();
+          alert('Installation status updated successfully!');
+        },
+        error: (error) => {
+          console.error('Error updating installation status:', error);
+          alert('Failed to update installation status. Please try again.');
+        }
+      });
+  }
+
+  selectInstallation(installation: any) {
+    this.selectedInstallation = installation;
+    this.scheduleDate = '';
+  }
+
+  getUserFullName(installation: any): string {
+    if (installation.application && installation.application.user) {
+      return `${installation.application.user.name || ''} ${installation.application.user.surname || ''}`.trim();
+    }
+    return 'N/A';
+  }
+
+  getServiceName(installation: any): string {
+    return installation.application?.srvce?.name || 'N/A';
+  }
+
+  getApplicationDate(installation: any): string {
+    if (installation.application && installation.application.applicationDate) {
+      return this.formatDate(installation.application.applicationDate);
+    }
+    return 'N/A';
+  }
+
+  getStatusBadgeClass(status: string): string {
+    switch (status) {
+      case 'COMPLETED': return 'bg-label-success';
+      case 'SCHEDULED': return 'bg-label-info';
+      case 'PENDING': return 'bg-label-warning';
+      case 'UNSCHEDULED': return 'bg-label-secondary';
+      case 'CANCELLED': return 'bg-label-danger';
+      default: return 'bg-label-secondary';
+    }
+  }
+
+  getStatusText(status: string): string {
+    switch (status) {
+      case 'COMPLETED': return 'Completed';
+      case 'SCHEDULED': return 'Scheduled';
+      case 'PENDING': return 'Pending';
+      case 'UNSCHEDULED': return 'Unscheduled';
+      case 'CANCELLED': return 'Cancelled';
+      default: return status;
+    }
+  }
+
+  formatDate(dateString: string): string {
+    if (!dateString) return '-';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  }
+
+  closeModal(modalId: string) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) backdrop.remove();
+    }
+  }
+
   ngAfterViewInit() {
-    // Load Sneat JS files
     const jsFiles = [
       'assets/sneat/vendor/libs/popper/popper.js',
       'assets/sneat/vendor/js/bootstrap.js',
@@ -50,46 +221,26 @@ export class mnginstallaComponent implements AfterViewInit, OnDestroy {
       this.scriptElements.push(script);
     });
 
-    // Initialize charts (example)
     const totalRevenueOptions = {
-      chart: {
-        type: 'line',
-        height: 350
-      },
-      series: [{
-        name: 'Revenue',
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-      }],
-      xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
-      },
+      chart: { type: 'line', height: 350 },
+      series: [{ name: 'Revenue', data: [10, 41, 35, 51, 49, 62, 69, 91, 148] }],
+      xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'] },
       colors: ['#2124B1']
     };
     const totalRevenueChart = new ApexCharts(document.querySelector('#totalRevenueChart'), totalRevenueOptions);
     totalRevenueChart.render();
 
     const growthChartOptions = {
-      chart: {
-        type: 'bar',
-        height: 200
-      },
-      series: [{
-        name: 'Growth',
-        data: [32.5, 41.2]
-      }],
-      xaxis: {
-        categories: ['2022', '2021']
-      },
+      chart: { type: 'bar', height: 200 },
+      series: [{ name: 'Growth', data: [32.5, 41.2] }],
+      xaxis: { categories: ['2022', '2021'] },
       colors: ['#4777F5']
     };
     const growthChart = new ApexCharts(document.querySelector('#growthChart'), growthChartOptions);
     growthChart.render();
-
-    // Add other chart initializations from src/assets/sneat/js/dashboards-analytics.js
   }
 
   ngOnDestroy() {
-    // Remove scripts to prevent conflicts
     this.scriptElements.forEach(element => this.renderer.removeChild(this.document.body, element));
   }
 }
