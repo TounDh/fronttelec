@@ -33,13 +33,20 @@ export class ServicesComponent implements OnInit {
   }
 
   loadCurrentUser() {
-    // Get current user from localStorage or auth service
-    const userData = localStorage.getItem('currentUser');
-    if (userData) {
-      this.currentUser = JSON.parse(userData);
+  // Get current user from localStorage
+  const userData = localStorage.getItem('currentUser');
+  if (userData) {
+    try {
+      const parsedData = JSON.parse(userData);
+      // The user object is nested inside the response under 'user' property
+      this.currentUser = parsedData.user || parsedData;
       this.applyServiceData.userId = this.currentUser.id;
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+      this.currentUser = null;
     }
   }
+}
 
   loadServices() {
     this.isLoading = true;
@@ -103,39 +110,81 @@ export class ServicesComponent implements OnInit {
 
   // In your services.component.ts
 submitApplication() {
+  // Ensure current user is loaded
+  if (!this.currentUser) {
+    this.loadCurrentUser();
+  }
+  if (!this.currentUser || !this.currentUser.id) {
+    alert('Please log in to apply for a service');
+    return;
+  }
   if (!this.applyServiceData.offerId) {
     alert('Please select an offer');
     return;
   }
 
-  if (!this.applyServiceData.userId) {
-    alert('Please log in to apply for a service');
-    return;
+  // Get the JWT token from localStorage
+  const userData = localStorage.getItem('currentUser');
+  let token = null;
+  if (userData) {
+    try {
+      const parsedData = JSON.parse(userData);
+      token = parsedData.token; // Get the token from the response
+    } catch (error) {
+      console.error('Error parsing user data for token:', error);
+    }
   }
 
-  // Create application object - no need to set date manually
-  const application = {
-    user: { id: this.applyServiceData.userId },
-    srvce: { id: this.applyServiceData.serviceId },
-    offer: { id: this.applyServiceData.offerId },
-    status: 'PENDING' // Backend will set this automatically too
-    // applicationDate is automatically set by backend
+  // Create headers with authorization
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(token && { 'Authorization': `Bearer ${token}` })
   };
 
+  // Create application object - simplified to match what backend expects
+  const application = {
+    user: { id: Number(this.currentUser.id) },
+    srvce: { id: Number(this.applyServiceData.serviceId) },
+    offer: { id: Number(this.applyServiceData.offerId) },
+    status: 'PENDING'
+  };
+
+  console.log('Submitting application:', application);
+
+
+
+
+
+  
   // Send to backend
-  this.http.post('http://localhost:8085/api/applications', application).subscribe({
+  this.http.post('http://localhost:8085/api/applications', application, { headers }).subscribe({
     next: (response: any) => {
       console.log('Application submitted:', response);
-      alert('Application submitted successfully on ' + 
-            new Date(response.applicationDate).toLocaleDateString());
+      alert('Application submitted successfully!');
       this.closeApplyModal();
     },
     error: (error) => {
       console.error('Error submitting application:', error);
-      alert('Failed to submit application. Please try again.');
+      
+      // More detailed error information
+      if (error.error) {
+        console.error('Server error details:', error.error);
+        alert(`Error: ${error.error.message || 'Failed to submit application'}`);
+      } else {
+        alert('Failed to submit application. Please try again.');
+      }
     }
   });
 }
+
+
+
+
+
+
+
+
+
 
   // Sample data for demonstration if API is not available
   private getSampleServices(): any[] {
