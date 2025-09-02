@@ -434,14 +434,7 @@
                       <h6 class="fw-semibold">Phone</h6>
                       <p class="text-muted">{{ selectedApplication.user.phone || 'Not provided' }}</p>
                     </div>
-                    <div class="mb-3" *ngIf="userAddress">
-                      <h6 class="fw-semibold">Address</h6>
-                      <p class="text-muted">
-                        {{ userAddress.street }}, {{ userAddress.city }}<br>
-                        {{ userAddress.governorate }}, {{ userAddress.country }}<br>
-                        ZIP: {{ userAddress.zipCode }}
-                      </p>
-                    </div>
+                    
                   </div>
                 </div>
               </div>
