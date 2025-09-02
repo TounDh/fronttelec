@@ -200,25 +200,25 @@
                   <thead>
                     <tr>
                       <th>Name</th>
+                      <th>Surname</th>
                       <th>Email</th>
                       <th>Phone</th>
-                      <th>Role</th>
-                      <th>Status</th>
+                      <th>Birthdate</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody class="table-border-bottom-0">
                     <tr *ngFor="let user of filteredUsers">
                       <td>
-                        <strong>{{ user.name }} {{ user.surname }}</strong>
+                        <strong>{{ user.name }}</strong>
+                      </td>
+                      <td>
+                        <strong>{{ user.surname }}</strong>
                       </td>
                       <td>{{ user.email }}</td>
                       <td>{{ user.phone || 'N/A' }}</td>
                       <td>
-                        <span class="badge bg-label-info">{{ user.role || 'USER' }}</span>
-                      </td>
-                      <td>
-                        <span class="badge bg-label-success">Active</span>
+                        <strong>{{ user.birthdate }}</strong>
                       </td>
                       <td>
                         <div class="dropdown">
@@ -289,15 +289,7 @@
                              [(ngModel)]="selectedUser.phone" name="phone"
                              placeholder="e.g., +216 71 234 567" />
                     </div>
-                    <div class="mb-3">
-                      <label for="editClientRole" class="form-label">Role</label>
-                      <select class="form-select" id="editClientRole" 
-                              [(ngModel)]="selectedUser.role" name="role">
-                        <option value="USER">User</option>
-                        <option value="ADMIN">Admin</option>
-                        <option value="TECHNICIAN">Technician</option>
-                      </select>
-                    </div>
+                    
                   </form>
                 </div>
                 <div class="modal-footer">
@@ -337,25 +329,11 @@
                         <h6>Birthdate</h6>
                         <p>{{ selectedUser.birthdate || 'N/A' }}</p>
                       </div>
-                      <div class="mb-3">
-                        <h6>Role</h6>
-                        <p><span class="badge bg-label-info">{{ selectedUser.role || 'USER' }}</span></p>
-                      </div>
-                      <div class="mb-3">
-                        <h6>User ID</h6>
-                        <p>{{ selectedUser.id }}</p>
-                      </div>
+                      
+                      
                     </div>
                   </div>
-                  <div class="mb-3">
-                    <h6>Applications</h6>
-                    <p *ngIf="selectedUser.applications && selectedUser.applications.length > 0">
-                      {{ selectedUser.applications.length }} application(s)
-                    </p>
-                    <p *ngIf="!selectedUser.applications || selectedUser.applications.length === 0">
-                      No applications found
-                    </p>
-                  </div>
+                  
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

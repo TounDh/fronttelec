@@ -92,3 +92,81 @@
 .timeline-content {
   margin-left: 1rem;
 }
+
+
+
+
+
+
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: #ffffff;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.table th {
+  background: linear-gradient(135deg, #dee2f5 0%, #dee2f5 100%) !important;
+  color: white;
+  font-weight: 600;
+  padding: 1.25rem 1rem;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  border: none;
+  text-align: left;
+  position: sticky;
+  top: 0;
+}
+
+.table td {
+  padding: 1.25rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f3f4;
+  color: #2d3748;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.table tbody tr {
+  transition: all 0.3s ease;
+  background-color: #ffffff;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table-responsive {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Table action buttons */
+.table .dropdown-toggle {
+  border: none;
+  background: transparent;
+  color: #6c757d;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+}
+
+.table .dropdown-toggle:hover {
+  color: var(--bs-primary);
+  transform: scale(1.1);
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+

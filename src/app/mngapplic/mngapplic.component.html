@@ -352,7 +352,6 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Application ID</th>
             <th>User</th>
             <th>Service</th>
             <th>Offer</th>
@@ -363,7 +362,6 @@
         </thead>
         <tbody class="table-border-bottom-0">
           <tr *ngFor="let application of filteredApplications">
-            <td><strong>#{{ application.id }}</strong></td>
             <td>
               <div *ngIf="application.user">
                 <strong>{{ application.user.name }} {{ application.user.surname }}</strong>
